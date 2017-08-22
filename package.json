@@ -1,0 +1,35 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node app.js",
+		"server": "nodemon app.js",
+		"client": "npm run start --prefix client",
+		"dev": "concurrently \"npm run server\" \"npm run client\" \"mongod\""
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt-nodejs": "0.0.3",
+		"bluebird": "^3.4.7",
+		"body-parser": "^1.15.2",
+		"concurrently": "^3.5.0",
+		"cors": "^2.8.1",
+		"express": "^4.14.0",
+		"express-load": "^1.1.15",
+		"express-session": "^1.14.2",
+		"jwt-decode": "^2.2.0",
+		"jwt-simple": "^0.5.1",
+		"moment": "^2.18.1",
+		"mongoose": "^4.7.5",
+		"morgan": "^1.7.0",
+		"nodemon": "^1.11.0",
+		"passport": "^0.3.2",
+		"passport-jwt": "^2.2.1",
+		"passport-local": "^1.0.0"
+	},
+	"devDependencies": {},
+	"description": ""
+}

@@ -1,0 +1,221 @@
+.blog-container {
+	min-height: 850px;
+	margin-bottom: 30px;
+	transition: all .3s;
+
+	hr {
+		margin-top: 20px;
+		margin-bottom: 10px;
+		border: 0;
+		height: 1px;
+		background-image: linear-gradient(
+			to right,
+			$transparent,
+			$owhite,
+			$transparent
+		);
+		width: 50%;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	.title {
+		font-size: 60px;
+		font-family: 'Rock Salt', cursive;
+		text-align: center;
+		margin-bottom: 60px;
+	}
+}
+
+.entry-date {
+	width: 100%;
+	text-transform: uppercase;
+	font-size: 12px;
+	text-align: center;
+}
+
+.entry-content {
+	color: $owhite;
+	font-size: 12px;
+	font-weight: 400;
+	width: 100%;
+}
+
+.entry-link {
+	width: 100%;
+}
+
+.entry-link > a {
+	cursor: pointer;
+	padding: 10px;
+	border-radius: 20px;
+	color: $white;
+	border: none;
+	background-color: transparent;
+	transition: all 0.5s;
+}
+
+.entry-link > a:hover {
+	padding: 10px;
+	border-radius: 20px;
+	color: $lightblue;
+	-webkit-animation: background-color .3s ease-in-out forwards;
+	animation: all .3s ease-in-out forwards;
+	text-decoration: none;
+}
+
+.entry-title {
+	color: $owhite;
+	font-weight: 500;
+	text-transform: uppercase;
+	width: 100%;
+	text-align: center;
+}
+
+.entry-image {
+	img {
+		max-width: 700px;
+		max-height: 500px;
+		margin-top: 20px;
+		margin-bottom: 5px;
+		margin: 0 auto;
+		padding: 10px;
+	}
+}
+
+.img-title {
+	font-size: 10px;
+	font-weight: 400;
+	color: grey;
+	text-align: center;
+	width: 100%;
+}
+
+.pagination-container {
+	font-size: 12px;
+	width: 100%;
+	text-align: center;
+	padding: 0;
+
+	.small-font {
+		font-size: 10px;
+	}
+
+	button {
+		height: 100%;
+		width: 100%;
+		background: transparent;
+		border: none;
+		outline: none;
+		padding: 5px 10px;
+		color: $lightblue;
+		outline: 0;
+		text-decoration: none;
+	}
+
+	li {
+		@extend .fix-cursor;
+		margin-right: 10px;
+		border-radius: 4px;
+		list-style: none;
+		text-align: center;
+		display: inline-block;
+		vertical-align: middle;
+		// border: 0.5px solid $owhite;
+	}
+
+	.active-page {
+		background-color: $lightblue;
+		border-radius: 4px;
+		button {
+			color: $owhite;
+		}
+	}
+
+	.active-page:hover {
+		@extend .active-page;
+	}
+
+	.disable-chevron {
+		// border: 0.5px solid $blue-25;
+		button {
+			color: grey;
+			background: transparent;
+			cursor: not-allowed;
+		}
+	}
+
+	.disable-chevron:hover {
+		@extend .disable-chevron;
+	}
+
+	button:hover {
+		background-color: $lightblue;
+		border-radius: 4px;
+		color: $owhite;
+		-webkit-animation: background-color .3s ease-in-out forwards;
+		animation: all .3s ease-in-out forwards;
+		outline: 0 !important;
+		text-decoration: none;
+	}
+
+	button:focus {
+		outline: 0 !important;
+		text-decoration: none;
+	}
+}
+
+.pagination-separator {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border: 0;
+	height: 1px;
+	background-image: linear-gradient(
+		to right,
+		transparent,
+		#f8f9fa,
+		transparent
+	);
+	width: 100%;
+}
+
+.post-container {
+	width: 800px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	margin-bottom: 30px;
+
+	hr {
+		margin-top: 20px;
+		margin-bottom: 10px;
+		border: 0;
+		height: 1px;
+		background-image: linear-gradient(
+			to right,
+			$transparent,
+			$owhite,
+			$transparent
+		);
+		width: 100%;
+	}
+}
+
+.search-results-container {
+	width: 900px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	color: $owhite;
+	padding: 0 15px;
+
+	h2 {
+		padding-bottom: 10px;
+	}
+}
