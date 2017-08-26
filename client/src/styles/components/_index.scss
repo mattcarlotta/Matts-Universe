@@ -57,8 +57,7 @@ body {
 
 	button:hover,
 	button:focus {
-		text-decoration: none;
-		outline: 0 !important;
+		@extend .no-link-focus;
 	}
 
 	h1 {
@@ -82,8 +81,7 @@ body {
 	.signout-button > li:hover,
 	.signout-button > li > a:hover,
 	button > li > a {
-		text-decoration: none;
-		outline: 0 !important;
+		@extend .no-link-focus;
 		color: $lightblue;
 	}
 
@@ -91,7 +89,7 @@ body {
 	.signout-button > li:focus,
 	.signout-button > li  a:focus {
 		text-decoration: none;
-		outline: 0 !important;
+		@extend .no-link-focus;
 	}
 }
 
@@ -163,14 +161,12 @@ body {
 		right: 16px;
 		top: 10px;
 		color: rgba(0, 0, 0, 0.43);
-		outline: none;
-		text-decoration: none;
+		@extend .no-link-focus;
 	}
 
 	.close-notification:hover {
 		color: rgba(0, 0, 0, 0.7);
-		outline: none;
-		text-decoration: none;
+		@extend .no-link-focus;
 	}
 }
 
@@ -197,6 +193,13 @@ body {
 
 .fa {
 	margin-right: 5px;
+}
+
+.flex-wrap-center {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
 }
 
 .fix-cursor {
@@ -244,8 +247,7 @@ body {
 		}
 
 		li > a:focus {
-			text-decoration: none;
-			outline: 0 !important;
+			@extend .no-link-focus;
 		}
 
 		p {
@@ -355,6 +357,11 @@ body {
 
 .p-l {
 	padding-left: 5px;
+}
+
+.no-link-focus {
+	text-decoration: none;
+	outline: 0 !important;
 }
 
 .no-padding {

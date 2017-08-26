@@ -6,7 +6,7 @@ import {
 	FETCHING_USER,
 	SET_SIGNEDIN_USER,
 	UNAUTH_USER
-} from '../actions/Types';
+} from '../actions/types';
 
 const authReducer = (state = {}, action) => {
 	switch (action.type) {

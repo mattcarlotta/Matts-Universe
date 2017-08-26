@@ -1,8 +1,11 @@
+import map from 'lodash/map';
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import RenderInputField from '../forms/renderInputField';
+import RenderFormButtons from '../forms/renderFormButtons';
 
-import { authError, signinUser } from '../../actions/AuthActionCreators';
+import { authError, signinUser } from '../../actions/authActionCreators';
 import RenderAlert from '../../components/app/RenderAlert';
 
 const validate = values => {
@@ -14,21 +17,18 @@ const validate = values => {
 	return errors;
 };
 
-const renderField = ({ input, label, type, meta: { touched, error } }) =>
-	<div>
-		<label>
-			{label}
-		</label>
-		<div>
-			<input {...input} type={type} />
-			{touched &&
-				error &&
-				<div className="error-handlers">
-					<i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
-					{error}
-				</div>}
-		</div>
-	</div>;
+const FIELDS = [
+	{
+		name: 'username',
+		type: 'text',
+		label: 'Username'
+	},
+	{
+		name: 'password',
+		type: 'password',
+		label: 'Password'
+	}
+];
 
 class Signin extends Component {
 	componentWillUnmount() {
@@ -50,36 +50,24 @@ class Signin extends Component {
 
 		return (
 			<div className="auth-container col-xs-12">
-				<h1>Sign In</h1>
-				<hr />
 				<form onSubmit={handleSubmit(this.handleFormSubmit)}>
-					<Field
-						name="username"
-						type="text"
-						component={renderField}
-						label="Username"
+					<h1>Sign In</h1>
+					{map(FIELDS, ({ name, type, component, label }, key) => {
+						return (
+							<Field
+								key={key}
+								name={name}
+								type={type}
+								component={RenderInputField}
+								label={label}
+							/>
+						);
+					})}
+					<RenderFormButtons
+						submitting={submitting}
+						pristine={pristine}
+						reset={reset}
 					/>
-					<Field
-						name="password"
-						type="password"
-						component={renderField}
-						label="Password"
-					/>
-					<div>
-						<button
-							type="submit"
-							className="btn btn-primary partial-expand rounded"
-							disabled={submitting}>
-							Submit
-						</button>
-						<button
-							type="button"
-							className="btn btn-danger partial-expand rounded f-r"
-							disabled={pristine || submitting}
-							onClick={reset}>
-							Clear Values
-						</button>
-					</div>
 				</form>
 				{serverError
 					? <RenderAlert

@@ -1,8 +1,12 @@
+import map from 'lodash/map';
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import RenderInputField from '../forms/renderInputField';
+import RenderFormButtons from '../forms/renderFormButtons';
+import FIELDS from './signinFormData';
 
-import { authError, signupUser } from '../../actions/AuthActionCreators';
+import { authError, signupUser } from '../../actions/authActionCreators';
 import RenderAlert from '../../components/app/RenderAlert';
 
 const validate = values => {
@@ -22,22 +26,6 @@ const validate = values => {
 
 	return errors;
 };
-
-const renderField = ({ input, label, type, meta: { touched, error } }) =>
-	<div>
-		<label>
-			{label}
-		</label>
-		<div>
-			<input {...input} type={type} />
-			{touched &&
-				error &&
-				<div className="error-handlers">
-					<i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
-					{error}
-				</div>}
-		</div>
-	</div>;
 
 class Signup extends Component {
 	componentWillUnmount() {
@@ -59,42 +47,24 @@ class Signup extends Component {
 
 		return (
 			<div className="auth-container col-xs-12">
-				<h1>Sign Up</h1>
-				<hr />
 				<form onSubmit={handleSubmit(this.handleFormSubmit)}>
-					<Field
-						name="email"
-						type="text"
-						component={renderField}
-						label="Email"
+					<h1>Sign Up</h1>
+					{map(FIELDS, ({ name, type, component, label }, key) => {
+						return (
+							<Field
+								key={key}
+								name={name}
+								type={type}
+								component={RenderInputField}
+								label={label}
+							/>
+						);
+					})}
+					<RenderFormButtons
+						submitting={submitting}
+						pristine={pristine}
+						reset={reset}
 					/>
-					<Field
-						name="username"
-						type="text"
-						component={renderField}
-						label="Username"
-					/>
-					<Field
-						name="password"
-						type="password"
-						component={renderField}
-						label="Password"
-					/>
-					<div>
-						<button
-							type="submit"
-							className="btn btn-primary partial-expand rounded"
-							disabled={submitting}>
-							Submit
-						</button>
-						<button
-							type="button"
-							className="btn btn-danger partial-expand rounded f-r"
-							disabled={pristine || submitting}
-							onClick={reset}>
-							Clear Values
-						</button>
-					</div>
 				</form>
 				{serverError
 					? <RenderAlert
@@ -109,8 +79,7 @@ class Signup extends Component {
 
 Signup = reduxForm({
 	form: 'signup',
-	validate,
-	fields: ['email', 'username', 'password']
+	validate
 })(Signup);
 
 export default (Signup = connect(

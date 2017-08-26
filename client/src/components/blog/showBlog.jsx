@@ -2,7 +2,7 @@ import React from 'react';
 
 import BlogPagination from './BlogPagination';
 
-const ShowBlog = props => {
+const ShowBlog = () => {
 	return (
 		<div className="blog-container col-xs-12">
 			<h1 className="title">Blog</h1>

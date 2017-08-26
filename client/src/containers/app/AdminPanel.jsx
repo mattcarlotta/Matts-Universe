@@ -3,15 +3,15 @@ import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Button, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 
-import { deletePost, redirectToBlog } from '../../actions/PostActionCreators';
+import { deletePost, redirectToBlog } from '../../actions/postActionCreators';
 import {
 	deleteProject,
 	redirectToProject
-} from '../../actions/ProjectActionCreators';
-import { authError, signoutUser } from '../../actions/AuthActionCreators';
+} from '../../actions/projectActionCreators';
+import { authError, signoutUser } from '../../actions/authActionCreators';
 
 import RenderAlert from '../../components/app/RenderAlert';
-import SignOut from '../auth/SignOut';
+import SignOut from '../auth/signout';
 
 class AdminPanel extends PureComponent {
 	onAddClick = () => {

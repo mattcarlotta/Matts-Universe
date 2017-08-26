@@ -2,13 +2,13 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import Slider from 'react-slick';
 
-import { fetchProjects } from '../actions/ProjectActionCreators';
-import { NextArrow, PrevArrow } from '../components/projects/SliderArrows';
+import { fetchProjects } from '../actions/projectActionCreators';
+import { NextArrow, PrevArrow } from '../components/projects/sliderArrows';
 
 import AdminPanel from '../containers/app/AdminPanel';
-import NoItemsFound from '../components/app/NoItemsFound';
-import RenderProjects from '../components/projects/RenderProjects';
-import Spinner from '../components/loaders/Spinner';
+import NoItemsFound from '../components/app/noItemsFound';
+import RenderProjects from '../components/projects/renderProjects';
+import Spinner from '../components/loaders/spinner';
 
 const settings = {
 	dots: true,
@@ -21,14 +21,10 @@ const settings = {
 };
 
 export default class Projects extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			isFetchingProjects: false,
-			requestTimeout: false
-		};
-	}
+	state = {
+		isFetchingProjects: false,
+		requestTimeout: false
+	};
 
 	componentDidMount() {
 		this.fetchAllProjects();

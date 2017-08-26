@@ -19,7 +19,8 @@ export default WrappedComponent => {
 		}
 
 		componentDidUpdate(prevProps) {
-			if (this.props.location !== prevProps.location) window.scrollTo(0, 0);
+			if (this.props.location !== prevProps.location)
+				this.component.scrollIntoView();
 		}
 
 		componentWillUnmount() {
@@ -59,7 +60,7 @@ export default WrappedComponent => {
 
 		render() {
 			return (
-				<span>
+				<span ref={component => (this.component = component)}>
 					<WrappedComponent {...this.props} />
 					<CSSTransitionGroup
 						transitionName="scrolltransition"

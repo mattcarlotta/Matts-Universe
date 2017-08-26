@@ -10,17 +10,11 @@ $navy-25: rgba(1, 64, 109, 0.25);
 $navy-50: rgba(1, 64, 109, 0.5);
 $navy-75: rgba(1, 64, 109, 0.75);
 $blue: #428fcc;
-$lightertrueblue:#044d81;
+$lightertrueblue: #044d81;
 $trueblue: #01406d;
 
-//new template
-$dblue: #263C53;
-$nblue: #304762;
-$gblue: #485B6F;
-$lblue: #36AFE8;
-$sblue: #9ED3EC;
-$tblue: #2E7199;
-$owhite: #F8F9FA;
+// white
+$owhite: #f8f9fa;
 
 //orange
 $orange: #ff7f50;
@@ -35,8 +29,8 @@ $gold: #8a6d3b;
 $lightyellow: #fcf8e3;
 $paleyellow: #faebcc;
 
-
 // misc.
+$darkgrey: #7d7d7d;
 $darkbrown: #3a4141;
 $transparent: rgba(0, 0, 0, 0);
 $white: #ddd;

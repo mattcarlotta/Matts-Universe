@@ -1,23 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { authError } from '../actions/AuthActionCreators';
-import Home from './Home';
-import About from './About';
+import { authError } from '../actions/authActionCreators';
+import Home from './home';
+import About from './about';
 import Projects from './Projects';
 import RenderAlert from '../components/app/RenderAlert';
 
-const Landing = props => {
+const Landing = ({ serverError, authError }) => {
 	return (
 		<span>
 			<Home />
 			<About />
 			<Projects />
-			{props.serverError
-				? <RenderAlert
-						resetError={props.authError}
-						errorMessage={props.serverError}
-					/>
+			{serverError
+				? <RenderAlert resetError={authError} errorMessage={serverError} />
 				: null}
 		</span>
 	);

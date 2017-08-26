@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { signoutUser } from '../../actions/AuthActionCreators';
+import { signoutUser } from '../../actions/authActionCreators';
 
-const SignOut = props => {
+const SignOut = ({ username, signoutUser }) => {
 	return (
 		<li>
-			{props.username && props.userIsGod
-				? <Link onClick={() => props.signoutUser()} className="link-centered">
+			{username
+				? <Link onClick={() => signoutUser()} className="link-centered">
 						<i className="fa fa-sign-out" aria-hidden="true" /> SignOut
 					</Link>
 				: null}
@@ -18,8 +18,7 @@ const SignOut = props => {
 
 const mapStateToProps = state => {
 	return {
-		username: state.auth.username,
-		userIsGod: state.auth.isGod
+		username: state.auth.username
 	};
 };
 

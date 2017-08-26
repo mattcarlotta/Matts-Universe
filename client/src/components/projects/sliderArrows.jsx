@@ -1,8 +1,6 @@
 import React from 'react';
 
-export const NextArrow = props => {
-	const { style, onClick } = props;
-
+export const NextArrow = ({ style, onClick }) => {
 	return (
 		<div
 			className={'nextpage-chevron fa fa-chevron-right'}
@@ -12,9 +10,7 @@ export const NextArrow = props => {
 	);
 };
 
-export const PrevArrow = props => {
-	const { style, onClick } = props;
-
+export const PrevArrow = ({ style, onClick }) => {
 	return (
 		<div
 			className={'prevpage-chevron fa fa-chevron-left'}

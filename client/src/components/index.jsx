@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Footer from './navigation/Footer';
+import Footer from './navigation/footer';
 
-const App = props => {
+const App = ({ children }) => {
 	return (
 		<div className="wrapper">
 			<div className="col-xs-12 no-padding">
-				{props.children}
+				{children}
 			</div>
 			<Footer />
 		</div>

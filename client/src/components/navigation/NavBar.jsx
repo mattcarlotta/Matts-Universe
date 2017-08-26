@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, browserHistory, withRouter } from 'react-router';
 import { animateScroll as Nav } from 'react-scroll';
 
-import SignOut from '../../containers/auth/SignOut';
+import SignOut from '../../containers/auth/signout';
 
 export default function(WrappedComponent) {
 	const NavBar = props => {

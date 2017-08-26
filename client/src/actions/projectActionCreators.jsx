@@ -2,7 +2,7 @@ import * as app from 'axios';
 import { browserHistory } from 'react-router';
 import { animateScroll as Nav } from 'react-scroll';
 
-import ConfigAuth from './ConfigAuth';
+import ConfigAuth from './configAuth';
 
 export const redirectToProject = () => {
 	browserHistory.push('/');

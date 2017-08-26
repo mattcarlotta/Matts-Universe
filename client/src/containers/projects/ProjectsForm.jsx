@@ -7,12 +7,12 @@ import {
 	editProject,
 	fetchProject,
 	redirectToProject
-} from '../../actions/ProjectActionCreators';
-import { authError } from '../../actions/AuthActionCreators';
+} from '../../actions/projectActionCreators';
+import { authError } from '../../actions/authActionCreators';
 
-import NotFound from '../../components/notfound/NotFound';
+import NotFound from '../../components/notfound/notFound';
 import RenderAlert from '../../components/app/RenderAlert';
-import Spinner from '../../components/loaders/Spinner';
+import Spinner from '../../components/loaders/spinner';
 
 const validate = values => {
 	const errors = {};

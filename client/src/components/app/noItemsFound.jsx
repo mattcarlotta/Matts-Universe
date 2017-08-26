@@ -2,13 +2,11 @@ import React from 'react';
 
 import AdminPanel from '../../containers/app/AdminPanel';
 
-const NoItemsFound = props => {
+const NoItemsFound = ({ message }) => {
 	return (
 		<div
 			className={
-				props.message.indexOf('blog') >= 0
-					? 'blog-container'
-					: 'project-container'
+				message.indexOf('blog') >= 0 ? 'blog-container' : 'project-container'
 			}>
 			<AdminPanel />
 			<div data-abide-error className="alert">
@@ -17,7 +15,7 @@ const NoItemsFound = props => {
 						className="fa fa-exclamation-triangle small-icon"
 						aria-hidden="true"
 					/>
-					{props.message}
+					{message}
 				</p>
 			</div>
 		</div>

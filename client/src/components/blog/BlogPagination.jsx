@@ -1,20 +1,16 @@
 import React, { PureComponent } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 
-import { fetchPostCount } from '../../actions/PostActionCreators';
+import { fetchPostCount } from '../../actions/postActionCreators';
 import Blog from '../../views/Blog';
-import NoItemsFound from '../app/NoItemsFound';
-import Spinner from '../loaders/Spinner';
+import NoItemsFound from '../app/noItemsFound';
+import Spinner from '../loaders/spinner';
 
 class BlogPagination extends PureComponent {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			pageCount: '',
-			postCount: ''
-		};
-	}
+	state = {
+		pageCount: '',
+		postCount: ''
+	};
 
 	componentDidMount() {
 		this.fetchBlogPostCount();

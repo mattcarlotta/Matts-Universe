@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, browserHistory } from 'react-router';
 import { animateScroll as Nav } from 'react-scroll';
 
-import SignOut from '../../containers/auth/SignOut';
+import SignOut from '../../containers/auth/signout';
 
 const Header = () => {
 	return (

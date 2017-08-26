@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import {
 	authenticateUser,
 	fetchingUser
-} from '../../actions/AuthActionCreators';
-import Spinner from '../../components/loaders/Spinner';
+} from '../../actions/authActionCreators';
+import Spinner from '../../components/loaders/spinner';
 
 export default App => {
 	class OnLoadAuth extends Component {
@@ -21,10 +21,8 @@ export default App => {
 		}
 	}
 
-	return connect(
-		state => {
-			return { isLoading: state.auth.fetchingUser };
-		},
-		{ authenticateUser, fetchingUser }
-	)(OnLoadAuth);
+	return connect(state => ({ isLoading: state.auth.fetchingUser }), {
+		authenticateUser,
+		fetchingUser
+	})(OnLoadAuth);
 };

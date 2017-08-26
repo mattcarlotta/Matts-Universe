@@ -1,27 +1,36 @@
+import split from 'lodash/split';
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
-const RenderPosts = props => {
+const RenderPosts = ({
+	title,
+	timestamp,
+	image,
+	imgtitle,
+	description,
+	singlePageIsLoaded,
+	navTitle
+}) => {
 	return (
 		<div className="post-container">
 			<h2 className="entry-title">
-				{props.title}
+				{title}
 			</h2>
 			<h3 className="entry-date">
-				{props.timestamp}
+				{timestamp}
 			</h3>
-			{props.image
+			{image
 				? <div className="entry-image">
-						<img src={props.image} alt="" />
+						<img src={image} alt="" />
 					</div>
 				: null}
 			<p className="img-title">
 				<em>
-					{props.imgtitle}
+					{imgtitle}
 				</em>
 			</p>
 			<div className="entry-content m-t">
-				{props.description.split('\n').map((item, key) => {
+				{split(description, '\n').map((item, key) => {
 					return (
 						<p key={key}>
 							{item}
@@ -30,15 +39,14 @@ const RenderPosts = props => {
 					);
 				})}
 			</div>
-			{!props.singlePageIsLoaded
+			{!singlePageIsLoaded
 				? <div className="entry-link m-t">
 						<Link
 							onClick={() =>
 								browserHistory.push({
 									pathname: `/blog/post/title`,
-									query: { postId: `${props.navTitle}` }
-								})}
-						>
+									query: { postId: `${navTitle}` }
+								})}>
 							<i
 								className="fa fa-long-arrow-right"
 								aria-hidden="true"

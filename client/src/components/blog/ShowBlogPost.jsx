@@ -1,20 +1,16 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 
-import { fetchPost } from '../../actions/PostActionCreators';
-import NotFound from '../notfound/NotFound';
-import RenderPosts from './RenderPosts';
-import Spinner from '../loaders/Spinner';
+import { fetchPost } from '../../actions/postActionCreators';
+import NotFound from '../notfound/notFound';
+import RenderPosts from './renderPosts';
+import Spinner from '../loaders/spinner';
 
 class ShowBlogPost extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			foundPost: {},
-			requestTimeout: false
-		};
-	}
+	state = {
+		foundPost: {},
+		requestTimeout: false
+	};
 
 	componentDidMount() {
 		this.fetchBlogPosts();

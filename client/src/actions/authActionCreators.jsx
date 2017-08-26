@@ -6,9 +6,9 @@ import {
 	FETCHING_USER,
 	SET_SIGNEDIN_USER,
 	UNAUTH_USER
-} from '../actions/Types';
+} from '../actions/types';
 
-import ConfigAuth from './ConfigAuth';
+import ConfigAuth from './configAuth';
 
 //==========================================================================
 // Authorization

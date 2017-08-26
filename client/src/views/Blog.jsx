@@ -2,21 +2,17 @@ import _ from 'lodash';
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router';
 
-import { fetchPosts } from '../actions/PostActionCreators';
+import { fetchPosts } from '../actions/postActionCreators';
 import AdminPanel from '../containers/app/AdminPanel';
-import NoItemsFound from '../components/app/NoItemsFound';
-import RenderPosts from '../components/blog/RenderPosts';
-import Spinner from '../components/loaders/Spinner';
+import NoItemsFound from '../components/app/noItemsFound';
+import RenderPosts from '../components/blog/renderPosts';
+import Spinner from '../components/loaders/spinner';
 
 class Blog extends PureComponent {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			currentPage: parseInt(props.location.query.pageId, 10),
-			requestTimeout: false
-		};
-	}
+	state = {
+		currentPage: parseInt(this.props.location.query.pageId, 10),
+		requestTimeout: false
+	};
 
 	componentDidMount() {
 		this.fetchBlogPosts(this.state.currentPage - 1);

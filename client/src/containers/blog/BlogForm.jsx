@@ -1,104 +1,43 @@
+import { map, each } from 'lodash';
 import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
+import DropZone from 'react-dropzone';
+import RenderInputField from '../forms/renderInputField';
+import RenderFormButtons from '../forms/renderFormButtons';
+import RenderTextAreaField from '../forms/renderTextAreaField';
 
-import {
-	addNewPost,
-	editPost,
-	fetchPost,
-	redirectToBlog
-} from '../../actions/PostActionCreators';
-import { authError } from '../../actions/AuthActionCreators';
+// addNewPost,
+// editPost,
+// redirectToBlog
+import { fetchPost } from '../../actions/postActionCreators';
+import { authError } from '../../actions/authActionCreators';
 
-import NotFound from '../../components/notfound/NotFound';
+import NotFound from '../../components/notfound/notFound';
 import RenderAlert from '../../components/app/RenderAlert';
-import Spinner from '../../components/loaders/Spinner';
+import Spinner from '../../components/loaders/spinner';
+import ValidateFormFields from './validateFormFields';
 
 const validate = values => {
 	const errors = {};
 
-	if (!values.title) errors.title = 'Required';
-	else if (values.title.length > 50)
-		errors.title = 'Error! Must be 50 characters or less!';
-	else if (/[~`@#$%&*+=[\]\\;/{}|\\":<>]/g.test(values.title))
-		errors.title = 'Error! Please remove any special characters!';
-
-	if (/[~`@#$%&*+=[\]\\;{}|\\"<>]/g.test(values.image))
-		errors.image = 'Error! Please remove any special characters!';
-
-	if (values.imgtitle) {
-		if (values.imgtitle.length > 100)
-			errors.imgtitle = 'Error! Must be 50 characters or less!';
-		else if (/[~`@#$%&*+=[\]\\;/{}|\\":<>]/g.test(values.imgtitle))
-			errors.imgtitle = 'Error! Please remove any special characters!';
-	}
-
-	if (!values.description) errors.description = 'Required';
-	else if (values.description.length > 5000)
-		errors.description = 'Error! Must be 5,000 characters or less!';
-	else if (/[~@#$%&*=[\]\\/{}|\\<>]/g.test(values.description))
-		errors.description = 'Error! Please remove any special characters!';
+	each(ValidateFormFields, ({ label, length }) => {
+		if (!values[label]) errors[label] = 'Required';
+		else if (values[label].length > length)
+			errors[label] = `Error! Must be ${length} characters or less!`;
+		else if (/[~`@#$%&*+=[\]\\;/{}|\\":<>]/g.test(values[label]))
+			errors[label] = 'Error! Please remove any special characters!';
+	});
 
 	return errors;
 };
 
-const renderInputField = ({ input, label, type, meta: { touched, error } }) =>
-	<div>
-		<label>
-			{label}
-		</label>
-		<div>
-			<input
-				{...input}
-				className="form-details"
-				placeholder={label}
-				type={type}
-			/>
-			{touched &&
-				error &&
-				<div className="error-handlers ">
-					<i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
-					{error}
-				</div>}
-		</div>
-	</div>;
-
-const renderAreaField = ({
-	textarea,
-	input,
-	label,
-	type,
-	meta: { touched, error }
-}) =>
-	<div>
-		<label>
-			{label}
-		</label>
-		<div>
-			<textarea
-				{...input}
-				className="form-details"
-				placeholder={label}
-				type={type}
-			/>
-			{touched &&
-				error &&
-				<div className="error-handlers">
-					<i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
-					{error}
-				</div>}
-		</div>
-	</div>;
-
 class BlogPostForm extends Component {
-	constructor() {
-		super();
-
-		this.state = {
-			isLoaded: false,
-			requestTimeout: false
-		};
-	}
+	state = {
+		isLoaded: false,
+		requestTimeout: false,
+		imageFiles: []
+	};
 
 	componentDidMount() {
 		if (this.props.location.query.titleId) this.fetchPostToEdit();
@@ -129,25 +68,24 @@ class BlogPostForm extends Component {
 	};
 
 	initializeForm = foundPost => {
-		const initData = {
-			id: foundPost._id,
-			title: foundPost.title,
-			image: foundPost.image,
-			imgtitle: foundPost.imgtitle,
-			description: foundPost.description
-		};
+		this.props.initialize(foundPost);
+	};
 
-		this.props.initialize(initData);
+	onDrop = files => {
+		this.setState({
+			imageFiles: files
+		});
 	};
 
 	handleFormSubmit = formProps => {
-		this.props.location.query.titleId
-			? editPost(formProps).then(res => {
-					res.err ? this.props.authError(res.err) : redirectToBlog();
-				})
-			: addNewPost(formProps).then(res => {
-					res.err ? this.props.authError(res.err) : redirectToBlog();
-				});
+		console.log(formProps);
+		// this.props.location.query.titleId
+		// 	? editPost(formProps).then(res => {
+		// 			res.err ? this.props.authError(res.err) : redirectToBlog();
+		// 		})
+		// 	: addNewPost(formProps).then(res => {
+		// 			res.err ? this.props.authError(res.err) : redirectToBlog();
+		// 		});
 	};
 
 	showCharactersLeft = (propValue, limitValue) => {
@@ -156,7 +94,7 @@ class BlogPostForm extends Component {
 				propValue.length < limitValue ? limitValue - propValue.length : 0;
 
 			return (
-				<p>
+				<p className="characters-left">
 					Characters left: {postCharactersLeft}
 				</p>
 			);
@@ -189,6 +127,23 @@ class BlogPostForm extends Component {
 			return <Spinner />;
 		}
 
+		const FIELDS = [
+			{
+				name: 'title',
+				type: 'text',
+				label: 'Post Title',
+				characterValue: titleValue,
+				allowedLength: 50
+			},
+			{
+				name: 'imgtitle',
+				type: 'text',
+				label: 'Image Description',
+				characterValue: imgTitleValue,
+				allowedLength: 100
+			}
+		];
+
 		this.clearTimeout();
 
 		return (
@@ -201,45 +156,61 @@ class BlogPostForm extends Component {
 				<hr />
 				<form onSubmit={handleSubmit(this.handleFormSubmit)}>
 					<Field
-						name="title"
-						type="text"
-						component={renderInputField}
-						label="Post Title"
-					/>
-					{this.showCharactersLeft(titleValue, 50)}
-					<Field
-						name="image"
-						type="text"
-						component={renderInputField}
-						label="Image URL"
-					/>
-					<Field
-						name="imgtitle"
-						component={renderInputField}
-						label="Image Description"
-					/>
-					{this.showCharactersLeft(imgTitleValue, 100)}
-					<Field
-						name="description"
-						component={renderAreaField}
-						label="Description"
-					/>
+						name="upload-image"
+						component="file"
+						type="file"
+						placeholder="Upload Image">
+						<DropZone
+							className="upload-container"
+							accept="image/jpeg, image/png"
+							onDrop={this.onDrop}>
+							{this.state.imageFiles.length > 0
+								? <ul className="uploaded-images-container">
+										{map(this.state.imageFiles, ({ name, preview, size }) => [
+											<span key={name}>
+												<li>
+													<img src={preview} alt="{preview}" />
+												</li>
+												<li>
+													{name} - {size} bytes
+												</li>
+											</span>
+										])}
+									</ul>
+								: <span>
+										<i className="fa fa-upload" aria-hidden="true" />
+										<p>Click or drag file to this area to upload.</p>
+									</span>}
+						</DropZone>
+					</Field>
+					{map(
+						FIELDS,
+						({ name, type, label, characterValue, allowedLength }, key) => {
+							return (
+								<span key={key}>
+									{this.showCharactersLeft(characterValue, allowedLength)}
+									<Field
+										name={name}
+										type={type}
+										component={RenderInputField}
+										label={label}
+									/>
+								</span>
+							);
+						}
+					)}
 					{this.showCharactersLeft(descriptionValue, 5000)}
-					<div>
-						<button
-							type="submit"
-							className="btn btn-primary partial-expand rounded"
-							disabled={submitting}>
-							Submit
-						</button>
-						<button
-							type="button"
-							className="btn btn-danger partial-expand rounded f-r"
-							disabled={pristine || submitting}
-							onClick={reset}>
-							Clear Values
-						</button>
-					</div>
+					<Field
+						name={'description'}
+						type={'text'}
+						component={RenderTextAreaField}
+						label={'Description'}
+					/>
+					<RenderFormButtons
+						submitting={submitting}
+						pristine={pristine}
+						reset={reset}
+					/>
 				</form>
 				{serverError
 					? <RenderAlert
@@ -270,7 +241,7 @@ const mapStateToProps = state => {
 BlogPostForm = reduxForm({
 	form: 'BlogPostForm',
 	validate,
-	fields: ['title', 'image', 'imgtitle', 'description']
+	fields: ['upload-image', 'title', 'imgtitle', 'description']
 })(BlogPostForm);
 
 export default (BlogPostForm = connect(mapStateToProps, { authError })(

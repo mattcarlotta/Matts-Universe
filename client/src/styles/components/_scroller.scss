@@ -36,8 +36,7 @@
 }
 
 .scroll:focus {
-	outline: 0 !important;
-	text-decoration: none;
+	@extend .no-link-focus;
 }
 
 .scrolltransition-enter {

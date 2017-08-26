@@ -1,5 +1,5 @@
 // APPLICATION ROUTES
-import routes from './Routes';
+import routes from './routes';
 
 // REACT AND REACT-ROUTER IMPORTS
 import React from 'react';

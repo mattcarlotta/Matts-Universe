@@ -1,17 +1,17 @@
 import React from 'react';
 
-const RenderProjects = props => {
+const RenderProjects = ({ image, title, imgtitle, description }) => {
 	return (
 		<div className="content">
-			<img src={props.image} alt="" />
+			<img src={image} alt="" />
 			<h2>
-				{props.title}
+				{title}
 			</h2>
 			<h3>
-				{props.imgtitle}
+				{imgtitle}
 			</h3>
 			<h4>
-				{props.description}
+				{description}
 			</h4>
 		</div>
 	);

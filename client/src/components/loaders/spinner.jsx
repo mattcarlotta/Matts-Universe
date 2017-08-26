@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Spinner = props => {
-	const container = props ? props.contanier : '';
+const Spinner = ({ container }) => {
+	const componentContainer = container ? container : '';
 
 	return (
-		<div className={container}>
+		<div className={componentContainer}>
 			<div className="spinner-container bottom-padded">
 				<div className="spinner-counterclockwise outer-circle" />
 				<div className="spinner-clockwise middle-circle" />

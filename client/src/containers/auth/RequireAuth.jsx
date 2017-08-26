@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
-import { authError, signoutUser } from '../../actions/AuthActionCreators';
-import Spinner from '../../components/loaders/Spinner';
+import { authError, signoutUser } from '../../actions/authActionCreators';
+import Spinner from '../../components/loaders/spinner';
 
 export default function(ComposedComponent) {
 	class Authentication extends Component {

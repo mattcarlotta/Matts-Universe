@@ -1,7 +1,7 @@
 import * as app from 'axios';
 import { browserHistory } from 'react-router';
 
-import ConfigAuth from './ConfigAuth';
+import ConfigAuth from './configAuth';
 
 export const redirectToBlog = () => {
 	browserHistory.push({
