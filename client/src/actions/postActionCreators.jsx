@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 
 import AppPromiseInterceptors from './appPromiseInterceptors';
 import ConfigAuth from './configAuth';
+import { AUTH_ERROR } from './types';
 
 AppPromiseInterceptors(app);
 
@@ -82,70 +83,33 @@ export const editPost = ({
 };
 
 // Fetches a single post by navTitle from DB
-export const fetchPost = id => {
-	return app
-		.get(`/api/post/${id}`)
-		.then(response => {
-			return { foundPost: response.data.post };
-		})
-		.catch(({ response }) => {
-			return { err: response.data.err };
-		});
+export const fetchPost = id => async dispatch => {
+	try {
+		return await app.get(`/api/post/${id}`);
+	} catch (err) {
+		dispatch({ type: AUTH_ERROR, payload: err });
+	}
 };
 
 // Fetches the amount of posts located in DB
-export const fetchPostCount = async () => {
+export const fetchPostCount = () => async dispatch => {
 	try {
-		const { data: { pageCount, postCount } } = await app.get(`/api/blogcount`);
-
-		return {
-			pageCount,
-			postCount
-		};
+		return await app.get(`/api/blogcount`);
 	} catch (err) {
-		return { err };
+		dispatch({ type: AUTH_ERROR, payload: err });
 	}
-
-	// 	return {
-	// 		pageCount: await res.pageCount,
-	// 		postCount: await res.postCount
-	// 	};
-	// } catch (e) {
-	// 	console.log(e);
-	// 	// console.log(res);
-	// 	return { err: 'The server was unable to find any blog content!' };
-	// }
 };
 
-// export const fetchPostCount = () => {
-// 	return app({
-// 		url: `/api/count`,
-// 		timeout: 20000,
-// 		method: 'get',
-// 		responseType: 'json'
-// 	})
-// 		.then(response => {
-// 			return {
-// 				pageCount: response.data.pageCount,
-// 				postCount: response.data.postCount
-// 			};
-// 		})
-// 		.catch(({ response }) => {
-// 			return { err: response.data.err };
-// 		});
-// };
-
 // Fetches the initial first and/or next 10 posts in the DB
-export const fetchPosts = async requestedRecords => {
+export const fetchPosts = requestedRecords => async dispatch => {
 	try {
 		const skipByValue = requestedRecords ? requestedRecords : 0;
-		const res = await app.get(`/api/blogcollection`, {
+		return await app.get(`/api/blogcollection`, {
 			params: {
 				skipByValue: skipByValue
 			}
 		});
-		return { posts: await res.data.posts };
-	} catch ({ res }) {
-		return { err: res.data.err };
+	} catch (err) {
+		dispatch({ type: AUTH_ERROR, payload: err });
 	}
 };

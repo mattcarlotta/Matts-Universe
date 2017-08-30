@@ -3,17 +3,16 @@ import React, { PureComponent } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Button, ButtonGroup } from 'react-bootstrap';
-
+import { bindActionCreators } from 'redux';
 import { deletePost, redirectToBlog } from '../../actions/postActionCreators';
 import {
 	deleteProject,
 	redirectToProject
 } from '../../actions/projectActionCreators';
-import { authError, signoutUser } from '../../actions/authActionCreators';
+import { signoutUser } from '../../actions/authActionCreators';
 
 import ADMINBUTTONITEMS from '../../components/app/data/adminButtonData';
 import RenderAdminButtons from '../../components/app/renderAdminButtons';
-import RenderAlert from '../../components/app/RenderAlert';
 import SignOut from '../auth/signout';
 
 class AdminPanel extends PureComponent {
@@ -23,19 +22,20 @@ class AdminPanel extends PureComponent {
 			: browserHistory.push(`/projects/new`);
 	};
 
-	onDeleteClick = id => {
-		this.props.location.query.pageId
-			? deletePost(id).then(res => {
-					res.err ? this.props.authError(res.err) : this.props.updateBlog();
-					this.props.updatePostCount();
-					redirectToBlog();
-				})
-			: deleteProject(id).then(res => {
-					res.err
-						? this.props.authError(res.err)
-						: this.props.updateProjectItems();
-					redirectToProject();
-				});
+	onDeleteClick = async id => {
+		try {
+			if (this.props.location.query.pageId) {
+				await this.props.deletePost(id);
+				await this.props.updateBlog();
+				await this.props.updatePostCount();
+				await redirectToBlog();
+			} else {
+				await this.props.deleteProject(id);
+				await this.props.updateProjectItems();
+			}
+		} catch (e) {
+			console.warn(e);
+		}
 	};
 
 	onEditClick = navTitle => {
@@ -50,7 +50,7 @@ class AdminPanel extends PureComponent {
 	};
 
 	render() {
-		const { posts, projects, serverError } = this.props;
+		const { posts, projects } = this.props;
 		const items = this.props.location.query.pageId ? posts : projects;
 
 		return (
@@ -99,12 +99,6 @@ class AdminPanel extends PureComponent {
 							</ButtonGroup>
 						</div>
 					: null}
-				{serverError
-					? <RenderAlert
-							resetNotifications={this.props.authError}
-							errorMessage={serverError}
-						/>
-					: null}
 			</span>
 		);
 	}
@@ -112,12 +106,18 @@ class AdminPanel extends PureComponent {
 
 const mapStateToProps = state => {
 	return {
-		serverError: state.auth.error,
 		username: state.auth.username,
 		userIsGod: state.auth.isGod
 	};
 };
 
-export default connect(mapStateToProps, { authError, signoutUser })(
+const mapDispatchToProps = dispatch => {
+	return bindActionCreators(
+		{ deletePost, deleteProject, signoutUser },
+		dispatch
+	);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
 	withRouter(AdminPanel)
 );

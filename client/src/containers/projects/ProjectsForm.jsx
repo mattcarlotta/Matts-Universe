@@ -7,7 +7,6 @@ import {
 	editProject,
 	fetchProject
 } from '../../actions/projectActionCreators';
-import { authError } from '../../actions/authActionCreators';
 
 import NotFound from '../../components/notfound/notFound';
 import Spinner from '../../components/loaders/spinner';
@@ -107,15 +106,19 @@ class ProjectsForm extends Component {
 		this.clearTimeout();
 	}
 
-	fetchProjectToEdit = () => {
+	fetchProjectToEdit = async () => {
 		this.timeout = setInterval(this.timer, 5000);
-		fetchProject(this.props.location.query.titleId).then(res => {
-			if (res.foundProject) this.initializeForm(res.foundProject);
-			if (res.err) this.props.authError(res.err);
-			this.setState({
-				isLoaded: res.foundProject ? true : false
-			});
-		});
+		try {
+			const { data: { foundProject } } = await this.props.fetchProject(
+				this.props.location.query.titleId
+			);
+
+			this.setState({ isLoaded: true }, () =>
+				this.initializeForm(foundProject)
+			);
+		} catch (e) {
+			console.warn(e);
+		}
 	};
 
 	timer = () => {
@@ -128,21 +131,17 @@ class ProjectsForm extends Component {
 	};
 
 	initializeForm = foundProject => {
-		const initData = {
-			id: foundProject._id,
-			image: foundProject.image,
-			title: foundProject.title,
-			imgtitle: foundProject.imgtitle,
-			description: foundProject.description
-		};
-
-		this.props.initialize(initData);
+		this.props.initialize(foundProject);
 	};
 
-	handleFormSubmit = formProps => {
-		this.props.location.query.titleId
-			? this.props.editProject(formProps)
-			: this.props.addNewProject(formProps);
+	handleFormSubmit = async formProps => {
+		try {
+			this.props.location.query.titleId
+				? await this.props.editProject(formProps)
+				: await this.props.addNewProject(formProps);
+		} catch (e) {
+			console.warn(e);
+		}
 	};
 
 	showCharactersLeft = (propValue, limitValue) => {
@@ -169,9 +168,10 @@ class ProjectsForm extends Component {
 			submitting
 		} = this.props;
 		const { isLoaded, requestTimeout } = this.state;
+		const { serverError } = this.props;
 
 		if (this.props.location.query.titleId && !isLoaded) {
-			if (requestTimeout) return <NotFound />;
+			if (requestTimeout || serverError) return <NotFound />;
 
 			return <Spinner />;
 		}
@@ -243,7 +243,8 @@ const mapStateToProps = state => {
 	return {
 		descriptionValue,
 		imgTitleValue,
-		titleValue
+		titleValue,
+		serverError: state.auth.error
 	};
 };
 
@@ -254,7 +255,7 @@ ProjectsForm = reduxForm({
 })(ProjectsForm);
 
 export default (ProjectsForm = connect(mapStateToProps, {
-	authError,
 	addNewProject,
-	editProject
+	editProject,
+	fetchProject
 })(ProjectsForm));

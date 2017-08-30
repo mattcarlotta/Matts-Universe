@@ -6,15 +6,14 @@ import DropZone from 'react-dropzone';
 import RenderInputField from '../forms/renderInputField';
 import RenderFormButtons from '../forms/renderFormButtons';
 import RenderTextAreaField from '../forms/renderTextAreaField';
+import FIELDS from './data/blogFormData';
 
 // addNewPost,
 // editPost,
 // redirectToBlog
 import { fetchPost } from '../../actions/postActionCreators';
-import { authError } from '../../actions/authActionCreators';
 
 import NotFound from '../../components/notfound/notFound';
-import RenderAlert from '../../components/app/RenderAlert';
 import Spinner from '../../components/loaders/spinner';
 import ValidateFormFields from './validateFormFields';
 
@@ -47,15 +46,18 @@ class BlogPostForm extends Component {
 		this.clearTimeout();
 	}
 
-	fetchPostToEdit = () => {
+	fetchPostToEdit = async () => {
 		this.timeout = setInterval(this.timer, 5000);
-		fetchPost(this.props.location.query.titleId).then(res => {
-			if (res.foundPost) this.initializeForm(res.foundPost);
-			if (res.err) this.props.authError(res.err);
-			this.setState({
-				isLoaded: res.foundPost ? true : false
-			});
-		});
+		try {
+			const { foundPost } = await fetchPost(
+				this.props.location.query.titleId,
+				this.props.dispatch
+			);
+
+			this.setState({ isLoaded: true }, () => this.initializeForm(foundPost));
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	timer = () => {
@@ -115,35 +117,10 @@ class BlogPostForm extends Component {
 		const { isLoaded, requestTimeout } = this.state;
 
 		if (this.props.location.query.titleId && !isLoaded) {
-			if (serverError)
-				return (
-					<RenderAlert
-						resetError={this.props.authError}
-						errorMessage={serverError}
-					/>
-				);
-			if (requestTimeout) return <NotFound />;
+			if (requestTimeout || serverError) return <NotFound />;
 
 			return <Spinner />;
 		}
-
-		const FIELDS = [
-			{
-				name: 'title',
-				type: 'text',
-				label: 'Post Title',
-				characterValue: titleValue,
-				allowedLength: 50
-			},
-			{
-				name: 'imgtitle',
-				type: 'text',
-				label: 'Image Description',
-				characterValue: imgTitleValue,
-				allowedLength: 100
-			}
-		];
-
 		this.clearTimeout();
 
 		return (
@@ -183,22 +160,22 @@ class BlogPostForm extends Component {
 									</span>}
 						</DropZone>
 					</Field>
-					{map(
-						FIELDS,
-						({ name, type, label, characterValue, allowedLength }, key) => {
-							return (
-								<span key={key}>
-									{this.showCharactersLeft(characterValue, allowedLength)}
-									<Field
-										name={name}
-										type={type}
-										component={RenderInputField}
-										label={label}
-									/>
-								</span>
-							);
-						}
-					)}
+					{map(FIELDS, ({ name, type, label }, key) => {
+						const characterValue =
+							name === 'title' ? titleValue : imgTitleValue;
+						const allowedLength = name === 'title' ? 50 : 100;
+						return (
+							<span key={key}>
+								{this.showCharactersLeft(characterValue, allowedLength)}
+								<Field
+									name={name}
+									type="text"
+									component={RenderInputField}
+									label={name === 'title' ? 'Post Title' : 'Image Description'}
+								/>
+							</span>
+						);
+					})}
 					{this.showCharactersLeft(descriptionValue, 5000)}
 					<Field
 						name={'description'}
@@ -212,12 +189,6 @@ class BlogPostForm extends Component {
 						reset={reset}
 					/>
 				</form>
-				{serverError
-					? <RenderAlert
-							resetError={this.props.authError}
-							errorMessage={serverError}
-						/>
-					: null}
 			</div>
 		);
 	}
@@ -241,9 +212,8 @@ const mapStateToProps = state => {
 BlogPostForm = reduxForm({
 	form: 'BlogPostForm',
 	validate,
+	enableReinitialize: true,
 	fields: ['upload-image', 'title', 'imgtitle', 'description']
 })(BlogPostForm);
 
-export default (BlogPostForm = connect(mapStateToProps, { authError })(
-	BlogPostForm
-));
+export default (BlogPostForm = connect(mapStateToProps)(BlogPostForm));

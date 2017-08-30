@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router';
-
+import { connect } from 'react-redux';
 import { fetchPosts } from '../actions/postActionCreators';
 import AdminPanel from '../containers/app/AdminPanel';
 import NoItemsFound from '../components/app/noItemsFound';
@@ -32,14 +32,18 @@ class Blog extends PureComponent {
 		}
 	}
 
-	fetchBlogPosts = requestedPage => {
-		const skipCount = requestedPage ? requestedPage * 10 : 0;
-		fetchPosts(skipCount).then(res => {
+	fetchBlogPosts = async requestedPage => {
+		try {
+			const skipCount = requestedPage ? requestedPage * 10 : 0;
+
+			const { data: { posts } } = await this.props.fetchPosts(skipCount);
+
 			this.setState({
-				posts: res.posts ? res.posts : '',
-				serverError: res.err ? res.err : ''
+				posts: posts
 			});
-		});
+		} catch (e) {
+			console.warn(e);
+		}
 	};
 
 	clearTimer = () => {
@@ -57,11 +61,7 @@ class Blog extends PureComponent {
 
 		if (_.isEmpty(posts) || currentPage !== loadedPage) {
 			if (serverError || requestTimeout)
-				return (
-					<NoItemsFound
-						message={serverError ? serverError : 'No posts were found!'}
-					/>
-				);
+				return <NoItemsFound message={'No blog content was found!'} />;
 
 			return <Spinner container={'blog-container'} />;
 		}
@@ -83,4 +83,4 @@ class Blog extends PureComponent {
 	}
 }
 
-export default withRouter(Blog);
+export default withRouter(connect(null, { fetchPosts })(Blog));

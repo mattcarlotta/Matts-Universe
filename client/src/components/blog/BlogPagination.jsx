@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { PureComponent } from 'react';
 import { browserHistory, withRouter } from 'react-router';
-
+import { connect } from 'react-redux';
 import { fetchPostCount } from '../../actions/postActionCreators';
 import Blog from '../../views/Blog';
 import NoItemsFound from '../app/noItemsFound';
@@ -10,21 +10,32 @@ import Spinner from '../loaders/spinner';
 class BlogPagination extends PureComponent {
 	state = {
 		pageCount: '',
-		postCount: ''
+		postCount: '',
+		requestTimeout: false
 	};
 
 	componentDidMount() {
 		this.fetchBlogPostCount();
+		this.timeout = setTimeout(this.timer, 5000);
 	}
 
-	fetchBlogPostCount = () => {
-		fetchPostCount().then(res => {
+	componentWillUnmount() {
+		this.clearTimer();
+	}
+
+	fetchBlogPostCount = async () => {
+		try {
+			const {
+				data: { pageCount, postCount }
+			} = await this.props.fetchPostCount();
+
 			this.setState({
-				pageCount: res.pageCount ? res.pageCount : '',
-				postCount: res.postCount ? res.postCount : '',
-				serverError: res.err ? res.err : ''
+				pageCount: pageCount,
+				postCount: postCount
 			});
-		});
+		} catch (e) {
+			console.warn(e);
+		}
 	};
 
 	goTo = (requestedPage, postCount) => {
@@ -70,20 +81,26 @@ class BlogPagination extends PureComponent {
 		);
 	}
 
-	render() {
-		const { postCount, pageCount, serverError } = this.state;
-		const currentPage = parseInt(this.props.location.query.pageId, 10);
+	clearTimer = () => {
+		clearTimeout(this.timeout);
+	};
 
+	timer = () => {
+		this.clearTimer();
+		this.setState({ requestTimeout: true });
+	};
+
+	render() {
+		const { postCount, pageCount, requestTimeout } = this.state;
+		const currentPage = parseInt(this.props.location.query.pageId, 10);
 		if (!postCount || !pageCount) {
-			if (serverError)
-				return (
-					<NoItemsFound
-						message={serverError ? serverError : 'No posts were found!'}
-					/>
-				);
+			if (requestTimeout)
+				return <NoItemsFound message={'No blog content was found!'} />;
 
 			return <Spinner />;
 		}
+
+		this.clearTimer();
 
 		return (
 			<span>
@@ -95,4 +112,4 @@ class BlogPagination extends PureComponent {
 	}
 }
 
-export default withRouter(BlogPagination);
+export default withRouter(connect(null, { fetchPostCount })(BlogPagination));

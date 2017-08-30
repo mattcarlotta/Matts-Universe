@@ -10,12 +10,10 @@ exports.createProject = (req, res) => {
 
 	Project.create(newProject, (err, message) => {
 		if (err)
-			res
-				.status(500)
-				.json({
-					err:
-						'The server encountered a problem when attempting to create a project!'
-				});
+			res.status(500).json({
+				err:
+					'The server encountered a problem when attempting to create a project!'
+			});
 		else res.status(201).json({ message: 'Succesfully added a new project!' });
 	});
 };
@@ -26,12 +24,10 @@ exports.createProject = (req, res) => {
 exports.findProjects = (req, res) => {
 	Project.find({}, (err, foundProject) => {
 		if (err || !foundProject)
-			res
-				.status(404)
-				.json({
-					err:
-						'The server encountered a problem when attempting to find projects!'
-				});
+			res.status(404).json({
+				err:
+					'The server encountered a problem when attempting to find projects!'
+			});
 		else
 			Project.count({}, (err, projectCount) => {
 				if (err || !projectCount)
@@ -41,7 +37,7 @@ exports.findProjects = (req, res) => {
 				else
 					res
 						.status(201)
-						.json({ foundProject: foundProject, projectCount: projectCount });
+						.json({ projects: foundProject, projectCount: projectCount });
 			});
 	}).sort({ _id: -1 });
 };
@@ -52,13 +48,11 @@ exports.findProjects = (req, res) => {
 exports.grabProject = (req, res) => {
 	Project.findOne({ navTitle: req.params.id }, (err, foundProject) => {
 		if (err || !foundProject)
-			res
-				.status(404)
-				.json({
-					err:
-						'The server encountered a problem when attempting to locate the project to be edited!'
-				});
-		else res.status(201).json({ project: foundProject });
+			res.status(404).json({
+				err:
+					'The server encountered a problem when attempting to locate the project to be edited!'
+			});
+		else res.status(201).json({ foundProject: foundProject });
 	});
 };
 
@@ -74,19 +68,15 @@ exports.updateProject = (req, res) => {
 		updateProject,
 		(err, foundProject) => {
 			if (err)
-				res
-					.status(500)
-					.json({
-						err:
-							'The server encountered a problem when attempting to update the project!'
-					});
-			if (!foundProject)
-				res
-					.status(404)
-					.json({
-						err:
-							'The server encountered a problem when attempting to locate the project to be updated!'
-					});
+				res.status(500).json({
+					err:
+						'The server encountered a problem when attempting to update the project!'
+				});
+			else if (!foundProject)
+				res.status(404).json({
+					err:
+						'The server encountered a problem when attempting to locate the project to be updated!'
+				});
 			else res.status(201).json({ message: 'Succesfully edited the project!' });
 		}
 	);
@@ -98,19 +88,15 @@ exports.updateProject = (req, res) => {
 exports.deleteProject = (req, res) => {
 	Project.findByIdAndRemove(req.params.id, (err, foundProject) => {
 		if (err)
-			res
-				.status(500)
-				.json({
-					err:
-						'The server encountered a problem when attempting to delete the project!'
-				});
+			res.status(500).json({
+				err:
+					'The server encountered a problem when attempting to delete the project!'
+			});
 		if (!foundProject)
-			res
-				.status(404)
-				.json({
-					err:
-						'The server encountered a problem when attempting to locate the project to be deleted!'
-				});
+			res.status(404).json({
+				err:
+					'The server encountered a problem when attempting to locate the project to be deleted!'
+			});
 		else res.status(201).json({ message: 'Succesfully deleted the project!' });
 	});
 };

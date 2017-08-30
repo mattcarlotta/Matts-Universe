@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import Slider from 'react-slick';
-
+import { connect } from 'react-redux';
 import { fetchProjects } from '../actions/projectActionCreators';
 import { NextArrow, PrevArrow } from '../components/projects/sliderArrows';
 
@@ -20,7 +20,7 @@ const settings = {
 	prevArrow: <PrevArrow />
 };
 
-export default class Projects extends Component {
+class Projects extends Component {
 	state = {
 		isFetchingProjects: false,
 		requestTimeout: false
@@ -35,17 +35,22 @@ export default class Projects extends Component {
 		this.clearTimer();
 	}
 
-	fetchAllProjects = () => {
-		this.setState({ isFetchingProjects: true }, () => {
-			fetchProjects().then(res => {
-				this.setState({
-					isFetchingProjects: false,
-					projects: res.projects ? res.projects : '',
-					projectCount: res.projectCount ? res.projectCount : '',
-					serverError: res.err ? res.err : ''
-				});
+	fetchAllProjects = async () => {
+		try {
+			this.setState({ isFetchingProjects: true });
+
+			const {
+				data: { projects, projectCount }
+			} = await this.props.fetchProjects();
+
+			this.setState({
+				isFetchingProjects: false,
+				projects: projects,
+				projectCount: projectCount
 			});
-		});
+		} catch (e) {
+			console.warn(e);
+		}
 	};
 
 	clearTimer = () => {
@@ -58,21 +63,12 @@ export default class Projects extends Component {
 	};
 
 	render() {
-		const {
-			isFetchingProjects,
-			projects,
-			serverError,
-			requestTimeout
-		} = this.state;
+		const { isFetchingProjects, projects, requestTimeout } = this.state;
 		const projectContainer = 'project-container';
 
 		if (_.isEmpty(projects) || isFetchingProjects) {
-			if (serverError || requestTimeout)
-				return (
-					<NoItemsFound
-						message={serverError ? serverError : 'No projects were found!'}
-					/>
-				);
+			if (requestTimeout)
+				return <NoItemsFound message={'No projects were found!'} />;
 
 			return <Spinner container={projectContainer} />;
 		}
@@ -101,3 +97,5 @@ export default class Projects extends Component {
 		);
 	}
 }
+
+export default connect(null, { fetchProjects })(Projects);

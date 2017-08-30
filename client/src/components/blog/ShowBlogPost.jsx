@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import { fetchPost } from '../../actions/postActionCreators';
 import NotFound from '../notfound/notFound';
 import RenderPosts from './renderPosts';
@@ -17,13 +17,18 @@ class ShowBlogPost extends Component {
 		this.timeout = setInterval(this.timer, 5000);
 	}
 
-	fetchBlogPosts = () => {
-		fetchPost(this.props.location.query.postId).then(res => {
+	fetchBlogPosts = async () => {
+		try {
+			const { data: { post } } = await this.props.fetchPost(
+				this.props.location.query.postId
+			);
+
 			this.setState({
-				foundPost: res.foundPost ? res.foundPost : '',
-				serverError: res.err ? res.err : ''
+				foundPost: post
 			});
-		});
+		} catch (e) {
+			console.warn(e);
+		}
 	};
 
 	componentWillUnmount() {
@@ -40,11 +45,11 @@ class ShowBlogPost extends Component {
 	};
 
 	render() {
-		const { foundPost, requestTimeout, serverError } = this.state;
+		const { foundPost, requestTimeout } = this.state;
 		const singlePageIsLoaded = true;
 
 		if (_.isEmpty(foundPost)) {
-			if (serverError || requestTimeout) return <NotFound />;
+			if (requestTimeout) return <NotFound />;
 
 			return <Spinner />;
 		}
@@ -62,4 +67,4 @@ class ShowBlogPost extends Component {
 	}
 }
 
-export default ShowBlogPost;
+export default connect(null, { fetchPost })(ShowBlogPost);

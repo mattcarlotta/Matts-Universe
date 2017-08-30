@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class RenderAlert extends Component {
+class RenderAlert extends PureComponent {
 	componentDidMount() {
 		this.timeout = setTimeout(() => {
 			this.clearTimer();
-			// this.props.resetNotifications();
+			this.props.resetNotifications();
 		}, 5000);
 	}
 
