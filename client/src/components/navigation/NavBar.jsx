@@ -1,38 +1,27 @@
+import map from 'lodash/map';
 import React from 'react';
 import { Link, browserHistory, withRouter } from 'react-router';
-import { animateScroll as Nav } from 'react-scroll';
 
+import NAVSCROLLITEMS from './data/navScrollToIndexData.jsx';
+import NavScrollToIndex from './navScrollToIndex.jsx';
 import SignOut from '../../containers/auth/signout';
 
-export default function(WrappedComponent) {
+export default WrappedComponent => {
 	const NavBar = props => {
-		const goToIndex = pixel => {
-			browserHistory.push('/');
-			Nav.scrollTo(pixel, { duration: 1150, smooth: 'easeInOutQuint' });
-		};
-
 		return (
 			<span>
 				<nav className="navigation-container">
 					<ul className="navigation-bar">
-						<li>
-							<Link onClick={goToIndex.bind(this, 0)}>
-								<i className="fa fa-home" aria-hidden="true" />
-								Home
-							</Link>
-						</li>
-						<li>
-							<Link onClick={goToIndex.bind(this, 1000)}>
-								<i className="fa fa-question-circle-o" aria-hidden="true" />
-								About
-							</Link>
-						</li>
-						<li>
-							<Link onClick={goToIndex.bind(this, 2000)}>
-								<i className="fa fa-cogs" aria-hidden="true" />
-								Projects
-							</Link>
-						</li>
+						{map(NAVSCROLLITEMS, ({ pixel, icon, title }, key) => {
+							return (
+								<NavScrollToIndex
+									key={key}
+									pixel={pixel}
+									icon={icon}
+									title={title}
+								/>
+							);
+						})}
 						<li>
 							<Link
 								onClick={() =>
@@ -44,12 +33,7 @@ export default function(WrappedComponent) {
 								Blog
 							</Link>
 						</li>
-						<li>
-							<Link onClick={goToIndex.bind(this, 2120)}>
-								<i className="fa fa-envelope" aria-hidden="true" />
-								Contact
-							</Link>
-						</li>
+						<NavScrollToIndex pixel={2260} icon="fa-envelope" title="Contact" />
 						<SignOut />
 					</ul>
 				</nav>
@@ -58,4 +42,4 @@ export default function(WrappedComponent) {
 		);
 	};
 	return withRouter(NavBar);
-}
+};

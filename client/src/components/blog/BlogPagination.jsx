@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { PureComponent } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 
@@ -44,7 +45,7 @@ class BlogPagination extends PureComponent {
 							<span className="small-font">&#60;</span>
 						</button>
 					</li>
-					{pageCount.slice(0).map(page => {
+					{_.map(pageCount, page => {
 						return (
 							<li
 								key={page}

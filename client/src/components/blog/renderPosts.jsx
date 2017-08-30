@@ -1,4 +1,4 @@
-import split from 'lodash/split';
+import _ from 'lodash';
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
@@ -30,7 +30,7 @@ const RenderPosts = ({
 				</em>
 			</p>
 			<div className="entry-content m-t">
-				{split(description, '\n').map((item, key) => {
+				{_.split(description, '\n').map((item, key) => {
 					return (
 						<p key={key}>
 							{item}

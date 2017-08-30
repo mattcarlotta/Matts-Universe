@@ -1,29 +1,17 @@
 import React from 'react';
-import { Link, browserHistory } from 'react-router';
-import { animateScroll as Nav } from 'react-scroll';
+import { browserHistory } from 'react-router';
 
+import NavScrollTo from './navScrollTo';
 import SignOut from '../../containers/auth/signout';
 
 const Header = () => {
 	return (
 		<nav className="navigation-container">
 			<ul className="navigation-bar">
+				<NavScrollTo pixel={1000} icon="fa-question-circle-o" title="About" />
+				<NavScrollTo pixel={2000} icon="fa-cogs" title="Projects" />
 				<li>
 					<a
-						onClick={() =>
-							Nav.scrollTo(1000, { duration: 1150, smooth: 'easeInOutQuint' })}>
-						<i className="fa fa-question-circle-o" aria-hidden="true" /> About
-					</a>
-				</li>
-				<li>
-					<a
-						onClick={() =>
-							Nav.scrollTo(2000, { duration: 1150, smooth: 'easeInOutQuint' })}>
-						<i className="fa fa-cogs" aria-hidden="true" /> Projects
-					</a>
-				</li>
-				<li>
-					<Link
 						onClick={() =>
 							browserHistory.push({
 								pathname: `/blog/page`,
@@ -31,15 +19,9 @@ const Header = () => {
 							})}>
 						<i className="fa fa-commenting-o" aria-hidden="true" />
 						Blog
-					</Link>
-				</li>
-				<li>
-					<a
-						onClick={() =>
-							Nav.scrollTo(2120, { duration: 1150, smooth: 'easeInOutQuint' })}>
-						<i className="fa fa-envelope" aria-hidden="true" /> Contact
 					</a>
 				</li>
+				<NavScrollTo pixel={2260} icon="fa-envelope" title="Contact" />
 				<SignOut />
 			</ul>
 		</nav>

@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import RenderInputField from '../forms/renderInputField';
 import RenderFormButtons from '../forms/renderFormButtons';
+import FIELDS from './data/signinFormData';
 
 import { authError, signinUser } from '../../actions/authActionCreators';
 import RenderAlert from '../../components/app/RenderAlert';
@@ -16,19 +17,6 @@ const validate = values => {
 
 	return errors;
 };
-
-const FIELDS = [
-	{
-		name: 'username',
-		type: 'text',
-		label: 'Username'
-	},
-	{
-		name: 'password',
-		type: 'password',
-		label: 'Password'
-	}
-];
 
 class Signin extends Component {
 	componentWillUnmount() {

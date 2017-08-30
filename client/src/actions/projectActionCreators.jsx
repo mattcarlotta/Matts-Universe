@@ -18,7 +18,11 @@ export const addNewProject = ({ title, image, imgtitle, description }) => {
 	const config = ConfigAuth();
 
 	return app
-		.post(`api/create_project`, { title, image, imgtitle, description }, config)
+		.post(
+			`/api/create/project`,
+			{ title, image, imgtitle, description },
+			config
+		)
 		.then(response => {
 			return { success: response.data.message };
 		})
@@ -36,7 +40,7 @@ export const deleteProject = id => {
 	const config = ConfigAuth();
 
 	return app
-		.delete(`api/delete_project/${id}`, config)
+		.delete(`/api/delete/project/${id}`, config)
 		.then(response => {
 			return { success: response.data.message };
 		})
@@ -62,7 +66,7 @@ export const editProject = ({
 
 	return app
 		.put(
-			`api/edit_project/${id}`,
+			`/api/edit/project/${id}`,
 			{ id, title, image, imgtitle, description, navTitle },
 			config
 		)
@@ -81,7 +85,7 @@ export const editProject = ({
 // Fetches a single project by navTitle for editing from DB
 export const fetchProject = id => {
 	return app
-		.get(`api/fetch_one_project/${id}`)
+		.get(`/api/project/${id}`)
 		.then(response => {
 			return { foundProject: response.data.project };
 		})
@@ -93,7 +97,7 @@ export const fetchProject = id => {
 // Fetches all projects from DB
 export const fetchProjects = requestedRecords => {
 	return app
-		.get(`api/projects/collection`)
+		.get(`/api/projectscollection`)
 		.then(response => {
 			return {
 				projects: response.data.foundProject,

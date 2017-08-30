@@ -1,7 +1,10 @@
 import * as app from 'axios';
 import { browserHistory } from 'react-router';
 
+import AppPromiseInterceptors from './appPromiseInterceptors';
 import ConfigAuth from './configAuth';
+
+AppPromiseInterceptors(app);
 
 export const redirectToBlog = () => {
 	browserHistory.push({
@@ -19,7 +22,7 @@ export const addNewPost = ({ title, image, imgtitle, description }) => {
 	const config = ConfigAuth();
 
 	return app
-		.post(`api/create_post`, { title, image, imgtitle, description }, config)
+		.post(`/api/create/post`, { title, image, imgtitle, description }, config)
 		.then(response => {
 			return { success: response.data.message };
 		})
@@ -36,7 +39,7 @@ export const deletePost = id => {
 	const config = ConfigAuth();
 
 	return app
-		.delete(`api/delete_post/${id}`, config)
+		.delete(`/api/delete/post/${id}`, config)
 		.then(response => {
 			return { success: response.data.message };
 		})
@@ -62,7 +65,7 @@ export const editPost = ({
 
 	return app
 		.put(
-			`api/edit_post/${id}`,
+			`/api/edit/post/${id}`,
 			{ id, title, image, imgtitle, description, navTitle },
 			config
 		)
@@ -81,7 +84,7 @@ export const editPost = ({
 // Fetches a single post by navTitle from DB
 export const fetchPost = id => {
 	return app
-		.get(`api/fetch_one/${id}`)
+		.get(`/api/post/${id}`)
 		.then(response => {
 			return { foundPost: response.data.post };
 		})
@@ -91,34 +94,58 @@ export const fetchPost = id => {
 };
 
 // Fetches the amount of posts located in DB
-export const fetchPostCount = () => {
-	return app
-		.get(`api/count`)
-		.then(response => {
-			return {
-				pageCount: response.data.pageCount,
-				postCount: response.data.postCount
-			};
-		})
-		.catch(({ response }) => {
-			return { err: response.data.err };
-		});
+export const fetchPostCount = async () => {
+	try {
+		const { data: { pageCount, postCount } } = await app.get(`/api/blogcount`);
+
+		return {
+			pageCount,
+			postCount
+		};
+	} catch (err) {
+		return { err };
+	}
+
+	// 	return {
+	// 		pageCount: await res.pageCount,
+	// 		postCount: await res.postCount
+	// 	};
+	// } catch (e) {
+	// 	console.log(e);
+	// 	// console.log(res);
+	// 	return { err: 'The server was unable to find any blog content!' };
+	// }
 };
 
-// Fetches the initial first and/or next 10 posts in the DB
-export const fetchPosts = requestedRecords => {
-	const skipByValue = requestedRecords ? requestedRecords : 0;
+// export const fetchPostCount = () => {
+// 	return app({
+// 		url: `/api/count`,
+// 		timeout: 20000,
+// 		method: 'get',
+// 		responseType: 'json'
+// 	})
+// 		.then(response => {
+// 			return {
+// 				pageCount: response.data.pageCount,
+// 				postCount: response.data.postCount
+// 			};
+// 		})
+// 		.catch(({ response }) => {
+// 			return { err: response.data.err };
+// 		});
+// };
 
-	return app
-		.get(`api/collection`, {
+// Fetches the initial first and/or next 10 posts in the DB
+export const fetchPosts = async requestedRecords => {
+	try {
+		const skipByValue = requestedRecords ? requestedRecords : 0;
+		const res = await app.get(`/api/blogcollection`, {
 			params: {
 				skipByValue: skipByValue
 			}
-		})
-		.then(response => {
-			return { posts: response.data.posts };
-		})
-		.catch(({ response }) => {
-			return { err: response.data.err };
 		});
+		return { posts: await res.data.posts };
+	} catch ({ res }) {
+		return { err: res.data.err };
+	}
 };

@@ -1,7 +1,8 @@
+import map from 'lodash/map';
 import React, { PureComponent } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { Button, ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Button, ButtonGroup } from 'react-bootstrap';
 
 import { deletePost, redirectToBlog } from '../../actions/postActionCreators';
 import {
@@ -10,6 +11,8 @@ import {
 } from '../../actions/projectActionCreators';
 import { authError, signoutUser } from '../../actions/authActionCreators';
 
+import ADMINBUTTONITEMS from '../../components/app/data/adminButtonData';
+import RenderAdminButtons from '../../components/app/renderAdminButtons';
 import RenderAlert from '../../components/app/RenderAlert';
 import SignOut from '../auth/signout';
 
@@ -46,31 +49,6 @@ class AdminPanel extends PureComponent {
 		});
 	};
 
-	renderButton = (button, items) => {
-		if (!items)
-			return (
-				<span>
-					<p>No posts were found!</p>
-				</span>
-			);
-
-		return items.slice(0).map(item => {
-			return button
-				? <MenuItem
-						key={item._id}
-						onClick={this.onDeleteClick.bind(this, item._id)}>
-						<i className="fa fa-trash-o" aria-hidden="true" />
-						{item.navTitle}
-					</MenuItem>
-				: <MenuItem
-						key={item._id}
-						onClick={this.onEditClick.bind(this, item.navTitle)}>
-						<i className="fa fa-pencil-square-o" aria-hidden="true" />
-						{item.navTitle}
-					</MenuItem>;
-		});
-	};
-
 	render() {
 		const { posts, projects, serverError } = this.props;
 		const items = this.props.location.query.pageId ? posts : projects;
@@ -81,35 +59,38 @@ class AdminPanel extends PureComponent {
 					? <div className="admin-tools">
 							<h1>Admin Control Panel</h1>
 							<ButtonGroup>
-								<Button bsStyle="primary" onClick={this.onAddClick.bind(this)}>
+								<Button bsStyle="primary" onClick={this.onAddClick}>
 									<i className="fa fa-plus" aria-hidden="true" />
 									{this.props.location.query.pageId
 										? 'Add New Post'
 										: 'Add New Project'}
 								</Button>
-								<DropdownButton
-									bsStyle="warning"
-									id="admin-tools-edit"
-									title={
-										<span>
-											<i className="fa fa-pencil-square-o" aria-hidden="true" />
-											<span>Edit</span>
-										</span>
-									}>
-									{this.renderButton('', items)}
-								</DropdownButton>
-								<DropdownButton
-									className="m-r"
-									bsStyle="danger"
-									id="admin-tools-delete"
-									title={
-										<span>
-											<i className="fa fa-trash-o" aria-hidden="true" />
-											<span>Delete</span>
-										</span>
-									}>
-									{this.renderButton('deleteButton', items)}
-								</DropdownButton>
+
+								{map(ADMINBUTTONITEMS, ({ button }, key) => {
+									return (
+										<RenderAdminButtons
+											key={key}
+											bsStyle={button === 'edit' ? 'warning' : 'danger'}
+											id={
+												button === 'edit'
+													? 'admin-tools-edit'
+													: 'admin-tools-delete'
+											}
+											iconClassName={
+												button === 'edit' ? 'fa-pencil-square-o' : 'fa-trash-o'
+											}
+											title={button === 'edit' ? 'Edit' : 'Delete'}
+											items={items}
+											button={button}
+											onClickAction={
+												button === 'edit'
+													? this.onEditClick
+													: this.onDeleteClick
+											}
+										/>
+									);
+								})}
+
 								<Button
 									onClick={() => this.props.signoutUser()}
 									className="signout-button">
@@ -137,6 +118,6 @@ const mapStateToProps = state => {
 	};
 };
 
-export default withRouter(
-	connect(mapStateToProps, { authError, signoutUser })(AdminPanel)
+export default connect(mapStateToProps, { authError, signoutUser })(
+	withRouter(AdminPanel)
 );

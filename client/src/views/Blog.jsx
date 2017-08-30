@@ -75,8 +75,8 @@ class Blog extends PureComponent {
 					updateBlog={this.fetchBlogPosts}
 					posts={posts}
 				/>
-				{posts.slice(0).map(post => {
-					return <RenderPosts key={post._id} {...post} />;
+				{_.map(posts, (post, key) => {
+					return <RenderPosts key={key} {...post} />;
 				})}
 			</div>
 		);

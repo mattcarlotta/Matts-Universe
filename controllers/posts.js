@@ -13,12 +13,10 @@ exports.createPost = (req, res) => {
 
 	Post.create(newPost, (err, message) => {
 		if (err)
-			res
-				.status(500)
-				.json({
-					err:
-						'The server encountered a problem when attempting to create a post!'
-				});
+			res.status(500).json({
+				err:
+					'The server encountered a problem when attempting to create a post!'
+			});
 		else res.status(201).json({ message: 'Succesfully added a new post!' });
 	});
 };
@@ -31,11 +29,9 @@ exports.findPosts = (req, res) => {
 
 	Post.find({}, (err, allPosts) => {
 		if (err || !allPosts)
-			res
-				.status(404)
-				.json({
-					err: 'The server encountered a problem when attempting to find posts!'
-				});
+			res.status(404).json({
+				err: 'The server encountered a problem when attempting to find posts!'
+			});
 		else res.status(201).json({ posts: navHelper.stripDescription(allPosts) });
 	})
 		.skip(skipByValue)
@@ -53,12 +49,10 @@ exports.getPostCollectionCount = (req, res) => {
 				.status(404)
 				.json({ err: 'The server was unable to find any blog content!' });
 		} else
-			res
-				.status(201)
-				.json({
-					pageCount: navHelper.covertToArray(Math.ceil(postCount / 10)),
-					postCount: 10 * Math.ceil(postCount / 10)
-				});
+			res.status(201).json({
+				pageCount: navHelper.covertToArray(Math.ceil(postCount / 10)),
+				postCount: 10 * Math.ceil(postCount / 10)
+			});
 	});
 };
 
@@ -68,12 +62,10 @@ exports.getPostCollectionCount = (req, res) => {
 exports.showPost = (req, res) => {
 	Post.findOne({ navTitle: req.params.id }, (err, foundPost) => {
 		if (err || !foundPost)
-			res
-				.status(404)
-				.json({
-					err:
-						'The server encountered a problem when attempting to locate the post to be viewed!'
-				});
+			res.status(404).json({
+				err:
+					'The server encountered a problem when attempting to locate the post to be viewed!'
+			});
 		else res.status(201).json({ post: foundPost });
 	});
 };
@@ -87,19 +79,15 @@ exports.updatePost = (req, res) => {
 
 	Post.findByIdAndUpdate(req.params.id, updatePost, (err, foundPost) => {
 		if (err)
-			res
-				.status(500)
-				.json({
-					err:
-						'The server encountered a problem when attempting to update the post!'
-				});
+			res.status(500).json({
+				err:
+					'The server encountered a problem when attempting to update the post!'
+			});
 		if (!foundPost)
-			res
-				.status(404)
-				.json({
-					err:
-						'The server encountered a problem when attempting to locate the post to be updated!'
-				});
+			res.status(404).json({
+				err:
+					'The server encountered a problem when attempting to locate the post to be updated!'
+			});
 		else res.status(201).json({ message: 'Succesfully edited the post!' });
 	});
 };
@@ -110,19 +98,15 @@ exports.updatePost = (req, res) => {
 exports.deletePost = (req, res) => {
 	Post.findByIdAndRemove(req.params.id, (err, foundPost) => {
 		if (err)
-			res
-				.status(500)
-				.json({
-					err:
-						'The server encountered a problem when attempting to delete the post!'
-				});
+			res.status(500).json({
+				err:
+					'The server encountered a problem when attempting to delete the post!'
+			});
 		if (!foundPost)
-			res
-				.status(404)
-				.json({
-					err:
-						'The server encountered a problem when attempting to locate the post to be deleted!'
-				});
+			res.status(404).json({
+				err:
+					'The server encountered a problem when attempting to locate the post to be deleted!'
+			});
 		else res.status(201).json({ message: 'Succesfully deleted the post!' });
 	});
 };
@@ -135,12 +119,10 @@ exports.searchForPosts = (req, res) => {
 		{ title: { $regex: new RegExp(req.query.searchByTitle, 'i') } },
 		(err, allPosts) => {
 			if (err || allPosts.length == 0)
-				res
-					.status(404)
-					.json({
-						err:
-							'The server was unable to locate blog posts matching the search term!'
-					});
+				res.status(404).json({
+					err:
+						'The server was unable to locate blog posts matching the search term!'
+				});
 			else res.status(201).json({ posts: allPosts });
 		}
 	).sort({ _id: -1 });

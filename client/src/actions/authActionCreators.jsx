@@ -31,7 +31,7 @@ export const authenticateUser = id => {
 		if (!config.user) return dispatch(fetchingUser(false));
 		else
 			app
-				.get(`api/signedin`, config)
+				.get(`/api/signedin`, config)
 				.then(response => {
 					dispatch({ type: SET_SIGNEDIN_USER, payload: response.data });
 					dispatch(fetchingUser(false));
