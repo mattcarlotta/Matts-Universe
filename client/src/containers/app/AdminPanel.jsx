@@ -101,7 +101,7 @@ class AdminPanel extends PureComponent {
 					: null}
 				{serverError
 					? <RenderAlert
-							resetError={this.props.authError}
+							resetNotifications={this.props.authError}
 							errorMessage={serverError}
 						/>
 					: null}

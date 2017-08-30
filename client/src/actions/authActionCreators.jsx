@@ -3,7 +3,9 @@ import { browserHistory } from 'react-router';
 
 import {
 	AUTH_ERROR,
+	AUTH_SUCCESS,
 	FETCHING_USER,
+	RESET_NOTIFICATIONS,
 	SET_SIGNEDIN_USER,
 	UNAUTH_USER
 } from '../actions/types';
@@ -19,6 +21,14 @@ export const authError = error => {
 	return {
 		type: AUTH_ERROR,
 		payload: error
+	};
+};
+
+// Displays success messages
+export const authSuccess = message => {
+	return {
+		type: AUTH_SUCCESS,
+		payload: message
 	};
 };
 
@@ -49,6 +59,13 @@ export const fetchingUser = bool => {
 	return {
 		type: FETCHING_USER,
 		payload: bool
+	};
+};
+
+// Resets auth notifications
+export const resetNotifications = () => {
+	return {
+		type: RESET_NOTIFICATIONS
 	};
 };
 

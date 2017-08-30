@@ -1,5 +1,6 @@
 import React from 'react';
 
+import RenderNotifications from '../containers/app/renderNotifications';
 import Footer from './navigation/footer';
 
 const App = ({ children }) => {
@@ -9,6 +10,7 @@ const App = ({ children }) => {
 				{children}
 			</div>
 			<Footer />
+			<RenderNotifications />
 		</div>
 	);
 };

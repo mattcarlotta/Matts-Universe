@@ -7,7 +7,6 @@ import RenderFormButtons from '../forms/renderFormButtons';
 import FIELDS from './data/signinFormData';
 
 import { authError, signinUser } from '../../actions/authActionCreators';
-import RenderAlert from '../../components/app/RenderAlert';
 
 const validate = values => {
 	const errors = {};
@@ -28,13 +27,7 @@ class Signin extends Component {
 	};
 
 	render() {
-		const {
-			handleSubmit,
-			pristine,
-			reset,
-			submitting,
-			serverError
-		} = this.props;
+		const { handleSubmit, pristine, reset, submitting } = this.props;
 
 		return (
 			<div className="auth-container col-xs-12">
@@ -57,12 +50,6 @@ class Signin extends Component {
 						reset={reset}
 					/>
 				</form>
-				{serverError
-					? <RenderAlert
-							resetError={this.props.authError}
-							errorMessage={serverError}
-						/>
-					: null}
 			</div>
 		);
 	}
@@ -74,9 +61,4 @@ Signin = reduxForm({
 	fields: ['username', 'password']
 })(Signin);
 
-export default (Signin = connect(
-	state => {
-		return { serverError: state.auth.error };
-	},
-	{ authError, signinUser }
-)(Signin));
+export default (Signin = connect(null, { authError, signinUser })(Signin));

@@ -5,13 +5,11 @@ import { connect } from 'react-redux';
 import {
 	addNewProject,
 	editProject,
-	fetchProject,
-	redirectToProject
+	fetchProject
 } from '../../actions/projectActionCreators';
 import { authError } from '../../actions/authActionCreators';
 
 import NotFound from '../../components/notfound/notFound';
-import RenderAlert from '../../components/app/RenderAlert';
 import Spinner from '../../components/loaders/spinner';
 
 const validate = values => {
@@ -143,12 +141,8 @@ class ProjectsForm extends Component {
 
 	handleFormSubmit = formProps => {
 		this.props.location.query.titleId
-			? editProject(formProps).then(res => {
-					res.err ? this.props.authError(res.err) : redirectToProject();
-				})
-			: addNewProject(formProps).then(res => {
-					res.err ? this.props.authError(res.err) : redirectToProject();
-				});
+			? this.props.editProject(formProps)
+			: this.props.addNewProject(formProps);
 	};
 
 	showCharactersLeft = (propValue, limitValue) => {
@@ -172,19 +166,11 @@ class ProjectsForm extends Component {
 			handleSubmit,
 			pristine,
 			reset,
-			submitting,
-			serverError
+			submitting
 		} = this.props;
 		const { isLoaded, requestTimeout } = this.state;
 
 		if (this.props.location.query.titleId && !isLoaded) {
-			if (serverError)
-				return (
-					<RenderAlert
-						resetError={this.props.authError}
-						errorMessage={serverError}
-					/>
-				);
 			if (requestTimeout) return <NotFound />;
 
 			return <Spinner />;
@@ -242,12 +228,6 @@ class ProjectsForm extends Component {
 						</button>
 					</div>
 				</form>
-				{serverError
-					? <RenderAlert
-							resetError={this.props.authError}
-							errorMessage={serverError}
-						/>
-					: null}
 			</div>
 		);
 	}
@@ -263,8 +243,7 @@ const mapStateToProps = state => {
 	return {
 		descriptionValue,
 		imgTitleValue,
-		titleValue,
-		serverError: state.auth.error
+		titleValue
 	};
 };
 
@@ -274,6 +253,8 @@ ProjectsForm = reduxForm({
 	fields: ['image', 'title', 'imgtitle', 'description']
 })(ProjectsForm);
 
-export default (ProjectsForm = connect(mapStateToProps, { authError })(
-	ProjectsForm
-));
+export default (ProjectsForm = connect(mapStateToProps, {
+	authError,
+	addNewProject,
+	editProject
+})(ProjectsForm));

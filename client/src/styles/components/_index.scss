@@ -120,7 +120,19 @@ body {
 	padding-bottom: 30px;
 }
 
-.callout-alert {
+.error {
+	background-color: $lightpink;
+	border-color: $pink;
+	color: $darkred;
+}
+
+.success {
+	background-color: $palegreen;
+	border-color: $lightgreen;
+	color: $green;
+}
+
+.callout {
 	padding: 16px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
 	line-height: 1.5;
@@ -133,9 +145,6 @@ body {
 	margin-right: 24px;
 	border: 1px solid transparent;
 	border-radius: 4px;
-	background-color: $lightpink;
-	border-color: $pink;
-	color: $darkred;
 	z-index: 1000;
 	animation: fadeInRight 0.3s;
 
@@ -150,7 +159,7 @@ body {
 		display: inline-block;
 	}
 
-	.error-message {
+	.message {
 		padding: 10px;
 		font-size: 14px;
 	}

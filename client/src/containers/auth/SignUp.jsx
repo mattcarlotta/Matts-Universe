@@ -7,7 +7,6 @@ import RenderFormButtons from '../forms/renderFormButtons';
 import FIELDS from './data/signupFormData';
 
 import { authError, signupUser } from '../../actions/authActionCreators';
-import RenderAlert from '../../components/app/RenderAlert';
 
 const validate = values => {
 	const errors = {};
@@ -37,13 +36,7 @@ class Signup extends Component {
 	};
 
 	render() {
-		const {
-			handleSubmit,
-			pristine,
-			reset,
-			submitting,
-			serverError
-		} = this.props;
+		const { handleSubmit, pristine, reset, submitting } = this.props;
 
 		return (
 			<div className="auth-container col-xs-12">
@@ -66,12 +59,6 @@ class Signup extends Component {
 						reset={reset}
 					/>
 				</form>
-				{serverError
-					? <RenderAlert
-							resetError={this.props.authError}
-							errorMessage={serverError}
-						/>
-					: null}
 			</div>
 		);
 	}
@@ -82,9 +69,4 @@ Signup = reduxForm({
 	validate
 })(Signup);
 
-export default (Signup = connect(
-	state => {
-		return { serverError: state.auth.error };
-	},
-	{ authError, signupUser }
-)(Signup));
+export default (Signup = connect(null, { authError, signupUser })(Signup));
