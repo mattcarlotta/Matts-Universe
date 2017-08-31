@@ -1,10 +1,11 @@
-import _ from 'lodash';
 import React, { PureComponent } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
+
 import { fetchPostCount } from '../../actions/postActionCreators';
-import Blog from '../../views/Blog';
+import Blog from '../../containers/blog/Blog';
 import NoItemsFound from '../app/noItemsFound';
+import RenderPagination from './renderPagination';
 import Spinner from '../loaders/spinner';
 
 class BlogPagination extends PureComponent {
@@ -47,40 +48,6 @@ class BlogPagination extends PureComponent {
 		}
 	};
 
-	renderPagination(currentPage, postCount, pageCount) {
-		return (
-			<span>
-				<ul className="pagination-container text-center">
-					<li className={currentPage === 1 ? 'disable-chevron' : ''}>
-						<button onClick={this.goTo.bind(this, currentPage - 1, postCount)}>
-							<span className="small-font">&#60;</span>
-						</button>
-					</li>
-					{_.map(pageCount, page => {
-						return (
-							<li
-								key={page}
-								className={currentPage === page + 1 ? 'active-page' : ''}>
-								<button onClick={this.goTo.bind(this, page + 1, postCount)}>
-									{page + 1}
-								</button>
-							</li>
-						);
-					})}
-					<li
-						className={
-							(currentPage + 1) * 10 <= postCount ? '' : 'disable-chevron'
-						}>
-						<button onClick={this.goTo.bind(this, currentPage + 1, postCount)}>
-							<span className="small-font">&#62;</span>
-						</button>
-					</li>
-					<hr />
-				</ul>
-			</span>
-		);
-	}
-
 	clearTimer = () => {
 		clearTimeout(this.timeout);
 	};
@@ -93,6 +60,7 @@ class BlogPagination extends PureComponent {
 	render() {
 		const { postCount, pageCount, requestTimeout } = this.state;
 		const currentPage = parseInt(this.props.location.query.pageId, 10);
+
 		if (!postCount || !pageCount) {
 			if (requestTimeout)
 				return <NoItemsFound message={'No blog content was found!'} />;
@@ -104,12 +72,22 @@ class BlogPagination extends PureComponent {
 
 		return (
 			<span>
-				{this.renderPagination(currentPage, postCount, pageCount)}
+				<RenderPagination
+					currentPage={currentPage}
+					postCount={postCount}
+					pageCount={pageCount}
+					goTo={this.goTo}
+				/>
 				<Blog updatePostCount={this.fetchBlogPostCount} />
-				{this.renderPagination(currentPage, postCount, pageCount)}
+				<RenderPagination
+					currentPage={currentPage}
+					postCount={postCount}
+					pageCount={pageCount}
+					goTo={this.goTo}
+				/>
 			</span>
 		);
 	}
 }
 
-export default withRouter(connect(null, { fetchPostCount })(BlogPagination));
+export default connect(null, { fetchPostCount })(withRouter(BlogPagination));

@@ -3,19 +3,18 @@ import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import DropZone from 'react-dropzone';
-import RenderInputField from '../forms/renderInputField';
-import RenderFormButtons from '../forms/renderFormButtons';
-import RenderTextAreaField from '../forms/renderTextAreaField';
-import FIELDS from './data/blogFormData';
 
 // addNewPost,
 // editPost,
 // redirectToBlog
 import { fetchPost } from '../../actions/postActionCreators';
-
+import FIELDS from './data/blogFormFields';
 import NotFound from '../../components/notfound/notFound';
+import RenderInputField from '../forms/renderInputField';
+import RenderFormButtons from '../forms/renderFormButtons';
+import RenderTextAreaField from '../forms/renderTextAreaField';
 import Spinner from '../../components/loaders/spinner';
-import ValidateFormFields from './validateFormFields';
+import ValidateFormFields from './data/validateFormFields';
 
 const validate = values => {
 	const errors = {};
@@ -49,9 +48,8 @@ class BlogPostForm extends Component {
 	fetchPostToEdit = async () => {
 		this.timeout = setInterval(this.timer, 5000);
 		try {
-			const { foundPost } = await fetchPost(
-				this.props.location.query.titleId,
-				this.props.dispatch
+			const { data: { foundPost } } = await this.props.fetchPost(
+				this.props.location.query.titleId
 			);
 
 			this.setState({ isLoaded: true }, () => this.initializeForm(foundPost));
@@ -216,4 +214,4 @@ BlogPostForm = reduxForm({
 	fields: ['upload-image', 'title', 'imgtitle', 'description']
 })(BlogPostForm);
 
-export default (BlogPostForm = connect(mapStateToProps)(BlogPostForm));
+export default connect(mapStateToProps, { fetchPost })(BlogPostForm);

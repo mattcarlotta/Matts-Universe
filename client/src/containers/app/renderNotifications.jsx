@@ -21,13 +21,10 @@ const RenderNotifications = ({
 	);
 };
 
-const mapStateToProps = state => {
-	return {
+export default connect(
+	state => ({
 		errorMessage: state.auth.error,
 		successMessage: state.auth.success
-	};
-};
-
-export default connect(mapStateToProps, { resetNotifications })(
-	RenderNotifications
-);
+	}),
+	{ resetNotifications }
+)(RenderNotifications);

@@ -4,99 +4,83 @@ const navHelper = require('../middleware/navHelper');
 //====================================================================================================================//
 // CREATE A PROJECT
 //====================================================================================================================//
-exports.createProject = (req, res) => {
-	req.body.navTitle = navHelper.manipNavTitle(req.body.title);
-	const newProject = req.body;
+exports.createProject = async (req, res) => {
+	try {
+		req.body.navTitle = navHelper.manipNavTitle(req.body.title);
+		const newProject = req.body;
 
-	Project.create(newProject, (err, message) => {
-		if (err)
-			res.status(500).json({
-				err:
-					'The server encountered a problem when attempting to create a project!'
-			});
-		else res.status(201).json({ message: 'Succesfully added a new project!' });
-	});
+		await Project.create(newProject);
+		res.status(201).json({ message: 'Succesfully added a new project!' });
+	} catch (e) {
+		res.status(500).json({
+			err:
+				'The server encountered a problem when attempting to create a project!'
+		});
+	}
 };
 
 //====================================================================================================================//
 // READ ALL PROJECTS
 //====================================================================================================================//
-exports.findProjects = (req, res) => {
-	Project.find({}, (err, foundProject) => {
-		if (err || !foundProject)
-			res.status(404).json({
-				err:
-					'The server encountered a problem when attempting to find projects!'
-			});
-		else
-			Project.count({}, (err, projectCount) => {
-				if (err || !projectCount)
-					res
-						.status(404)
-						.json({ err: 'The server was unable to locate any projects!' });
-				else
-					res
-						.status(201)
-						.json({ projects: foundProject, projectCount: projectCount });
-			});
-	}).sort({ _id: -1 });
+exports.findProjects = async (req, res) => {
+	try {
+		const projects = await Project.find({}).sort({ _id: -1 });
+		const projectCount = await Project.count({});
+
+		res.status(201).json({ projects, projectCount });
+	} catch (e) {
+		res.status(500).json({
+			err: 'The server encountered a problem when attempting to find projects!'
+		});
+	}
 };
 
 //====================================================================================================================//
 // GRAB A SINGLE PROJECT FOR EDITING
 //====================================================================================================================//
-exports.grabProject = (req, res) => {
-	Project.findOne({ navTitle: req.params.id }, (err, foundProject) => {
-		if (err || !foundProject)
-			res.status(404).json({
-				err:
-					'The server encountered a problem when attempting to locate the project to be edited!'
-			});
-		else res.status(201).json({ foundProject: foundProject });
-	});
+exports.grabProject = async (req, res) => {
+	try {
+		const foundProject = await Project.findOne({ navTitle: req.params.id });
+
+		res.status(201).json({ foundProject });
+	} catch (e) {
+		res.status(404).json({
+			err:
+				'The server encountered a problem when attempting to locate the project to be edited!'
+		});
+	}
 };
 
 //====================================================================================================================//
 // UPDATE A SINGLE PROJECT
 //====================================================================================================================//
-exports.updateProject = (req, res) => {
-	req.body.navTitle = navHelper.manipNavTitle(req.body.title);
-	const updateProject = req.body;
+exports.updateProject = async (req, res) => {
+	try {
+		req.body.navTitle = navHelper.manipNavTitle(req.body.title);
+		const updateProject = req.body;
 
-	Project.findByIdAndUpdate(
-		req.params.id,
-		updateProject,
-		(err, foundProject) => {
-			if (err)
-				res.status(500).json({
-					err:
-						'The server encountered a problem when attempting to update the project!'
-				});
-			else if (!foundProject)
-				res.status(404).json({
-					err:
-						'The server encountered a problem when attempting to locate the project to be updated!'
-				});
-			else res.status(201).json({ message: 'Succesfully edited the project!' });
-		}
-	);
+		await Project.findByIdAndUpdate(req.params.id, updateProject);
+		res.status(201).json({ message: 'Succesfully edited the project!' });
+	} catch (e) {
+		res.status(500).json({
+			err:
+				'The server encountered a problem when attempting to update the project!'
+		});
+	}
 };
 
 //====================================================================================================================//
 // DELETE A PROJECT
 //====================================================================================================================//
-exports.deleteProject = (req, res) => {
-	Project.findByIdAndRemove(req.params.id, (err, foundProject) => {
-		if (err)
-			res.status(500).json({
-				err:
-					'The server encountered a problem when attempting to delete the project!'
-			});
-		if (!foundProject)
-			res.status(404).json({
-				err:
-					'The server encountered a problem when attempting to locate the project to be deleted!'
-			});
-		else res.status(201).json({ message: 'Succesfully deleted the project!' });
-	});
+exports.deleteProject = async (req, res) => {
+	try {
+		await Project.findByIdAndRemove(req.params.id);
+
+		res.status(201).json({ message: 'Succesfully deleted the project!' });
+	} catch (e) {
+		res.status(500).json({
+			err:
+				'The server encountered a problem when attempting to delete the project!'
+		});
+	}
 };

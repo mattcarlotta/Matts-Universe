@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPost } from '../../actions/postActionCreators';
@@ -48,7 +48,7 @@ class ShowBlogPost extends Component {
 		const { foundPost, requestTimeout } = this.state;
 		const singlePageIsLoaded = true;
 
-		if (_.isEmpty(foundPost)) {
+		if (isEmpty(foundPost)) {
 			if (requestTimeout) return <NotFound />;
 
 			return <Spinner />;

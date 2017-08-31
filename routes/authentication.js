@@ -12,7 +12,7 @@ const auth = require('../middleware/userHelper');
 app.post('/api/signup', Authentication.signup);
 app.post('/api/signin', requireSignin, Authentication.signin);
 app.get(
-	'/api/signedin',
+	'*/api/signedin',
 	requireToken,
 	auth.isLoggedIn,
 	Authentication.signedin

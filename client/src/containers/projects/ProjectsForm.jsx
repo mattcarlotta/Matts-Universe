@@ -1,3 +1,4 @@
+import { each, map } from 'lodash';
 import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
@@ -7,96 +8,37 @@ import {
 	editProject,
 	fetchProject
 } from '../../actions/projectActionCreators';
-
+import FIELDS from './data/blogFormFields';
 import NotFound from '../../components/notfound/notFound';
+import RenderInputField from '../forms/renderInputField';
+import RenderFormButtons from '../forms/renderFormButtons';
+import RenderTextAreaField from '../forms/renderTextAreaField';
 import Spinner from '../../components/loaders/spinner';
+import ValidateFormFields from './data/validateFormFields';
 
 const validate = values => {
 	const errors = {};
 
 	if (!values.image) errors.image = 'Required';
-
-	if (!values.title) errors.title = 'Required';
-	else if (values.title.length > 50)
-		errors.title = 'Error! Must be 50 characters or less!';
-	else if (/[~`@#$%&*+=[\]\\;/{}|\\":<>]/g.test(values.title))
-		errors.title = 'Error! Please remove any special characters!';
-
-	if (/[~`@#$%&*+=[\]\\;{}|\\"<>]/g.test(values.image))
+	else if (/[~`@#$%&*+=[\]\\;{}|\\"<>]/g.test(values.image))
 		errors.image = 'Error! Please remove any special characters!';
 
-	if (!values.imgtitle) errors.imgtitle = 'Required';
-	else if (values.imgtitle.length > 50)
-		errors.imgtitle = 'Error! Must be 50 characters or less!';
-	else if (/[~`@#$%&*+=[\]\\;/{}|\\":<>]/g.test(values.imgtitle))
-		errors.imgtitle = 'Error! Please remove any special characters!';
-
-	if (!values.description) errors.description = 'Required';
-	else if (/[~@#$%&*=[\]\\/{}|\\<>]/g.test(values.description))
-		errors.description = 'Error! Please remove any special characters!';
-	else if (values.description.length > 250)
-		errors.description = 'Error! Must be 250 characters or less!';
+	each(ValidateFormFields, ({ label, length }) => {
+		if (!values[label]) errors[label] = 'Required';
+		else if (values[label].length > length)
+			errors[label] = `Error! Must be ${length} characters or less!`;
+		else if (/[~`@#$%&*+=[\]\\;/{}|\\":<>]/g.test(values[label]))
+			errors[label] = 'Error! Please remove any special characters!';
+	});
 
 	return errors;
 };
 
-const renderInputField = ({ input, label, type, meta: { touched, error } }) =>
-	<div>
-		<label>
-			{label}
-		</label>
-		<div>
-			<input
-				{...input}
-				className="form-details"
-				placeholder={label}
-				type={type}
-			/>
-			{touched &&
-				error &&
-				<div className="error-handlers ">
-					<i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
-					{error}
-				</div>}
-		</div>
-	</div>;
-
-const renderAreaField = ({
-	textarea,
-	input,
-	label,
-	type,
-	meta: { touched, error }
-}) =>
-	<div>
-		<label>
-			{label}
-		</label>
-		<div>
-			<textarea
-				{...input}
-				className="form-details"
-				placeholder={label}
-				type={type}
-			/>
-			{touched &&
-				error &&
-				<div className="error-handlers">
-					<i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
-					{error}
-				</div>}
-		</div>
-	</div>;
-
 class ProjectsForm extends Component {
-	constructor() {
-		super();
-
-		this.state = {
-			isLoaded: false,
-			requestTimeout: false
-		};
-	}
+	state = {
+		isLoaded: false,
+		requestTimeout: false
+	};
 
 	componentDidMount() {
 		if (this.props.location.query.titleId) this.fetchProjectToEdit();
@@ -116,8 +58,8 @@ class ProjectsForm extends Component {
 			this.setState({ isLoaded: true }, () =>
 				this.initializeForm(foundProject)
 			);
-		} catch (e) {
-			console.warn(e);
+		} catch (err) {
+			console.error(err);
 		}
 	};
 
@@ -140,18 +82,20 @@ class ProjectsForm extends Component {
 				? await this.props.editProject(formProps)
 				: await this.props.addNewProject(formProps);
 		} catch (e) {
-			console.warn(e);
+			console.error(e);
 		}
 	};
 
 	showCharactersLeft = (propValue, limitValue) => {
 		if (propValue) {
 			let postCharactersLeft =
-				propValue.length < limitValue ? limitValue - propValue.length : 0;
+				propValue.length < limitValue
+					? limitValue - propValue.length
+					: 'Too many characters!';
 
 			return (
 				<p>
-					{' '}Characters left: {postCharactersLeft}
+					Characters left: {postCharactersLeft}
 				</p>
 			);
 		}
@@ -190,43 +134,38 @@ class ProjectsForm extends Component {
 					<Field
 						name="image"
 						type="text"
-						component={renderInputField}
+						component={RenderInputField}
 						label="Image URL"
 					/>
-					<Field
-						name="title"
-						type="text"
-						component={renderInputField}
-						label="Project Title"
-					/>
-					{this.showCharactersLeft(titleValue, 50)}
-					<Field
-						name="imgtitle"
-						component={renderInputField}
-						label="Image Description"
-					/>
-					{this.showCharactersLeft(imgTitleValue, 50)}
-					<Field
-						name="description"
-						component={renderAreaField}
-						label="Description"
-					/>
+					{map(FIELDS, ({ name, type, label }, key) => {
+						const characterValue =
+							name === 'title' ? titleValue : imgTitleValue;
+						return (
+							<span key={key}>
+								{this.showCharactersLeft(characterValue, 50)}
+								<Field
+									name={name}
+									type="text"
+									component={RenderInputField}
+									label={
+										name === 'title' ? 'Project Title' : 'Image Description'
+									}
+								/>
+							</span>
+						);
+					})}
 					{this.showCharactersLeft(descriptionValue, 250)}
-					<div>
-						<button
-							type="submit"
-							className="btn btn-primary partial-expand rounded"
-							disabled={submitting}>
-							Submit
-						</button>
-						<button
-							type="button"
-							className="btn btn-danger partial-expand rounded f-r"
-							disabled={pristine || submitting}
-							onClick={reset}>
-							Clear Values
-						</button>
-					</div>
+					<Field
+						name={'description'}
+						type={'text'}
+						component={RenderTextAreaField}
+						label={'Description'}
+					/>
+					<RenderFormButtons
+						submitting={submitting}
+						pristine={pristine}
+						reset={reset}
+					/>
 				</form>
 			</div>
 		);
@@ -254,8 +193,8 @@ ProjectsForm = reduxForm({
 	fields: ['image', 'title', 'imgtitle', 'description']
 })(ProjectsForm);
 
-export default (ProjectsForm = connect(mapStateToProps, {
+export default connect(mapStateToProps, {
 	addNewProject,
 	editProject,
 	fetchProject
-})(ProjectsForm));
+})(ProjectsForm);

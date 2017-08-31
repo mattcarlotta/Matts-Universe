@@ -33,25 +33,23 @@ export const authSuccess = message => {
 };
 
 // Attempts to auth a previously signed in user
-export const authenticateUser = id => {
-	const config = ConfigAuth();
+export const authenticateUser = id => async dispatch => {
+	try {
+		const config = ConfigAuth();
+		if (!config.user) {
+			dispatch(fetchingUser(false));
+		} else {
+			const { data } = await app.get(`/api/signedin`, config);
 
-	return dispatch => {
-		dispatch(fetchingUser(true));
-		if (!config.user) return dispatch(fetchingUser(false));
-		else
-			app
-				.get(`/api/signedin`, config)
-				.then(response => {
-					dispatch({ type: SET_SIGNEDIN_USER, payload: response.data });
-					dispatch(fetchingUser(false));
-				})
-				.catch(({ response }) => {
-					dispatch(authError(response.data.err));
-					dispatch(fetchingUser(false));
-					dispatch(signoutUser());
-				});
-	};
+			dispatch({ type: SET_SIGNEDIN_USER, payload: data });
+			dispatch({ type: FETCHING_USER, payload: false });
+		}
+	} catch (err) {
+		dispatch({ type: AUTH_ERROR, payload: err });
+		dispatch({ type: FETCHING_USER, payload: false });
+		dispatch(signoutUser());
+		throw err;
+	}
 };
 
 // Allows Redux time to fetch a user on refresh before loading app
@@ -70,33 +68,41 @@ export const resetNotifications = () => {
 };
 
 // Attempts to sign in user
-export const signinUser = ({ username, password }) => {
-	return dispatch => {
-		app
-			.post(`api/signin`, { username, password })
-			.then(response => {
-				localStorage.setItem('token', response.data.token);
-				dispatch({ type: SET_SIGNEDIN_USER, payload: response.data });
-				browserHistory.push('/');
-			})
-			.catch(({ response }) =>
-				dispatch(authError(`Your username or password is incorrect!`))
-			);
-	};
+export const signinUser = ({ username, password }) => async dispatch => {
+	try {
+		const { data } = await app.post(`api/signin`, { username, password });
+		localStorage.setItem('token', data.token);
+		dispatch({ type: SET_SIGNEDIN_USER, payload: data });
+		browserHistory.push('/');
+	} catch (err) {
+		const error = `Your username or password is incorrect!`;
+		dispatch({
+			type: AUTH_ERROR,
+			payload: error
+		});
+		throw error;
+	}
 };
 
 // Atempts to sign up user
-export const signupUser = ({ email, username, password }) => {
-	return dispatch => {
-		app
-			.post(`api/signup`, { email, username, password })
-			.then(response => {
-				localStorage.setItem('token', response.data.token);
-				dispatch({ type: SET_SIGNEDIN_USER, payload: response.data.user });
-				browserHistory.push('/');
-			})
-			.catch(({ response }) => dispatch(authError(response.data.err)));
-	};
+export const signupUser = ({ email, username, password }) => async dispatch => {
+	try {
+		const { data } = await app.post(`api/signup`, {
+			email,
+			username,
+			password
+		});
+
+		localStorage.setItem('token', data.token);
+		dispatch({ type: SET_SIGNEDIN_USER, payload: data.user });
+		browserHistory.push('/');
+	} catch (err) {
+		dispatch({
+			type: AUTH_ERROR,
+			payload: err
+		});
+		throw err;
+	}
 };
 
 // Signs user out

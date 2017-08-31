@@ -18,12 +18,12 @@ const validate = values => {
 };
 
 class Signin extends Component {
-	componentWillUnmount() {
-		this.props.authError('');
-	}
-
-	handleFormSubmit = formProps => {
-		this.props.signinUser(formProps);
+	handleFormSubmit = async formProps => {
+		try {
+			await this.props.signinUser(formProps);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	render() {
@@ -57,8 +57,7 @@ class Signin extends Component {
 
 Signin = reduxForm({
 	form: 'signin',
-	validate,
-	fields: ['username', 'password']
+	validate
 })(Signin);
 
-export default (Signin = connect(null, { authError, signinUser })(Signin));
+export default connect(null, { authError, signinUser })(Signin);

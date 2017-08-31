@@ -34,6 +34,7 @@ export const addNewProject = ({
 		redirectToProject();
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err });
+		throw err;
 	}
 };
 
@@ -49,6 +50,7 @@ export const deleteProject = id => async dispatch => {
 		redirectToProject();
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err });
+		throw err;
 	}
 };
 
@@ -66,6 +68,7 @@ export const editProject = formProps => async dispatch => {
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err });
+		throw err;
 	}
 };
 
@@ -75,6 +78,7 @@ export const fetchProject = id => async dispatch => {
 		return await app.get(`/api/project/${id}`);
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err });
+		throw err;
 	}
 };
 
@@ -84,5 +88,6 @@ export const fetchProjects = requestedRecords => async dispatch => {
 		return await app.get(`/api/projectscollection`);
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err });
+		throw err;
 	}
 };

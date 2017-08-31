@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { map, isEmpty } from 'lodash';
 import React, { Component } from 'react';
 import Slider from 'react-slick';
 import { connect } from 'react-redux';
@@ -66,7 +66,7 @@ class Projects extends Component {
 		const { isFetchingProjects, projects, requestTimeout } = this.state;
 		const projectContainer = 'project-container';
 
-		if (_.isEmpty(projects) || isFetchingProjects) {
+		if (isEmpty(projects) || isFetchingProjects) {
 			if (requestTimeout)
 				return <NoItemsFound message={'No projects were found!'} />;
 
@@ -84,9 +84,9 @@ class Projects extends Component {
 						projects={projects}
 					/>
 					<Slider {...settings}>
-						{projects.slice(0).map(project => {
+						{map(projects, (project, key) => {
 							return (
-								<div key={project._id}>
+								<div key={key}>
 									<RenderProjects {...project} />
 								</div>
 							);

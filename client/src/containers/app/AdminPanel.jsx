@@ -3,11 +3,11 @@ import React, { PureComponent } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import { bindActionCreators } from 'redux';
+
 import { deletePost } from '../../actions/postActionCreators';
 import { deleteProject } from '../../actions/projectActionCreators';
 import { signoutUser } from '../../actions/authActionCreators';
-
+import { deleteProjectById, deletePostById } from './data/deleteData';
 import ADMINBUTTONITEMS from '../../components/app/data/adminButtonData';
 import RenderAdminButtons from '../../components/app/renderAdminButtons';
 import SignOut from '../auth/signout';
@@ -19,15 +19,19 @@ class AdminPanel extends PureComponent {
 			: browserHistory.push(`/projects/new`);
 	};
 
-	onDeleteClick = async id => {
-		if (this.props.location.query.pageId) {
-			await this.props.deletePost(id);
-			this.props.updateBlog();
-			this.props.updatePostCount();
-		} else {
-			await this.props.deleteProject(id);
-			this.props.updateProjectItems();
-		}
+	onDeleteClick = id => {
+		this.props.location.query.pageId
+			? deletePostById(
+					this.props.deletePost,
+					this.props.updateBlog,
+					this.props.updatePostCount,
+					id
+				)
+			: deleteProjectById(
+					this.props.deleteProject,
+					this.props.updateProjectItems,
+					id
+				);
 	};
 
 	onEditClick = navTitle => {
@@ -57,7 +61,6 @@ class AdminPanel extends PureComponent {
 										? 'Add New Post'
 										: 'Add New Project'}
 								</Button>
-
 								{map(ADMINBUTTONITEMS, ({ button }, key) => {
 									return (
 										<RenderAdminButtons
@@ -82,7 +85,6 @@ class AdminPanel extends PureComponent {
 										/>
 									);
 								})}
-
 								<Button
 									onClick={() => this.props.signoutUser()}
 									className="signout-button">
@@ -96,20 +98,7 @@ class AdminPanel extends PureComponent {
 	}
 }
 
-const mapStateToProps = state => {
-	return {
-		username: state.auth.username,
-		userIsGod: state.auth.isGod
-	};
-};
-
-const mapDispatchToProps = dispatch => {
-	return bindActionCreators(
-		{ deletePost, deleteProject, signoutUser },
-		dispatch
-	);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(
-	withRouter(AdminPanel)
-);
+export default connect(
+	state => ({ username: state.auth.username, userIsGod: state.auth.isGod }),
+	{ deletePost, deleteProject, signoutUser }
+)(withRouter(AdminPanel));

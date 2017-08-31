@@ -1,18 +1,12 @@
 const express = require('express');
 const app = express();
-const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const cors = require('cors');
+const seedDB = require('./seeds');
 //============================================================//
 /* REQUIRED ROUTES */
 //============================================================//
-// const Comment       = require("./models/comment");
-const seedDB = require('./seeds');
-// User          = require("./models/user");
-
-// const commentRoutes    = require("./routes/comments");
 const postRoutes = require('./routes/posts');
 const projectRoutes = require('./routes/projects');
 const authRoutes = require('./routes/authentication');
@@ -24,11 +18,9 @@ const port = process.env.PORT || 5000;
 const db = require('./config/db');
 const config = require('./config/vars');
 
-// connect to our mongoDB database
-// (uncomment after you enter in your own credentials in config/db.js)
-mongoose.connect(db.url, { useMongoClient: true });
-// Use bluebird for mongoose promises
-mongoose.Promise = require('bluebird');
+mongoose.connect(db.url, { useMongoClient: true }); // connect to our mongoDB database
+mongoose.Promise = require('bluebird'); // bluebird for mongoose promises
+
 mongoose.connection.on('connected', () => {
 	console.log('Connected to ' + db.url);
 });
@@ -52,9 +44,7 @@ process.on('SIGINT', () => {
 /* APP CONFIGS */
 //============================================================//
 app.use(morgan('tiny')); // logging framework
-app.use(cors()); // middleware to handle domain and port connections
-app.use(bodyParser.json({ type: '*/*' }));
-
+app.use(bodyParser.json({ type: '*/*' })); // parse req.body
 app.set('json spaces', 2);
 // seedDB();
 
@@ -62,13 +52,12 @@ app.set('json spaces', 2);
 /* ROUTER PREFIX CONFIGS */
 //============================================================//
 app.use(authRoutes);
-// appends all routes with "/campgrounds" in front of them
 app.use(postRoutes);
 app.use(projectRoutes);
-// app.use("/campgrounds/:id/comment", commentRoutes);
 
-// start app ===============================================
-// http.createServer(app);
+//============================================================//
+/* CREATE NODE SERVER */
+//============================================================//
 app.listen(port, () => {
 	console.log('Server is now listening on port ' + port);
 });

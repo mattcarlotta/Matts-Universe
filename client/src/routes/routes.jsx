@@ -11,7 +11,7 @@ import OnLoadAuth from '../containers/app/OnLoadAuth';
 import ProjectsForm from '../containers/projects/ProjectsForm';
 import RequireAuth from '../containers/auth/RequireAuth';
 import ScrollIntoView from '../components/navigation/ScrollIntoView';
-import ShowBlog from '../components/blog/showBlog';
+import ShowBlog from '../views/showBlog';
 import ShowBlogPost from '../components/blog/ShowBlogPost';
 import SignIn from '../containers/auth/SignIn';
 import SignUp from '../containers/auth/SignUp';

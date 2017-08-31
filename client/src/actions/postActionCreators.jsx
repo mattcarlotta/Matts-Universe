@@ -1,11 +1,11 @@
 import * as app from 'axios';
 import { browserHistory } from 'react-router';
 
-import AppPromiseInterceptors from './appPromiseInterceptors';
+import AppPromiseInterceptor from './appPromiseInterceptor';
 import ConfigAuth from './configAuth';
 import { AUTH_ERROR, AUTH_SUCCESS } from './types';
 
-AppPromiseInterceptors(app);
+AppPromiseInterceptor(app);
 
 export const redirectToBlog = () => {
 	browserHistory.push({
@@ -48,15 +48,8 @@ export const deletePost = id => async dispatch => {
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err });
+		throw err;
 	}
-
-	// .catch(({ response }) => {
-	// 	if (response.data.denied) {
-	// 		return { err: response.data.denied };
-	// 	} else {
-	// 		return { err: response.data.err };
-	// 	}
-	// });
 };
 
 // Edits a single blog post in DB
@@ -94,6 +87,7 @@ export const fetchPost = id => async dispatch => {
 		return await app.get(`/api/post/${id}`);
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err });
+		throw err;
 	}
 };
 
@@ -103,6 +97,7 @@ export const fetchPostCount = () => async dispatch => {
 		return await app.get(`/api/blogcount`);
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err });
+		throw err;
 	}
 };
 
@@ -117,5 +112,6 @@ export const fetchPosts = requestedRecords => async dispatch => {
 		});
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err });
+		throw err;
 	}
 };

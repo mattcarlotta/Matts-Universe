@@ -27,12 +27,12 @@ const validate = values => {
 };
 
 class Signup extends Component {
-	componentWillUnmount() {
-		this.props.authError('');
-	}
-
-	handleFormSubmit = formProps => {
-		this.props.signupUser(formProps);
+	handleFormSubmit = async formProps => {
+		try {
+			await this.props.signupUser(formProps);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	render() {
