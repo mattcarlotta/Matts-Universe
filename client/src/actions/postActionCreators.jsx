@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 
 import AppPromiseInterceptors from './appPromiseInterceptors';
 import ConfigAuth from './configAuth';
-import { AUTH_ERROR } from './types';
+import { AUTH_ERROR, AUTH_SUCCESS } from './types';
 
 AppPromiseInterceptors(app);
 
@@ -36,21 +36,27 @@ export const addNewPost = ({ title, image, imgtitle, description }) => {
 		});
 };
 
-export const deletePost = id => {
-	const config = ConfigAuth();
+export const deletePost = id => async dispatch => {
+	try {
+		const config = ConfigAuth();
+		const { data: { message } } = await app.delete(
+			`/api/delete/post/${id}`,
+			config
+		);
 
-	return app
-		.delete(`/api/delete/post/${id}`, config)
-		.then(response => {
-			return { success: response.data.message };
-		})
-		.catch(({ response }) => {
-			if (response.data.denied) {
-				return { err: response.data.denied };
-			} else {
-				return { err: response.data.err };
-			}
-		});
+		redirectToBlog();
+		dispatch({ type: AUTH_SUCCESS, payload: message });
+	} catch (err) {
+		dispatch({ type: AUTH_ERROR, payload: err });
+	}
+
+	// .catch(({ response }) => {
+	// 	if (response.data.denied) {
+	// 		return { err: response.data.denied };
+	// 	} else {
+	// 		return { err: response.data.err };
+	// 	}
+	// });
 };
 
 // Edits a single blog post in DB

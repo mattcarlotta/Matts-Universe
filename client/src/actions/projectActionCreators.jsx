@@ -15,25 +15,26 @@ export const redirectToProject = () => {
 //==========================================================================
 
 // Adds new post to blog DB
-export const addNewProject = ({ title, image, imgtitle, description }) => {
-	const config = ConfigAuth();
+export const addNewProject = ({
+	title,
+	image,
+	imgtitle,
+	description
+}) => async dispatch => {
+	try {
+		const config = ConfigAuth();
 
-	return app
-		.post(
+		const { data: { message } } = await app.post(
 			`/api/create/project`,
 			{ title, image, imgtitle, description },
 			config
-		)
-		.then(response => {
-			return { success: response.data.message };
-		})
-		.catch(({ response }) => {
-			if (response.data.denied) {
-				return { err: response.data.denied };
-			} else {
-				return { err: response.data.err };
-			}
-		});
+		);
+
+		dispatch({ type: AUTH_SUCCESS, payload: message });
+		redirectToProject();
+	} catch (err) {
+		dispatch({ type: AUTH_ERROR, payload: err });
+	}
 };
 
 // Deletes project from DB
@@ -49,19 +50,6 @@ export const deleteProject = id => async dispatch => {
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err });
 	}
-
-	// return app
-	// 	.delete(`/api/delete/project/${id}`, config)
-	// 	.then(response => {
-	// 		return { success: response.data.message };
-	// 	})
-	// 	.catch(({ response }) => {
-	// 		if (response.data.denied) {
-	// 			return { err: response.data.denied };
-	// 		} else {
-	// 			return { err: response.data.err };
-	// 		}
-	// 	});
 };
 
 // Edits a project in DB

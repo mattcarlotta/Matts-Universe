@@ -4,11 +4,8 @@ import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
-import { deletePost, redirectToBlog } from '../../actions/postActionCreators';
-import {
-	deleteProject,
-	redirectToProject
-} from '../../actions/projectActionCreators';
+import { deletePost } from '../../actions/postActionCreators';
+import { deleteProject } from '../../actions/projectActionCreators';
 import { signoutUser } from '../../actions/authActionCreators';
 
 import ADMINBUTTONITEMS from '../../components/app/data/adminButtonData';
@@ -23,18 +20,13 @@ class AdminPanel extends PureComponent {
 	};
 
 	onDeleteClick = async id => {
-		try {
-			if (this.props.location.query.pageId) {
-				await this.props.deletePost(id);
-				await this.props.updateBlog();
-				await this.props.updatePostCount();
-				await redirectToBlog();
-			} else {
-				await this.props.deleteProject(id);
-				await this.props.updateProjectItems();
-			}
-		} catch (e) {
-			console.warn(e);
+		if (this.props.location.query.pageId) {
+			await this.props.deletePost(id);
+			this.props.updateBlog();
+			this.props.updatePostCount();
+		} else {
+			await this.props.deleteProject(id);
+			this.props.updateProjectItems();
 		}
 	};
 

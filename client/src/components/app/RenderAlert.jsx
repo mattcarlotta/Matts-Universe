@@ -27,7 +27,7 @@ class RenderAlert extends PureComponent {
 				<div className="callout success">
 					<div className="title">
 						<i className="fa fa-bell-o" aria-hidden="true" />
-						Message!
+						Success!
 					</div>
 					<div className="message">
 						{successMessage}
