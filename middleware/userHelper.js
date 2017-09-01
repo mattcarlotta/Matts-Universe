@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 const jwtDecode = require('jwt-decode');
 
-const User = require('../models/user');
+const User = mongoose.model('users');
 
 exports.isLoggedIn = async (req, res, done) => {
 	try {
@@ -14,11 +14,12 @@ exports.isLoggedIn = async (req, res, done) => {
 			throw err;
 		}
 
-		const decodedId = jwtDecode(encodedId);
+		const decodedId = await jwtDecode(encodedId);
 		const user = await User.findById(decodedId.sub);
 
 		if (!user.god) {
 			throw err;
+			return done();
 		}
 
 		req.user = user._id;

@@ -1,8 +1,9 @@
+const mongoose = require('mongoose');
 const jwt = require('jwt-simple');
 const moment = require('moment');
 
-const User = require('../models/user');
 const config = require('../config/vars');
+const User = mongoose.model('users');
 
 const tokenForUser = user => {
 	const timestamp = new Date().getTime();

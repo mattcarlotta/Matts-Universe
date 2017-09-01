@@ -46,9 +46,6 @@ class AdminPanel extends PureComponent {
 	};
 
 	render() {
-		const { posts, projects } = this.props;
-		const items = this.props.location.query.pageId ? posts : projects;
-
 		return (
 			<span>
 				{this.props.username && this.props.userIsGod
@@ -75,7 +72,11 @@ class AdminPanel extends PureComponent {
 												button === 'edit' ? 'fa-pencil-square-o' : 'fa-trash-o'
 											}
 											title={button === 'edit' ? 'Edit' : 'Delete'}
-											items={items}
+											items={
+												this.props.location.query.pageId
+													? this.props.posts
+													: this.props.projects
+											}
 											button={button}
 											onClickAction={
 												button === 'edit'
@@ -87,7 +88,8 @@ class AdminPanel extends PureComponent {
 								})}
 								<Button
 									onClick={() => this.props.signoutUser()}
-									className="signout-button">
+									className="signout-button"
+								>
 									<SignOut />
 								</Button>
 							</ButtonGroup>

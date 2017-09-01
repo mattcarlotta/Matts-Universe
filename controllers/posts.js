@@ -1,4 +1,5 @@
-const Post = require('../models/post');
+const mongoose = require('mongoose');
+const Post = mongoose.model('posts');
 const moment = require('moment');
 const navHelper = require('../middleware/navHelper');
 

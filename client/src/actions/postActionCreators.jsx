@@ -36,6 +36,7 @@ export const addNewPost = ({ title, image, imgtitle, description }) => {
 		});
 };
 
+// Deletes a single blog post from DB
 export const deletePost = id => async dispatch => {
 	try {
 		const config = ConfigAuth();

@@ -22,9 +22,10 @@ const RenderAdminButtons = ({
 						{title}
 					</span>
 				</span>
-			}>
-			{!items
-				? <p>No posts were found!</p>
+			}
+		>
+			{items === undefined
+				? <MenuItem disabled>No content was found!</MenuItem>
 				: map(items, ({ _id, navTitle }) => {
 						return button === 'delete'
 							? <MenuItem key={_id} onClick={() => onClickAction(_id)}>

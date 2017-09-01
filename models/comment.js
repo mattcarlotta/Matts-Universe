@@ -1,15 +1,15 @@
-const mongoose = require("mongoose");
+module.exports = mongoose => {
+	const commentSchema = mongoose.Schema({
+		text: String,
+		postedAt: String,
+		updated: {
+			type: Boolean,
+			default: false
+		},
+		updatedAt: String,
+		author: String,
+		campground: String
+	});
 
-const commentSchema = mongoose.Schema({
-  text: String,
-  postedAt: String,
-  updated: {
-    type: Boolean,
-    default: false
-  },
-  updatedAt: String,
-  author: String,
-  campground: String
-});
-
-module.exports = mongoose.model("Comment", commentSchema);
+	mongoose.model('comments', commentSchema);
+};

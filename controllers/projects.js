@@ -1,4 +1,5 @@
-const Project = require('../models/project');
+const mongoose = require('mongoose');
+const Project = mongoose.model('projects');
 const navHelper = require('../middleware/navHelper');
 
 //====================================================================================================================//

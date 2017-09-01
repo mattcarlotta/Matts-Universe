@@ -7,7 +7,7 @@ import ConfigAuth from './configAuth';
 
 export const redirectToProject = () => {
 	browserHistory.push('/');
-	Nav.scrollTo(2045, { duration: 1150, smooth: 'easeInOutQuint' });
+	Nav.scrollTo(2150, { duration: 1150, smooth: 'easeInOutQuint' });
 };
 
 //==========================================================================
