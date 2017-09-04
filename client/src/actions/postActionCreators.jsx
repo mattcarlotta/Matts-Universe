@@ -13,29 +13,42 @@ export const redirectToBlog = () => {
 	});
 };
 
-const fd = new FormData();
+const createFormData = async (file, title, imgtitle, description) => {
+	const fd = await new FormData();
+	if (file) await fd.append('file', file[0]);
+	await fd.append('title', title);
+	await fd.append('imgtitle', imgtitle);
+	await fd.append('description', description);
+	return fd;
+};
 
 //==========================================================================
 // Blog Post C.R.U.D.
 //==========================================================================
 
 // Adds new post to blog DB
-export const addNewPost = async ({ title, file, imgtitle, description }) => {
-	await fd.append('file', file[0]);
-	await fd.append('title', title);
-	await fd.append('imgtitle', imgtitle);
-	await fd.append('description', description);
-	return app.post(`/api/create/post`, fd);
-	// 	.then(response => {
-	// 		return { success: response.data.message };
-	// 	})
-	// 	.catch(({ response }) => {
-	// 		if (response.data.denied) {
-	// 			return { err: response.data.denied };
-	// 		} else {
-	// 			return { err: response.data.err };
-	// 		}
-	// 	});
+export const addNewPost = ({
+	file,
+	title,
+	imgtitle,
+	description
+}) => async dispatch => {
+	try {
+		const config = ConfigAuth();
+		const formData = await createFormData(file, title, imgtitle, description);
+
+		const { data: { message } } = await app.post(
+			`/api/create/post`,
+			formData,
+			config
+		);
+
+		redirectToBlog();
+		dispatch({ type: AUTH_SUCCESS, payload: message });
+	} catch (err) {
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
+	}
 };
 
 // Deletes a single blog post from DB
@@ -57,31 +70,28 @@ export const deletePost = id => async dispatch => {
 
 // Edits a single blog post in DB
 export const editPost = ({
-	id,
+	_id,
+	file,
 	title,
-	image,
 	imgtitle,
-	description,
-	navTitle
-}) => {
-	const config = ConfigAuth();
+	description
+}) => async dispatch => {
+	try {
+		const config = ConfigAuth();
+		const formData = await createFormData(file, title, imgtitle, description);
 
-	return app
-		.put(
-			`/api/edit/post/${id}`,
-			{ id, title, image, imgtitle, description, navTitle },
+		const { data: { message } } = await app.put(
+			`/api/edit/post/${_id}`,
+			formData,
 			config
-		)
-		.then(response => {
-			return { success: response.data.message };
-		})
-		.catch(({ response }) => {
-			if (response.data.denied) {
-				return { err: response.data.denied };
-			} else {
-				return { err: response.data.err };
-			}
-		});
+		);
+
+		redirectToBlog();
+		dispatch({ type: AUTH_SUCCESS, payload: message });
+	} catch (err) {
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
+	}
 };
 
 // Fetches a single post by navTitle from DB

@@ -22,7 +22,8 @@ storage = multer.diskStorage({
 	}
 });
 
-const upload = multer({ storage: storage }).single('file');
+// const upload = multer({ storage: storage }).single('file');
+const upload = multer().single('file');
 //====================================================================================================================//
 // CREATE A POST
 //====================================================================================================================//
@@ -32,9 +33,14 @@ exports.createPost = async (req, res) => {
 			if (err) {
 				throw err;
 			}
-			req.body.uploadedImagePath =
-				__dirname.split('/controllers')[0] + `/uploads/${req.file.filename}`;
-			req.body.navTitle = navHelper.manipNavTitle(req.body.title);
+			if (req.file) {
+				req.body.imageName = req.file.originalname;
+				req.body.imageSize = req.file.size;
+				req.body.image =
+					'data:image/png;base64,' +
+					(await Buffer(req.file.buffer).toString('base64'));
+			}
+			req.body.navTitle = await navHelper.manipNavTitle(req.body.title);
 			req.body.timestamp = moment().format('MMMM Do YYYY');
 			req.body.createdAt = moment().unix();
 			newPost = req.body;
@@ -56,14 +62,10 @@ exports.findPosts = async (req, res) => {
 	try {
 		const skipByValue = parseInt(req.query.skipByValue);
 
-		let allPosts = await Post.find({})
+		const allPosts = await Post.find({})
 			.skip(skipByValue)
 			.limit(10)
 			.sort({ _id: -1 });
-
-		const image = await fs.readFileSync(`${allPosts[0].uploadedImagePath}`);
-
-		allPosts[0].image = await new Buffer(image).toString('base64');
 
 		res.status(201).json({ posts: navHelper.stripDescription(allPosts) });
 	} catch (e) {
@@ -111,37 +113,53 @@ exports.showPost = async (req, res) => {
 //====================================================================================================================//
 // UPDATE A SINGLE POST
 //====================================================================================================================//
-exports.updatePost = (req, res) => {
-	// try {
-	// 	req.body.navTitle = navHelper.manipNavTitle(req.body.title);
-	// 	const updatePost = req.body;
-	// 	await Post.findByIdAndUpdate(req.params.id, updatePost);
+exports.updatePost = async (req, res) => {
+	try {
+		await upload(req, res, async function(err) {
+			if (err) {
+				console.log(err);
+				throw err;
+			}
+			if (req.file) {
+				req.body.imageName = req.file.originalname;
+				req.body.imageSize = req.file.size;
+				req.body.image =
+					'data:image/png;base64,' +
+					(await Buffer(req.file.buffer).toString('base64'));
+			}
+
+			req.body.navTitle = await navHelper.manipNavTitle(req.body.title);
+
+			const updatePost = req.body;
+
+			await Post.findByIdAndUpdate(req.params.id, updatePost);
+
+			res.status(201).json({ message: 'Succesfully edited the post!' });
+		});
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({
+			err:
+				'The server encountered a problem when attempting to update the post!'
+		});
+	}
+
+	// req.body.navTitle = navHelper.manipNavTitle(req.body.title);
+	// const updatePost = req.body;
 	//
-	// 	 res.status(201).json({ message: 'Succesfully edited the post!' });
-	// } catch (e) {
+	// Post.findByIdAndUpdate(req.params.id, updatePost, (err, foundPost) => {
+	// 	if (err)
 	// 		res.status(500).json({
 	// 			err:
 	// 				'The server encountered a problem when attempting to update the post!'
 	// 		});
-	// }
-	//
-
-	req.body.navTitle = navHelper.manipNavTitle(req.body.title);
-	const updatePost = req.body;
-
-	Post.findByIdAndUpdate(req.params.id, updatePost, (err, foundPost) => {
-		if (err)
-			res.status(500).json({
-				err:
-					'The server encountered a problem when attempting to update the post!'
-			});
-		if (!foundPost)
-			res.status(404).json({
-				err:
-					'The server encountered a problem when attempting to locate the post to be updated!'
-			});
-		else res.status(201).json({ message: 'Succesfully edited the post!' });
-	});
+	// 	if (!foundPost)
+	// 		res.status(404).json({
+	// 			err:
+	// 				'The server encountered a problem when attempting to locate the post to be updated!'
+	// 		});
+	// 	else res.status(201).json({ message: 'Succesfully edited the post!' });
+	// });
 };
 
 //====================================================================================================================//

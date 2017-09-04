@@ -54,7 +54,15 @@ class BlogPostForm extends Component {
 				this.props.location.query.titleId
 			);
 
-			this.setState({ isLoaded: true }, () => this.initializeForm(foundPost));
+			this.setState(
+				{
+					isLoaded: true,
+					image: foundPost.image,
+					imageName: foundPost.imageName,
+					imageSize: foundPost.imageSize
+				},
+				() => this.initializeForm(foundPost)
+			);
 		} catch (e) {
 			console.log(e);
 		}
@@ -73,14 +81,22 @@ class BlogPostForm extends Component {
 		this.props.initialize(foundPost);
 	};
 
-	onDrop = image => {
-		this.setState({ imageFiles: image });
+	onDrop = newImage => {
+		this.setState({ imageFiles: newImage, image: false });
+	};
+
+	ajaxRequestToDB = async (action, formProps) => {
+		try {
+			await action(formProps);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	handleFormSubmit = formProps => {
-		addNewPost(formProps).then(res => {
-			res.err ? this.props.authError(res.err) : redirectToBlog();
-		});
+		this.props.location.query.titleId
+			? this.ajaxRequestToDB(this.props.editPost, formProps)
+			: this.ajaxRequestToDB(this.props.addNewPost, formProps);
 	};
 
 	showCharactersLeft = (propValue, limitValue) => {
@@ -96,6 +112,32 @@ class BlogPostForm extends Component {
 		}
 	};
 
+	renderPreview = () => {
+		const { image, imageFiles, imageName, imageSize } = this.state;
+
+		return image
+			? <span key="imageFromDB">
+					<li>
+						<img src={image} alt="preview.png" />
+					</li>
+					<li>
+						{imageName} - {imageSize} bytes
+					</li>
+				</span>
+			: map(imageFiles, ({ name, preview, size }) => {
+					return (
+						<span key="imageFromDrop">
+							<li>
+								<img src={preview} alt="" />
+							</li>
+							<li>
+								{name} - {size} bytes
+							</li>
+						</span>
+					);
+				});
+	};
+
 	render() {
 		const {
 			descriptionValue,
@@ -107,9 +149,9 @@ class BlogPostForm extends Component {
 			submitting,
 			serverError
 		} = this.props;
-		const { isLoaded, requestTimeout } = this.state;
+		const { isLoaded, requestTimeout, image } = this.state;
 
-		if (this.props.location.query.titleId && !isLoaded) {
+		if (this.props.location.query.titleId && !isLoaded && !image) {
 			if (requestTimeout || serverError) return <NotFound />;
 
 			return <Spinner />;
@@ -136,18 +178,9 @@ class BlogPostForm extends Component {
 							accept="image/jpeg, image/png"
 							onDrop={this.onDrop}
 						>
-							{this.state.imageFiles.length > 0
+							{this.state.imageFiles.length > 0 || image
 								? <ul className="uploaded-images-container">
-										{map(this.state.imageFiles, ({ name, preview, size }) => [
-											<span key={name}>
-												<li>
-													<img src={preview} alt="{preview}" />
-												</li>
-												<li>
-													{name} - {size} bytes
-												</li>
-											</span>
-										])}
+										{this.renderPreview()}
 									</ul>
 								: <span>
 										<i className="fa fa-upload" aria-hidden="true" />
@@ -206,8 +239,7 @@ const mapStateToProps = state => {
 
 BlogPostForm = reduxForm({
 	form: 'BlogPostForm',
-	// validate,
-	enableReinitialize: true,
+	validate,
 	fields: ['file', 'title', 'imgtitle', 'description']
 })(BlogPostForm);
 

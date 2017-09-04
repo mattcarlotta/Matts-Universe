@@ -21,7 +21,7 @@ const RenderPosts = ({
 			</h3>
 			{image
 				? <div className="entry-image">
-						<img src={'data:image/png;base64,' + image} alt="" />
+						<img src={image} alt="" />
 					</div>
 				: null}
 			<p className="img-title">

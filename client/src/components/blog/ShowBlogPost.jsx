@@ -19,15 +19,14 @@ class ShowBlogPost extends Component {
 
 	fetchBlogPosts = async () => {
 		try {
-			const { data: { post } } = await this.props.fetchPost(
+			const { data: { foundPost } } = await this.props.fetchPost(
 				this.props.location.query.postId
 			);
-
 			this.setState({
-				foundPost: post
+				foundPost
 			});
-		} catch (e) {
-			console.warn(e);
+		} catch (err) {
+			console.error(err);
 		}
 	};
 
