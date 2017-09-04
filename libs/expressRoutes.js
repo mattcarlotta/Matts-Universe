@@ -13,8 +13,8 @@ const requireSignin = passport.authenticate('local', { session: false });
 const Authentication = require('../controllers/authentication');
 const Blog = require('../controllers/posts');
 const Projects = require('../controllers/projects');
-// const Comments = require('../controllers/comments');
-
+// const Comment = require('../controllers/comments');
+const imageCreation = require('../middleware/multer');
 //============================================================//
 /* APP ROUTES */
 //============================================================//
@@ -26,7 +26,7 @@ module.exports = app => {
 		requireToken,
 		auth
 	);
-	require('../routes/posts')(app, Blog, requireToken, auth);
+	require('../routes/posts')(app, Blog, requireToken, auth, imageCreation);
 	require('../routes/projects')(app, Projects, requireToken, auth);
 	// require('../comments')(app, Comment, requireToken, auth);
 	// require('../seeds')(app);

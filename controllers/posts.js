@@ -2,41 +2,53 @@ const mongoose = require('mongoose');
 const Post = mongoose.model('posts');
 const moment = require('moment');
 const navHelper = require('../middleware/navHelper');
+const fs = require('fs');
+const multer = require('multer');
 
+storage = multer.diskStorage({
+	destination: function(request, file, callback) {
+		callback(null, 'uploads/');
+	},
+	limits: { fileSize: 10000000, files: 1 },
+	filename: function(request, file, callback) {
+		callback(null, Date.now() + '-' + file.originalname);
+	},
+	fileFilter: (req, file, callback) => {
+		if (!file.originalname.match(/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/)) {
+			return callback(new Error('Only images are allowed!'), false);
+		}
+
+		callback(null, true);
+	}
+});
+
+const upload = multer({ storage: storage }).single('file');
 //====================================================================================================================//
 // CREATE A POST
 //====================================================================================================================//
-exports.createPost = (req, res) => {
-	// try {
-	// 	req.body.navTitle = navHelper.manipNavTitle(req.body.title);
-	// 	req.body.timestamp = moment().format('MMMM Do YYYY');
-	// 	req.body.createdAt = moment().unix();
-	// 	const newPost = req.body;
-	//
-	// 	await Post.create(newPost);
-	// 	res.status(201).json({ message: 'Succesfully added a new post!' });
-	// } catch (e) {
-	// 	res.status(500).json({
-	// 		err:
-	// 			'The server encountered a problem when attempting to create a post!'
-	// 	});
-	// }
+exports.createPost = async (req, res) => {
+	try {
+		await upload(req, res, async function(err) {
+			if (err) {
+				throw err;
+			}
+			req.body.uploadedImagePath =
+				__dirname.split('/controllers')[0] + `/uploads/${req.file.filename}`;
+			req.body.navTitle = navHelper.manipNavTitle(req.body.title);
+			req.body.timestamp = moment().format('MMMM Do YYYY');
+			req.body.createdAt = moment().unix();
+			newPost = req.body;
 
-	req.body.navTitle = navHelper.manipNavTitle(req.body.title);
-	req.body.timestamp = moment().format('MMMM Do YYYY');
-	req.body.createdAt = moment().unix();
-	const newPost = req.body;
-
-	Post.create(newPost, (err, message) => {
-		if (err)
-			res.status(500).json({
-				err:
-					'The server encountered a problem when attempting to create a post!'
-			});
-		else res.status(201).json({ message: 'Succesfully added a new post!' });
-	});
+			await Post.create(newPost);
+			res.status(201).json({ message: 'Succesfully added a new post!' });
+		});
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({
+			err: 'The server encountered a problem when attempting to create a post!'
+		});
+	}
 };
-
 //====================================================================================================================//
 // FIND POST (INITIAL FIND + PREV/NEXT 10 RECORDS FOR PAGINATION) AND GET POST COLLECTION LENGTH (FOR PAGINATION)
 //====================================================================================================================//
@@ -44,12 +56,18 @@ exports.findPosts = async (req, res) => {
 	try {
 		const skipByValue = parseInt(req.query.skipByValue);
 
-		const allPosts = await Post.find({})
+		let allPosts = await Post.find({})
 			.skip(skipByValue)
 			.limit(10)
 			.sort({ _id: -1 });
+
+		const image = await fs.readFileSync(`${allPosts[0].uploadedImagePath}`);
+
+		allPosts[0].image = await new Buffer(image).toString('base64');
+
 		res.status(201).json({ posts: navHelper.stripDescription(allPosts) });
 	} catch (e) {
+		console.log(e);
 		res.status(404).json({
 			err: 'The server encountered a problem when attempting to find posts!'
 		});

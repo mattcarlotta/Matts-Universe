@@ -21,7 +21,7 @@ const RenderPosts = ({
 			</h3>
 			{image
 				? <div className="entry-image">
-						<img src={image} alt="" />
+						<img src={'data:image/png;base64,' + image} alt="" />
 					</div>
 				: null}
 			<p className="img-title">
@@ -46,7 +46,8 @@ const RenderPosts = ({
 								browserHistory.push({
 									pathname: `/blog/post/title`,
 									query: { postId: `${navTitle}` }
-								})}>
+								})}
+						>
 							<i
 								className="fa fa-long-arrow-right"
 								aria-hidden="true"

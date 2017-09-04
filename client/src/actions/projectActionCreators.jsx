@@ -33,8 +33,8 @@ export const addNewProject = ({
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 		redirectToProject();
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
 	}
 };
 
@@ -49,8 +49,8 @@ export const deleteProject = id => async dispatch => {
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 		redirectToProject();
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
 	}
 };
 
@@ -67,8 +67,8 @@ export const editProject = formProps => async dispatch => {
 		redirectToProject();
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
 	}
 };
 
@@ -77,8 +77,8 @@ export const fetchProject = id => async dispatch => {
 	try {
 		return await app.get(`/api/project/${id}`);
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
 	}
 };
 
@@ -87,7 +87,8 @@ export const fetchProjects = requestedRecords => async dispatch => {
 	try {
 		return await app.get(`/api/projectscollection`);
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		// console.log('this is the error: ', err);
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
 	}
 };

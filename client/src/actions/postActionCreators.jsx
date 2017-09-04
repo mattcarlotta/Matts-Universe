@@ -1,6 +1,5 @@
 import * as app from 'axios';
 import { browserHistory } from 'react-router';
-
 import AppPromiseInterceptor from './appPromiseInterceptor';
 import ConfigAuth from './configAuth';
 import { AUTH_ERROR, AUTH_SUCCESS } from './types';
@@ -14,26 +13,29 @@ export const redirectToBlog = () => {
 	});
 };
 
+const fd = new FormData();
+
 //==========================================================================
 // Blog Post C.R.U.D.
 //==========================================================================
 
 // Adds new post to blog DB
-export const addNewPost = ({ title, image, imgtitle, description }) => {
-	const config = ConfigAuth();
-
-	return app
-		.post(`/api/create/post`, { title, image, imgtitle, description }, config)
-		.then(response => {
-			return { success: response.data.message };
-		})
-		.catch(({ response }) => {
-			if (response.data.denied) {
-				return { err: response.data.denied };
-			} else {
-				return { err: response.data.err };
-			}
-		});
+export const addNewPost = async ({ title, file, imgtitle, description }) => {
+	await fd.append('file', file[0]);
+	await fd.append('title', title);
+	await fd.append('imgtitle', imgtitle);
+	await fd.append('description', description);
+	return app.post(`/api/create/post`, fd);
+	// 	.then(response => {
+	// 		return { success: response.data.message };
+	// 	})
+	// 	.catch(({ response }) => {
+	// 		if (response.data.denied) {
+	// 			return { err: response.data.denied };
+	// 		} else {
+	// 			return { err: response.data.err };
+	// 		}
+	// 	});
 };
 
 // Deletes a single blog post from DB
@@ -48,8 +50,8 @@ export const deletePost = id => async dispatch => {
 		redirectToBlog();
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
 	}
 };
 
@@ -87,8 +89,8 @@ export const fetchPost = id => async dispatch => {
 	try {
 		return await app.get(`/api/post/${id}`);
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
 	}
 };
 
@@ -97,8 +99,8 @@ export const fetchPostCount = () => async dispatch => {
 	try {
 		return await app.get(`/api/blogcount`);
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
 	}
 };
 
@@ -112,7 +114,7 @@ export const fetchPosts = requestedRecords => async dispatch => {
 			}
 		});
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		throw err.toString();
 	}
 };

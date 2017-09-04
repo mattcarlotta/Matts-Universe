@@ -37,7 +37,6 @@ class Blog extends Component {
 		try {
 			const skipCount = requestedPage ? requestedPage * 10 : 0;
 			const { data: { posts } } = await this.props.fetchPosts(skipCount);
-
 			this.setState({
 				posts
 			});

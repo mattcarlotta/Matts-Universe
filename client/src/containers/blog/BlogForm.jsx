@@ -4,10 +4,12 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import DropZone from 'react-dropzone';
 
-// addNewPost,
-// editPost,
-// redirectToBlog
-import { fetchPost } from '../../actions/postActionCreators';
+import {
+	fetchPost,
+	addNewPost,
+	editPost,
+	redirectToBlog
+} from '../../actions/postActionCreators';
 import FIELDS from './data/blogFormFields';
 import NotFound from '../../components/notfound/notFound';
 import RenderInputField from '../forms/renderInputField';
@@ -71,21 +73,14 @@ class BlogPostForm extends Component {
 		this.props.initialize(foundPost);
 	};
 
-	onDrop = files => {
-		this.setState({
-			imageFiles: files
-		});
+	onDrop = image => {
+		this.setState({ imageFiles: image });
 	};
 
 	handleFormSubmit = formProps => {
-		console.log(formProps);
-		// this.props.location.query.titleId
-		// 	? editPost(formProps).then(res => {
-		// 			res.err ? this.props.authError(res.err) : redirectToBlog();
-		// 		})
-		// 	: addNewPost(formProps).then(res => {
-		// 			res.err ? this.props.authError(res.err) : redirectToBlog();
-		// 		});
+		addNewPost(formProps).then(res => {
+			res.err ? this.props.authError(res.err) : redirectToBlog();
+		});
 	};
 
 	showCharactersLeft = (propValue, limitValue) => {
@@ -131,14 +126,16 @@ class BlogPostForm extends Component {
 				<hr />
 				<form onSubmit={handleSubmit(this.handleFormSubmit)}>
 					<Field
-						name="upload-image"
+						name="file"
 						component="file"
 						type="file"
-						placeholder="Upload Image">
+						placeholder="Upload Image"
+					>
 						<DropZone
 							className="upload-container"
 							accept="image/jpeg, image/png"
-							onDrop={this.onDrop}>
+							onDrop={this.onDrop}
+						>
 							{this.state.imageFiles.length > 0
 								? <ul className="uploaded-images-container">
 										{map(this.state.imageFiles, ({ name, preview, size }) => [
@@ -209,9 +206,14 @@ const mapStateToProps = state => {
 
 BlogPostForm = reduxForm({
 	form: 'BlogPostForm',
-	validate,
+	// validate,
 	enableReinitialize: true,
-	fields: ['upload-image', 'title', 'imgtitle', 'description']
+	fields: ['file', 'title', 'imgtitle', 'description']
 })(BlogPostForm);
 
-export default connect(mapStateToProps, { fetchPost })(BlogPostForm);
+export default connect(mapStateToProps, {
+	fetchPost,
+	addNewPost,
+	editPost,
+	redirectToBlog
+})(BlogPostForm);

@@ -48,8 +48,8 @@ class Projects extends Component {
 				projects: projects,
 				projectCount: projectCount
 			});
-		} catch (e) {
-			console.warn(e);
+		} catch (err) {
+			console.error(err);
 		}
 	};
 

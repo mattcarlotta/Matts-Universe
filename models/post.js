@@ -6,7 +6,8 @@ module.exports = mongoose => {
 		imgtitle: String,
 		description: String,
 		timestamp: String,
-		createdAt: String
+		createdAt: String,
+		uploadedImagePath: String
 		// comments: [
 		//   {
 		//     type: mongoose.Schema.Types.ObjectId,
