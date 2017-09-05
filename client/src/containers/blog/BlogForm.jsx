@@ -2,8 +2,9 @@ import { map, each } from 'lodash';
 import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
-import DropZone from 'react-dropzone';
 
+import ConfigAuth from '../../actions/configAuth';
+import CreateFormData from '../forms/configFormData';
 import {
 	fetchPost,
 	addNewPost,
@@ -12,8 +13,9 @@ import {
 } from '../../actions/postActionCreators';
 import FIELDS from './data/blogFormFields';
 import NotFound from '../../components/notfound/notFound';
-import RenderInputField from '../forms/renderInputField';
+import RenderDropZone from '../forms/renderDropZone';
 import RenderFormButtons from '../forms/renderFormButtons';
+import RenderInputField from '../forms/renderInputField';
 import RenderTextAreaField from '../forms/renderTextAreaField';
 import Spinner from '../../components/loaders/spinner';
 import ValidateFormFields from './data/validateFormFields';
@@ -25,7 +27,7 @@ const validate = values => {
 		if (!values[label]) errors[label] = 'Required';
 		else if (values[label].length > length)
 			errors[label] = `Error! Must be ${length} characters or less!`;
-		else if (/[~`@#$%&*+=[\]\\;/{}|\\":<>]/g.test(values[label]))
+		else if (/[~`@#$%&*+=[\]\\/{}|\\":<>]/g.test(values[label]))
 			errors[label] = 'Error! Please remove any special characters!';
 	});
 
@@ -35,8 +37,7 @@ const validate = values => {
 class BlogPostForm extends Component {
 	state = {
 		isLoaded: false,
-		requestTimeout: false,
-		imageFiles: []
+		requestTimeout: false
 	};
 
 	componentDidMount() {
@@ -81,13 +82,12 @@ class BlogPostForm extends Component {
 		this.props.initialize(foundPost);
 	};
 
-	onDrop = newImage => {
-		this.setState({ imageFiles: newImage, image: false });
-	};
-
-	ajaxRequestToDB = async (action, formProps) => {
+	ajaxRequestToDB = async (ajaxAction, formProps) => {
 		try {
-			await action(formProps);
+			const config = await ConfigAuth();
+			const formData = await CreateFormData(formProps);
+			const _id = formProps._id || null;
+			await ajaxAction(_id, formData, config);
 		} catch (err) {
 			console.error(err);
 		}
@@ -112,32 +112,6 @@ class BlogPostForm extends Component {
 		}
 	};
 
-	renderPreview = () => {
-		const { image, imageFiles, imageName, imageSize } = this.state;
-
-		return image
-			? <span key="imageFromDB">
-					<li>
-						<img src={image} alt="preview.png" />
-					</li>
-					<li>
-						{imageName} - {imageSize} bytes
-					</li>
-				</span>
-			: map(imageFiles, ({ name, preview, size }) => {
-					return (
-						<span key="imageFromDrop">
-							<li>
-								<img src={preview} alt="" />
-							</li>
-							<li>
-								{name} - {size} bytes
-							</li>
-						</span>
-					);
-				});
-	};
-
 	render() {
 		const {
 			descriptionValue,
@@ -149,7 +123,13 @@ class BlogPostForm extends Component {
 			submitting,
 			serverError
 		} = this.props;
-		const { isLoaded, requestTimeout, image } = this.state;
+		const {
+			isLoaded,
+			requestTimeout,
+			image,
+			imageName,
+			imageSize
+		} = this.state;
 
 		if (this.props.location.query.titleId && !isLoaded && !image) {
 			if (requestTimeout || serverError) return <NotFound />;
@@ -173,20 +153,12 @@ class BlogPostForm extends Component {
 						type="file"
 						placeholder="Upload Image"
 					>
-						<DropZone
-							className="upload-container"
-							accept="image/jpeg, image/png"
-							onDrop={this.onDrop}
-						>
-							{this.state.imageFiles.length > 0 || image
-								? <ul className="uploaded-images-container">
-										{this.renderPreview()}
-									</ul>
-								: <span>
-										<i className="fa fa-upload" aria-hidden="true" />
-										<p>Click or drag file to this area to upload.</p>
-									</span>}
-						</DropZone>
+						<RenderDropZone
+							map={map}
+							image={image}
+							imageName={imageName}
+							imageSize={imageSize}
+						/>
 					</Field>
 					{map(FIELDS, ({ name, type, label }, key) => {
 						const characterValue =
@@ -239,8 +211,7 @@ const mapStateToProps = state => {
 
 BlogPostForm = reduxForm({
 	form: 'BlogPostForm',
-	validate,
-	fields: ['file', 'title', 'imgtitle', 'description']
+	validate
 })(BlogPostForm);
 
 export default connect(mapStateToProps, {

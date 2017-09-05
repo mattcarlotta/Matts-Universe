@@ -13,30 +13,13 @@ export const redirectToBlog = () => {
 	});
 };
 
-const createFormData = async (file, title, imgtitle, description) => {
-	const fd = await new FormData();
-	if (file) await fd.append('file', file[0]);
-	await fd.append('title', title);
-	await fd.append('imgtitle', imgtitle);
-	await fd.append('description', description);
-	return fd;
-};
-
 //==========================================================================
 // Blog Post C.R.U.D.
 //==========================================================================
 
 // Adds new post to blog DB
-export const addNewPost = ({
-	file,
-	title,
-	imgtitle,
-	description
-}) => async dispatch => {
+export const addNewPost = (id, formData, config) => async dispatch => {
 	try {
-		const config = ConfigAuth();
-		const formData = await createFormData(file, title, imgtitle, description);
-
 		const { data: { message } } = await app.post(
 			`/api/create/post`,
 			formData,
@@ -69,17 +52,8 @@ export const deletePost = id => async dispatch => {
 };
 
 // Edits a single blog post in DB
-export const editPost = ({
-	_id,
-	file,
-	title,
-	imgtitle,
-	description
-}) => async dispatch => {
+export const editPost = (_id, formData, config) => async dispatch => {
 	try {
-		const config = ConfigAuth();
-		const formData = await createFormData(file, title, imgtitle, description);
-
 		const { data: { message } } = await app.put(
 			`/api/edit/post/${_id}`,
 			formData,
