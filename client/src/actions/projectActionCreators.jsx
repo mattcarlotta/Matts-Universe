@@ -15,23 +15,16 @@ export const redirectToProject = () => {
 //==========================================================================
 
 // Adds new post to blog DB
-export const addNewProject = ({
-	title,
-	image,
-	imgtitle,
-	description
-}) => async dispatch => {
+export const addNewProject = (id, formData, config) => async dispatch => {
 	try {
-		const config = ConfigAuth();
-
 		const { data: { message } } = await app.post(
 			`/api/create/project`,
-			{ title, image, imgtitle, description },
+			formData,
 			config
 		);
 
-		dispatch({ type: AUTH_SUCCESS, payload: message });
 		redirectToProject();
+		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err.toString() });
 		throw err.toString();
@@ -46,8 +39,9 @@ export const deleteProject = id => async dispatch => {
 			`/api/delete/project/${id}`,
 			config
 		);
-		dispatch({ type: AUTH_SUCCESS, payload: message });
+
 		redirectToProject();
+		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err.toString() });
 		throw err.toString();
@@ -55,15 +49,14 @@ export const deleteProject = id => async dispatch => {
 };
 
 // Edits a project in DB
-export const editProject = formProps => async dispatch => {
+export const editProject = (id, formProps, config) => async dispatch => {
 	try {
-		const config = ConfigAuth();
-
 		const { data: { message } } = await app.put(
-			`/api/edit/project/${formProps._id}`,
-			{ ...formProps },
+			`/api/edit/project/${id}`,
+			formProps,
 			config
 		);
+
 		redirectToProject();
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
@@ -87,7 +80,6 @@ export const fetchProjects = requestedRecords => async dispatch => {
 	try {
 		return await app.get(`/api/projectscollection`);
 	} catch (err) {
-		// console.log('this is the error: ', err);
 		dispatch({ type: AUTH_ERROR, payload: err.toString() });
 		throw err.toString();
 	}

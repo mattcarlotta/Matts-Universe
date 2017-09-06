@@ -3,6 +3,8 @@ module.exports = mongoose => {
 		navTitle: String,
 		title: String,
 		image: String,
+		imageName: String,
+		imageSize: Number,
 		imgtitle: String,
 		description: String
 	});

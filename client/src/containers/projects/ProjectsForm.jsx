@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 
+import ConfigAuth from '../../actions/configAuth';
+import CreateFormData from '../forms/configFormData';
 import {
 	addNewProject,
 	editProject,
@@ -10,8 +12,9 @@ import {
 } from '../../actions/projectActionCreators';
 import FIELDS from './data/blogFormFields';
 import NotFound from '../../components/notfound/notFound';
-import RenderInputField from '../forms/renderInputField';
+import RenderDropZone from '../forms/renderDropZone';
 import RenderFormButtons from '../forms/renderFormButtons';
+import RenderInputField from '../forms/renderInputField';
 import RenderTextAreaField from '../forms/renderTextAreaField';
 import Spinner from '../../components/loaders/spinner';
 import ValidateFormFields from './data/validateFormFields';
@@ -19,15 +22,11 @@ import ValidateFormFields from './data/validateFormFields';
 const validate = values => {
 	const errors = {};
 
-	if (!values.image) errors.image = 'Required';
-	else if (/[~`@#$%&*+=[\]\\;{}|\\"<>]/g.test(values.image))
-		errors.image = 'Error! Please remove any special characters!';
-
 	each(ValidateFormFields, ({ label, length }) => {
 		if (!values[label]) errors[label] = 'Required';
 		else if (values[label].length > length)
 			errors[label] = `Error! Must be ${length} characters or less!`;
-		else if (/[~`@#$%&*+=[\]\\;/{}|\\":<>]/g.test(values[label]))
+		else if (/[~`@#$%&*+=[\]\\/{}|\\":<>]/g.test(values[label]))
 			errors[label] = 'Error! Please remove any special characters!';
 	});
 
@@ -55,12 +54,22 @@ class ProjectsForm extends Component {
 				this.props.location.query.titleId
 			);
 
-			this.setState({ isLoaded: true }, () =>
-				this.initializeForm(foundProject)
+			this.setState(
+				{
+					isLoaded: true,
+					image: foundProject.image,
+					imageName: foundProject.imageName,
+					imageSize: foundProject.imageSize
+				},
+				() => this.initializeForm(foundProject)
 			);
 		} catch (err) {
 			console.error(err);
 		}
+	};
+
+	initializeForm = foundProject => {
+		this.props.initialize(foundProject);
 	};
 
 	timer = () => {
@@ -72,17 +81,17 @@ class ProjectsForm extends Component {
 		clearInterval(this.timeout);
 	};
 
-	initializeForm = foundProject => {
-		this.props.initialize(foundProject);
-	};
-
 	handleFormSubmit = async formProps => {
 		try {
+			const config = await ConfigAuth();
+			const formData = await CreateFormData(formProps);
+			const id = formProps._id || null;
+
 			this.props.location.query.titleId
-				? await this.props.editProject(formProps)
-				: await this.props.addNewProject(formProps);
-		} catch (e) {
-			console.error(e);
+				? await this.props.editProject(id, formData, config)
+				: await this.props.addNewProject(id, formData, config);
+		} catch (err) {
+			console.error(err);
 		}
 	};
 
@@ -94,7 +103,7 @@ class ProjectsForm extends Component {
 					: 'Too many characters!';
 
 			return (
-				<p>
+				<p className="characters-left">
 					Characters left: {postCharactersLeft}
 				</p>
 			);
@@ -109,10 +118,16 @@ class ProjectsForm extends Component {
 			handleSubmit,
 			pristine,
 			reset,
-			submitting
+			submitting,
+			serverError
 		} = this.props;
-		const { isLoaded, requestTimeout } = this.state;
-		const { serverError } = this.props;
+		const {
+			isLoaded,
+			requestTimeout,
+			image,
+			imageName,
+			imageSize
+		} = this.state;
 
 		if (this.props.location.query.titleId && !isLoaded) {
 			if (requestTimeout || serverError) return <NotFound />;
@@ -132,11 +147,18 @@ class ProjectsForm extends Component {
 				<hr />
 				<form onSubmit={handleSubmit(this.handleFormSubmit)}>
 					<Field
-						name="image"
-						type="text"
-						component={RenderInputField}
-						label="Image URL"
-					/>
+						name="file"
+						component="file"
+						type="file"
+						placeholder="Upload Image"
+					>
+						<RenderDropZone
+							map={map}
+							image={image}
+							imageName={imageName}
+							imageSize={imageSize}
+						/>
+					</Field>
 					{map(FIELDS, ({ name, type, label }, key) => {
 						const characterValue =
 							name === 'title' ? titleValue : imgTitleValue;
@@ -189,8 +211,7 @@ const mapStateToProps = state => {
 
 ProjectsForm = reduxForm({
 	form: 'ProjectsForm',
-	validate,
-	fields: ['image', 'title', 'imgtitle', 'description']
+	validate
 })(ProjectsForm);
 
 export default connect(mapStateToProps, {

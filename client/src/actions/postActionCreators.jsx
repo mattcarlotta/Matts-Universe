@@ -1,8 +1,9 @@
 import * as app from 'axios';
 import { browserHistory } from 'react-router';
+
 import AppPromiseInterceptor from './appPromiseInterceptor';
-import ConfigAuth from './configAuth';
 import { AUTH_ERROR, AUTH_SUCCESS } from './types';
+import ConfigAuth from './configAuth';
 
 AppPromiseInterceptor(app);
 
@@ -26,11 +27,10 @@ export const addNewPost = (id, formData, config) => async dispatch => {
 			config
 		);
 
-		redirectToBlog();
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		dispatch({ type: AUTH_ERROR, payload: err });
+		throw err;
 	}
 };
 
@@ -43,28 +43,26 @@ export const deletePost = id => async dispatch => {
 			config
 		);
 
-		redirectToBlog();
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		throw err;
 	}
 };
 
 // Edits a single blog post in DB
-export const editPost = (_id, formData, config) => async dispatch => {
+export const editPost = (id, formData, config) => async dispatch => {
 	try {
 		const { data: { message } } = await app.put(
-			`/api/edit/post/${_id}`,
+			`/api/edit/post/${id}`,
 			formData,
 			config
 		);
 
-		redirectToBlog();
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		throw err;
 	}
 };
 
@@ -74,7 +72,7 @@ export const fetchPost = id => async dispatch => {
 		return await app.get(`/api/post/${id}`);
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		throw err;
 	}
 };
 
@@ -84,7 +82,7 @@ export const fetchPostCount = () => async dispatch => {
 		return await app.get(`/api/blogcount`);
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		throw err;
 	}
 };
 
@@ -99,6 +97,6 @@ export const fetchPosts = requestedRecords => async dispatch => {
 		});
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		throw err;
 	}
 };

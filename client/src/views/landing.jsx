@@ -2,14 +2,14 @@ import React from 'react';
 
 import Home from './home';
 import About from './about';
-import Projects from './Projects';
+import ShowProjects from './showProjects';
 
 const Landing = () => {
 	return (
 		<span>
 			<Home />
 			<About />
-			<Projects />
+			<ShowProjects />
 		</span>
 	);
 };

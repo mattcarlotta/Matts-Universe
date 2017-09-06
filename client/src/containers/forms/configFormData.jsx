@@ -1,9 +1,12 @@
-const CreateFormData = async ({ file, title, imgtitle, description }) => {
-	const fd = await new FormData();
-	if (file) await fd.append('file', file[0]);
-	await fd.append('title', title);
-	await fd.append('imgtitle', imgtitle);
-	await fd.append('description', description);
+const CreateFormData = ({ file, image, title, imgtitle, description }) => {
+	const fd = new FormData();
+	if (file) {
+		fd.append('file', file[0]);
+		if (image) fd.append('oldImage', image.path);
+	}
+	fd.append('title', title);
+	fd.append('imgtitle', imgtitle);
+	fd.append('description', description);
 	return fd;
 };
 

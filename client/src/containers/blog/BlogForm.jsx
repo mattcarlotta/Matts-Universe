@@ -1,4 +1,4 @@
-import { map, each } from 'lodash';
+import { each, map } from 'lodash';
 import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import ConfigAuth from '../../actions/configAuth';
 import CreateFormData from '../forms/configFormData';
 import {
-	fetchPost,
 	addNewPost,
 	editPost,
+	fetchPost,
 	redirectToBlog
 } from '../../actions/postActionCreators';
 import FIELDS from './data/blogFormFields';
@@ -58,15 +58,19 @@ class BlogPostForm extends Component {
 			this.setState(
 				{
 					isLoaded: true,
-					image: foundPost.image,
-					imageName: foundPost.imageName,
-					imageSize: foundPost.imageSize
+					imageFileName: foundPost.image.fileName,
+					imageOriginalName: foundPost.image.originalName,
+					imageSize: foundPost.image.size
 				},
 				() => this.initializeForm(foundPost)
 			);
-		} catch (e) {
-			console.log(e);
+		} catch (err) {
+			console.error(err);
 		}
+	};
+
+	initializeForm = foundPost => {
+		this.props.initialize(foundPost);
 	};
 
 	timer = () => {
@@ -78,31 +82,66 @@ class BlogPostForm extends Component {
 		clearInterval(this.timeout);
 	};
 
-	initializeForm = foundPost => {
-		this.props.initialize(foundPost);
-	};
-
-	ajaxRequestToDB = async (ajaxAction, formProps) => {
+	handleCreatePost = (id, formData, config) => {
 		try {
-			const config = await ConfigAuth();
-			const formData = await CreateFormData(formProps);
-			const _id = formProps._id || null;
-			await ajaxAction(_id, formData, config);
+			// const config = ConfigAuth();
+			// const formData = CreateFormData(formProps);
+			// const id = formProps._id ? formProps._id : null;
+			this.props.addNewPost(id, formData, config);
+			// this.props.editPost(id, formData, config);
+			redirectToBlog();
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
+	handleEditPost = (id, formData, config) => {
+		try {
+			// const config = ConfigAuth();
+			// const formData = CreateFormData(formProps);
+			// const id = formProps._id ? formProps._id : null;
+			this.props.editPost(id, formData, config);
+			// this.props.editPost(id, formData, config);
+			redirectToBlog();
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	// submitToDB = async (action, id, formData, config) => {
+	// 	try {
+	// 		await action(id, formData, config);
+	// 		redirectToBlog();
+	// 	} catch (err) {
+	// 		console.error(err);
+	// 	}
+	// };
+
 	handleFormSubmit = formProps => {
-		this.props.location.query.titleId
-			? this.ajaxRequestToDB(this.props.editPost, formProps)
-			: this.ajaxRequestToDB(this.props.addNewPost, formProps);
+		const id = formProps._id ? formProps._id : null;
+		const formData = CreateFormData(formProps);
+		const config = ConfigAuth();
+
+		if (this.props.location.query.titleId) {
+			this.handleEditPost(id, formData, config);
+		} else {
+			this.handleCreatePost(id, formData, config);
+		}
+		// try {
+		// 	this.props.addNewPost(id, formData, config);
+		// 	// this.props.editPost(id, formData, config);
+		// 	redirectToBlog();
+		// } catch (err) {
+		// 	console.error(err);
+		// }
 	};
 
 	showCharactersLeft = (propValue, limitValue) => {
 		if (propValue) {
 			let postCharactersLeft =
-				propValue.length < limitValue ? limitValue - propValue.length : 0;
+				propValue.length < limitValue
+					? limitValue - propValue.length
+					: 'Too many characters!';
 
 			return (
 				<p className="characters-left">
@@ -126,16 +165,17 @@ class BlogPostForm extends Component {
 		const {
 			isLoaded,
 			requestTimeout,
-			image,
-			imageName,
+			imageFileName,
+			imageOriginalName,
 			imageSize
 		} = this.state;
 
-		if (this.props.location.query.titleId && !isLoaded && !image) {
+		if (this.props.location.query.titleId && !isLoaded && !imageFileName) {
 			if (requestTimeout || serverError) return <NotFound />;
 
 			return <Spinner />;
 		}
+
 		this.clearTimeout();
 
 		return (
@@ -155,8 +195,8 @@ class BlogPostForm extends Component {
 					>
 						<RenderDropZone
 							map={map}
-							image={image}
-							imageName={imageName}
+							imageFileName={imageFileName}
+							imageOriginalName={imageOriginalName}
 							imageSize={imageSize}
 						/>
 					</Field>
@@ -176,7 +216,7 @@ class BlogPostForm extends Component {
 							</span>
 						);
 					})}
-					{this.showCharactersLeft(descriptionValue, 5000)}
+					{this.showCharactersLeft(descriptionValue, 10000)}
 					<Field
 						name={'description'}
 						type={'text'}
@@ -215,8 +255,7 @@ BlogPostForm = reduxForm({
 })(BlogPostForm);
 
 export default connect(mapStateToProps, {
-	fetchPost,
 	addNewPost,
 	editPost,
-	redirectToBlog
+	fetchPost
 })(BlogPostForm);

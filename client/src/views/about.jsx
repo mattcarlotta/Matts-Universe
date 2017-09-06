@@ -1,4 +1,5 @@
 import React from 'react';
+import aboutImage from '../images/aboutImage4.png';
 
 const About = () => {
 	return (
@@ -16,7 +17,7 @@ const About = () => {
 						<hr />
 					</div>
 					<div className="about-body">
-						<img src={require('../images/aboutImage4.png')} alt="" />
+						<img src={aboutImage} alt="" />
 					</div>
 				</div>
 			</center>

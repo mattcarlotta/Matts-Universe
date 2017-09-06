@@ -3,21 +3,24 @@ import DropZone from 'react-dropzone';
 
 class RenderDropZone extends Component {
 	state = {
-		image: this.props.image,
+		imageFileName: this.props.imageFileName,
 		imageFiles: []
 	};
 
 	renderPreview = () => {
-		const { imageName, imageSize, map } = this.props;
-		const { image, imageFiles } = this.state;
+		const { map, imageOriginalName, imageSize } = this.props;
+		const { imageFileName, imageFiles } = this.state;
 
-		return image
+		return imageFileName
 			? <span key="imageFromDB">
 					<li>
-						<img src={image} alt={imageName} />
+						<img
+							src={process.env.PUBLIC_URL + '/uploads/' + imageFileName}
+							alt="asd"
+						/>
 					</li>
 					<li>
-						{imageName} - {imageSize} bytes
+						{imageOriginalName} - {imageSize} bytes
 					</li>
 				</span>
 			: map(imageFiles, ({ name, preview, size }) => {
@@ -40,9 +43,9 @@ class RenderDropZone extends Component {
 				className="upload-container"
 				accept="image/jpeg, image/png, image/gif, image/bmp"
 				onDrop={newImage =>
-					this.setState({ imageFiles: newImage, image: false })}
+					this.setState({ imageFiles: newImage, imageFileName: false })}
 			>
-				{this.state.imageFiles.length > 0 || this.state.image
+				{this.state.imageFiles.length > 0 || this.state.imageFileName
 					? <ul className="uploaded-images-container">
 							{this.renderPreview()}
 						</ul>

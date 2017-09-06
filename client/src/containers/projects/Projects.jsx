@@ -2,13 +2,13 @@ import { map, isEmpty } from 'lodash';
 import React, { Component } from 'react';
 import Slider from 'react-slick';
 import { connect } from 'react-redux';
-import { fetchProjects } from '../actions/projectActionCreators';
-import { NextArrow, PrevArrow } from '../components/projects/sliderArrows';
+import { fetchProjects } from '../../actions/projectActionCreators';
+import { NextArrow, PrevArrow } from '../../components/projects/sliderArrows';
 
-import AdminPanel from '../containers/app/AdminPanel';
-import NoItemsFound from '../components/app/noItemsFound';
-import RenderProjects from '../components/projects/renderProjects';
-import Spinner from '../components/loaders/spinner';
+import AdminPanel from '../app/AdminPanel';
+import NoItemsFound from '../../components/app/noItemsFound';
+import RenderProjects from '../../components/projects/renderProjects';
+import Spinner from '../../components/loaders/spinner';
 
 const settings = {
 	dots: true,
@@ -23,13 +23,20 @@ const settings = {
 class Projects extends Component {
 	state = {
 		isFetchingProjects: false,
-		requestTimeout: false
+		requestTimeout: false,
+		projects: []
 	};
 
 	componentDidMount() {
 		this.fetchAllProjects();
-		this.timeout = setTimeout(this.timer, 5000);
+		this.setTimer();
 	}
+
+	// componentDidUpdate(prevProps, prevState) {
+	// 	if (this.state.projects) {
+	// 		if (prevState.projects.length !== this.state.projects) this.setTimer();
+	// 	}
+	// }
 
 	componentWillUnmount() {
 		this.clearTimer();
@@ -53,6 +60,10 @@ class Projects extends Component {
 		}
 	};
 
+	setTimer = () => {
+		this.timeout = setTimeout(this.timer, 5000);
+	};
+
 	clearTimer = () => {
 		clearTimeout(this.timeout);
 	};
@@ -64,35 +75,31 @@ class Projects extends Component {
 
 	render() {
 		const { isFetchingProjects, projects, requestTimeout } = this.state;
-		const projectContainer = 'project-container';
 
 		if (isEmpty(projects) || isFetchingProjects) {
 			if (requestTimeout)
 				return <NoItemsFound message={'No projects were found!'} />;
 
-			return <Spinner container={projectContainer} />;
+			return <Spinner container={'project-container'} />;
 		}
 
 		this.clearTimer();
 
 		return (
-			<div className={projectContainer}>
-				<h1>What I've developed.</h1>
-				<div className="project-content">
-					<AdminPanel
-						updateProjectItems={this.fetchAllProjects}
-						projects={projects}
-					/>
-					<Slider {...settings}>
-						{map(projects, (project, key) => {
-							return (
-								<div key={key}>
-									<RenderProjects {...project} />
-								</div>
-							);
-						})}
-					</Slider>
-				</div>
+			<div>
+				<AdminPanel
+					updateProjectItems={this.fetchAllProjects}
+					projects={projects}
+				/>
+				<Slider {...settings}>
+					{map(projects, (project, key) => {
+						return (
+							<div key={key}>
+								<RenderProjects {...project} />
+							</div>
+						);
+					})}
+				</Slider>
 			</div>
 		);
 	}
