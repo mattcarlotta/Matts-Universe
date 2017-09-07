@@ -12,7 +12,8 @@ import Spinner from '../../components/loaders/spinner';
 class Blog extends Component {
 	state = {
 		currentPage: parseInt(this.props.location.query.pageId, 10),
-		requestTimeout: false
+		requestTimeout: false,
+		isLoading: true
 	};
 
 	componentDidMount() {
@@ -27,7 +28,7 @@ class Blog extends Component {
 	componentDidUpdate(nextProps, nextState) {
 		const currentLoadedPage = parseInt(this.props.location.query.pageId, 10);
 		if (this.state.currentPage !== currentLoadedPage) {
-			this.setState({ currentPage: currentLoadedPage }, () => {
+			this.setState({ currentPage: currentLoadedPage, isLoading: true }, () => {
 				this.fetchBlogPosts(this.state.currentPage - 1);
 			});
 		}
@@ -37,9 +38,14 @@ class Blog extends Component {
 		try {
 			const skipCount = requestedPage ? requestedPage * 10 : 0;
 			const { data: { posts } } = await this.props.fetchPosts(skipCount);
-			this.setState({
-				posts
-			});
+			this.setState(
+				{
+					posts
+				},
+				() => {
+					this.setState({ isLoading: false });
+				}
+			);
 		} catch (err) {
 			console.error(err);
 		}
@@ -55,10 +61,16 @@ class Blog extends Component {
 	};
 
 	render() {
-		const { currentPage, posts, serverError, requestTimeout } = this.state;
+		const {
+			currentPage,
+			isLoading,
+			posts,
+			serverError,
+			requestTimeout
+		} = this.state;
 		const loadedPage = parseInt(this.props.location.query.pageId, 10);
 
-		if (isEmpty(posts) || currentPage !== loadedPage) {
+		if (isEmpty(posts) || isLoading || currentPage !== loadedPage) {
 			if (serverError || requestTimeout)
 				return <NoItemsFound message={'No blog content was found!'} />;
 

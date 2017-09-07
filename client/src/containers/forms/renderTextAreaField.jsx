@@ -20,7 +20,6 @@ const RenderTextAreaField = ({
 				{touched &&
 					error &&
 					<div className="error-handlers">
-						<i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
 						{error}
 					</div>}
 				<label className="form-label">

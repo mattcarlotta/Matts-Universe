@@ -23,12 +23,18 @@ module.exports = (app, Blog, requireToken, auth, imageCreation) => {
 	app.get('/api/blogcount', Blog.getPostCollectionCount);
 	app.get('/api/blogcollection', Blog.findPosts);
 	// app.get('/posts/search?', Blog.searchForPosts);
-	app.post('/api/create/post', upload, Blog.createPost); //requireToken, auth.isLoggedIn,
+	app.post(
+		'/api/create/post',
+		requireToken,
+		auth.isLoggedIn,
+		upload,
+		Blog.createPost
+	);
 	app.get(['/api/post/:id', '/blog/edit/api/fetch_one/:id'], Blog.showPost);
 	app.put(
 		'/api/edit/post/:id',
-		// requireToken,
-		// auth.isLoggedIn,
+		requireToken,
+		auth.isLoggedIn,
 		upload,
 		Blog.updatePost
 	);

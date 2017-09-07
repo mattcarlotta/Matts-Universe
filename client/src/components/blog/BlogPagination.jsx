@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -8,11 +8,12 @@ import NoItemsFound from '../app/noItemsFound';
 import RenderPagination from './renderPagination';
 import Spinner from '../loaders/spinner';
 
-class BlogPagination extends PureComponent {
+class BlogPagination extends Component {
 	state = {
-		pageCount: '',
-		postCount: '',
-		requestTimeout: false
+		pageCount: null,
+		postCount: null,
+		requestTimeout: false,
+		isLoading: true
 	};
 
 	componentDidMount() {
@@ -24,6 +25,12 @@ class BlogPagination extends PureComponent {
 		this.clearTimer();
 	}
 
+	updateBlogPostCount = () => {
+		this.setState({ isLoading: true }, () => {
+			this.fetchBlogPostCount();
+		});
+	};
+
 	fetchBlogPostCount = async () => {
 		try {
 			const {
@@ -32,10 +39,11 @@ class BlogPagination extends PureComponent {
 
 			this.setState({
 				pageCount: pageCount,
-				postCount: postCount
+				postCount: postCount,
+				isLoading: false
 			});
-		} catch (e) {
-			console.warn(e);
+		} catch (err) {
+			console.error(err);
 		}
 	};
 
@@ -58,10 +66,10 @@ class BlogPagination extends PureComponent {
 	};
 
 	render() {
-		const { postCount, pageCount, requestTimeout } = this.state;
+		const { isLoading, postCount, pageCount, requestTimeout } = this.state;
 		const currentPage = parseInt(this.props.location.query.pageId, 10);
 
-		if (!postCount || !pageCount) {
+		if (isLoading || !postCount || !pageCount) {
 			if (requestTimeout)
 				return <NoItemsFound message={'No blog content was found!'} />;
 
@@ -69,7 +77,7 @@ class BlogPagination extends PureComponent {
 		}
 
 		this.clearTimer();
-
+		console.log(postCount, pageCount);
 		return (
 			<span>
 				<RenderPagination
@@ -78,7 +86,7 @@ class BlogPagination extends PureComponent {
 					pageCount={pageCount}
 					goTo={this.goTo}
 				/>
-				<Blog updatePostCount={this.fetchBlogPostCount} />
+				<Blog updatePostCount={this.updateBlogPostCount} />
 				<RenderPagination
 					currentPage={currentPage}
 					postCount={postCount}

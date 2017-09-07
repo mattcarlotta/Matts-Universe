@@ -40,7 +40,6 @@ export const deleteProject = id => async dispatch => {
 			config
 		);
 
-		redirectToProject();
 		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
 		dispatch({ type: AUTH_ERROR, payload: err.toString() });

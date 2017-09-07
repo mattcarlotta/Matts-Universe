@@ -4,8 +4,11 @@ import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Button, ButtonGroup } from 'react-bootstrap';
 
-import { deletePost } from '../../actions/postActionCreators';
-import { deleteProject } from '../../actions/projectActionCreators';
+import { deletePost, redirectToBlog } from '../../actions/postActionCreators';
+import {
+	deleteProject,
+	redirectToProject
+} from '../../actions/projectActionCreators';
 import { signoutUser } from '../../actions/authActionCreators';
 import { deleteProjectById, deletePostById } from './data/deleteData';
 import ADMINBUTTONITEMS from '../../components/app/data/adminButtonData';
@@ -25,12 +28,14 @@ class AdminPanel extends PureComponent {
 					this.props.deletePost,
 					this.props.updateBlog,
 					this.props.updatePostCount,
-					id
+					id,
+					redirectToBlog
 				)
 			: deleteProjectById(
 					this.props.deleteProject,
 					this.props.updateProjectItems,
-					id
+					id,
+					redirectToProject
 				);
 	};
 

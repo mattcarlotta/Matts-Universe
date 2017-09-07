@@ -1,29 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import DropZone from 'react-dropzone';
 
-class RenderDropZone extends Component {
-	state = {
-		imageFileName: this.props.imageFileName,
-		imageFiles: []
-	};
-
-	renderPreview = () => {
-		const { map, imageOriginalName, imageSize } = this.props;
-		const { imageFileName, imageFiles } = this.state;
-
-		return imageFileName
+const RenderDropZone = ({
+	field,
+	handleOnDrop,
+	fileError,
+	imageOriginalName,
+	imageSize,
+	label,
+	map,
+	newImageFiles,
+	origImageFile,
+	useStoredImage
+}) => {
+	const renderPreview = () => {
+		return useStoredImage
 			? <span key="imageFromDB">
 					<li>
 						<img
-							src={process.env.PUBLIC_URL + '/uploads/' + imageFileName}
-							alt="asd"
+							src={process.env.PUBLIC_URL + '/uploads/' + origImageFile}
+							alt={imageOriginalName}
 						/>
 					</li>
 					<li>
 						{imageOriginalName} - {imageSize} bytes
 					</li>
 				</span>
-			: map(imageFiles, ({ name, preview, size }) => {
+			: map(newImageFiles, ({ name, preview, size }) => {
 					return (
 						<span key="imageFromDrop">
 							<li>
@@ -37,25 +40,33 @@ class RenderDropZone extends Component {
 				});
 	};
 
-	render() {
-		return (
+	return (
+		<div>
 			<DropZone
 				className="upload-container"
 				accept="image/jpeg, image/png, image/gif, image/bmp"
-				onDrop={newImage =>
-					this.setState({ imageFiles: newImage, imageFileName: false })}
+				onDrop={handleOnDrop}
+				onChange={(filesToUpload, e) => field.input.onChange(filesToUpload)}
 			>
-				{this.state.imageFiles.length > 0 || this.state.imageFileName
+				{newImageFiles.length > 0 || useStoredImage
 					? <ul className="uploaded-images-container">
-							{this.renderPreview()}
+							{renderPreview()}
 						</ul>
 					: <span>
 							<i className="fa fa-upload" aria-hidden="true" />
 							<p>Click or drag file to this area to upload.</p>
 						</span>}
 			</DropZone>
-		);
-	}
-}
+			{field.meta.touched &&
+				field.meta.error &&
+				<div className="error-handlers">
+					{field.meta.error}
+				</div>}
+			<label className="form-label">
+				{label}
+			</label>
+		</div>
+	);
+};
 
 export default RenderDropZone;

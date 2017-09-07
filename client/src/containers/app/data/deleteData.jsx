@@ -1,11 +1,13 @@
 export const deleteProjectById = async (
 	deleteProject,
 	updateProjectItems,
-	id
+	id,
+	redirectToProject
 ) => {
 	try {
 		await deleteProject(id);
-		updateProjectItems();
+		await updateProjectItems();
+		redirectToProject();
 	} catch (err) {
 		console.error(err);
 	}
@@ -15,12 +17,14 @@ export const deletePostById = async (
 	deletePost,
 	updateBlog,
 	updatePostCount,
-	id
+	id,
+	redirectToBlog
 ) => {
 	try {
 		await deletePost(id);
-		updateBlog();
-		updatePostCount();
+		await updateBlog();
+		await updatePostCount();
+		redirectToBlog();
 	} catch (err) {
 		console.error(err);
 	}
