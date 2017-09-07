@@ -15,15 +15,14 @@ export const deleteProjectById = async (
 
 export const deletePostById = async (
 	deletePost,
+	updateBlogPostCount,
 	updateBlog,
-	updatePostCount,
 	id,
 	redirectToBlog
 ) => {
 	try {
 		await deletePost(id);
-		await updateBlog();
-		await updatePostCount();
+		await updateBlogPostCount();
 		redirectToBlog();
 	} catch (err) {
 		console.error(err);

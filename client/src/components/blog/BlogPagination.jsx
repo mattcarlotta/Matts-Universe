@@ -1,3 +1,4 @@
+// import { isEmpty, isNumber } from 'lodash';
 import React, { Component } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -10,8 +11,6 @@ import Spinner from '../loaders/spinner';
 
 class BlogPagination extends Component {
 	state = {
-		pageCount: null,
-		postCount: null,
 		requestTimeout: false,
 		isLoading: true
 	};
@@ -26,7 +25,7 @@ class BlogPagination extends Component {
 	}
 
 	updateBlogPostCount = () => {
-		this.setState({ isLoading: true }, () => {
+		this.setState({ isLoading: true, pageCount: null, postCount: null }, () => {
 			this.fetchBlogPostCount();
 		});
 	};
@@ -36,7 +35,9 @@ class BlogPagination extends Component {
 			const {
 				data: { pageCount, postCount }
 			} = await this.props.fetchPostCount();
-
+			// debugger;
+			// console.log(pageCount, postCount);
+			// debugger;
 			this.setState({
 				pageCount: pageCount,
 				postCount: postCount,
@@ -75,9 +76,7 @@ class BlogPagination extends Component {
 
 			return <Spinner />;
 		}
-
 		this.clearTimer();
-		console.log(postCount, pageCount);
 		return (
 			<span>
 				<RenderPagination
@@ -86,7 +85,7 @@ class BlogPagination extends Component {
 					pageCount={pageCount}
 					goTo={this.goTo}
 				/>
-				<Blog updatePostCount={this.updateBlogPostCount} />
+				<Blog updateBlogPostCount={this.updateBlogPostCount} />
 				<RenderPagination
 					currentPage={currentPage}
 					postCount={postCount}

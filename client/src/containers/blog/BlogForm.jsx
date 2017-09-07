@@ -74,18 +74,18 @@ class BlogPostForm extends Component {
 		clearInterval(this.timeout);
 	};
 
-	handleCreatePost = (id, formData, config) => {
+	handleCreatePost = async (id, formData, config) => {
 		try {
-			this.props.addNewPost(id, formData, config);
+			await this.props.addNewPost(id, formData, config);
 			redirectToBlog();
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
-	handleEditPost = (id, formData, config) => {
+	handleEditPost = async (id, formData, config) => {
 		try {
-			this.props.editPost(id, formData, config);
+			await this.props.editPost(id, formData, config);
 			redirectToBlog();
 		} catch (err) {
 			console.error(err);

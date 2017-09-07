@@ -19,51 +19,48 @@ export const redirectToBlog = () => {
 //==========================================================================
 
 // Adds new post to blog DB
-export const addNewPost = (id, formData, config) => async dispatch => {
-	try {
-		const { data: { message } } = await app.post(
-			`/api/create/post`,
-			formData,
-			config
-		);
-
-		dispatch({ type: AUTH_SUCCESS, payload: message });
-	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
-	}
+export const addNewPost = (id, formData, config) => {
+	return async dispatch => {
+		app
+			.post(`/api/create/post`, formData, config)
+			.then(({ data: { message } }) => {
+				dispatch({ type: AUTH_SUCCESS, payload: message });
+			})
+			.catch(err => {
+				dispatch({ type: AUTH_ERROR, payload: err });
+				throw err;
+			});
+	};
 };
-
 // Deletes a single blog post from DB
-export const deletePost = id => async dispatch => {
-	try {
+export const deletePost = id => {
+	return dispatch => {
 		const config = ConfigAuth();
-		const { data: { message } } = await app.delete(
-			`/api/delete/post/${id}`,
-			config
-		);
-
-		dispatch({ type: AUTH_SUCCESS, payload: message });
-	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err;
-	}
+		app
+			.delete(`/api/delete/post/${id}`, config)
+			.then(({ data: { message } }) => {
+				dispatch({ type: AUTH_SUCCESS, payload: message });
+			})
+			.catch(err => {
+				dispatch({ type: AUTH_ERROR, payload: err });
+				throw err;
+			});
+	};
 };
 
 // Edits a single blog post in DB
-export const editPost = (id, formData, config) => async dispatch => {
-	try {
-		const { data: { message } } = await app.put(
-			`/api/edit/post/${id}`,
-			formData,
-			config
-		);
-
-		dispatch({ type: AUTH_SUCCESS, payload: message });
-	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err;
-	}
+export const editPost = (id, formData, config) => {
+	return dispatch => {
+		app
+			.put(`/api/edit/post/${id}`, formData, config)
+			.then(({ data: { message } }) => {
+				dispatch({ type: AUTH_SUCCESS, payload: message });
+			})
+			.catch(err => {
+				dispatch({ type: AUTH_ERROR, payload: err.toString() });
+				throw err;
+			});
+	};
 };
 
 // Fetches a single post by navTitle from DB
@@ -77,11 +74,11 @@ export const fetchPost = id => async dispatch => {
 };
 
 // Fetches the amount of posts located in DB
-export const fetchPostCount = () => async dispatch => {
+export const fetchPostCount = () => dispatch => {
 	try {
-		return await app.get(`/api/blogcount`);
+		return app.get(`/api/blogcount`);
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		dispatch({ type: AUTH_ERROR, payload: err });
 		throw err;
 	}
 };
@@ -96,7 +93,7 @@ export const fetchPosts = requestedRecords => async dispatch => {
 			}
 		});
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
+		dispatch({ type: AUTH_ERROR, payload: err });
 		throw err;
 	}
 };

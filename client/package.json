@@ -57,6 +57,7 @@
 		"react-transition-group": "^1.2.0",
 		"redux": "^3.7.2",
 		"redux-form": "^7.0.3",
+		"redux-promise": "^0.5.3",
 		"redux-thunk": "^2.2.0",
 		"sass-loader": "^6.0.6",
 		"sendgrid": "^5.2.0",

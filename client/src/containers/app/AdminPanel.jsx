@@ -23,20 +23,22 @@ class AdminPanel extends PureComponent {
 	};
 
 	onDeleteClick = id => {
-		this.props.location.query.pageId
-			? deletePostById(
-					this.props.deletePost,
-					this.props.updateBlog,
-					this.props.updatePostCount,
-					id,
-					redirectToBlog
-				)
-			: deleteProjectById(
-					this.props.deleteProject,
-					this.props.updateProjectItems,
-					id,
-					redirectToProject
-				);
+		if (this.props.location.query.pageId) {
+			deletePostById(
+				this.props.deletePost,
+				this.props.updateBlogPostCount,
+				this.props.updateBlog,
+				id,
+				redirectToBlog
+			);
+		} else {
+			deleteProjectById(
+				this.props.deleteProject,
+				this.props.updateProjectItems,
+				id,
+				redirectToProject
+			);
+		}
 	};
 
 	onEditClick = navTitle => {

@@ -82,7 +82,7 @@ class Blog extends Component {
 		return (
 			<div className="post-container">
 				<AdminPanel
-					updatePostCount={this.props.updatePostCount}
+					updateBlogPostCount={this.props.updateBlogPostCount}
 					updateBlog={this.fetchBlogPosts}
 					posts={posts}
 				/>
