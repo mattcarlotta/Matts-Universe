@@ -11,23 +11,23 @@ exports.isLoggedIn = async (req, res, done) => {
 		let encodedId = req.headers.authorization;
 
 		if (isNil(encodedId) || isEmpty(encodedId)) {
-			throw err;
+			throw 'You do not have permission to do that.';
 		}
 
 		const decodedId = await jwtDecode(encodedId);
 		const user = await User.findById(decodedId.sub);
 
 		if (!user.god) {
-			throw err;
-			return done();
+			throw 'There is only one god: Me. You do not permission to do that.';
+			done();
 		}
 
 		req.user = user._id;
 		req.username = user.username;
-		return done();
+		done();
 	} catch (err) {
 		res.status(401).json({
-			err: 'There is only one god: Me. You do not permission to do that.'
+			err
 		});
 	}
 };

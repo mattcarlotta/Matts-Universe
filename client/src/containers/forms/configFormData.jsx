@@ -1,4 +1,4 @@
-const CreateFormData = ({ file, image, title, imgtitle, description }) => {
+const createFormData = ({ file, image, title, imgtitle, description }) => {
 	const fd = new FormData();
 	if (file) {
 		fd.append('file', file[0]);
@@ -10,4 +10,4 @@ const CreateFormData = ({ file, image, title, imgtitle, description }) => {
 	return fd;
 };
 
-export default CreateFormData;
+export default createFormData;

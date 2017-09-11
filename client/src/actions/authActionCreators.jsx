@@ -9,8 +9,8 @@ import {
 	SET_SIGNEDIN_USER,
 	UNAUTH_USER
 } from '../actions/types';
-
-import ConfigAuth from './configAuth';
+import configAuth from './configAuth';
+import dispatchError from './dispatchError';
 
 //==========================================================================
 // Authorization
@@ -35,7 +35,7 @@ export const authSuccess = message => {
 // Attempts to auth a previously signed in user
 export const authenticateUser = id => async dispatch => {
 	try {
-		const config = ConfigAuth();
+		const config = configAuth();
 		if (!config.user) {
 			dispatch(fetchingUser(false));
 		} else {
@@ -45,14 +45,14 @@ export const authenticateUser = id => async dispatch => {
 			dispatch({ type: FETCHING_USER, payload: false });
 		}
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
+		dispatchError(dispatch, err);
 		dispatch({ type: FETCHING_USER, payload: false });
 		dispatch(signoutUser());
 		throw err;
 	}
 };
 
-// Allows Redux time to fetch a user on refresh before loading app
+// Allows AJAX time to fetch a user on refresh before loading app
 export const fetchingUser = bool => {
 	return {
 		type: FETCHING_USER,
@@ -76,11 +76,7 @@ export const signinUser = ({ username, password }) => async dispatch => {
 		browserHistory.push('/');
 	} catch (err) {
 		const error = `Your username or password is incorrect!`;
-		dispatch({
-			type: AUTH_ERROR,
-			payload: error
-		});
-		throw error;
+		dispatchError(dispatch, error);
 	}
 };
 
@@ -97,11 +93,8 @@ export const signupUser = ({ email, username, password }) => async dispatch => {
 		dispatch({ type: SET_SIGNEDIN_USER, payload: data.user });
 		browserHistory.push('/');
 	} catch (err) {
-		dispatch({
-			type: AUTH_ERROR,
-			payload: err
-		});
-		throw err;
+		dispatchError(dispatch, err);
+		console.error(err);
 	}
 };
 

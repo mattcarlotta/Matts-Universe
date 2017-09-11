@@ -2,8 +2,9 @@ import * as app from 'axios';
 import { browserHistory } from 'react-router';
 import { animateScroll as Nav } from 'react-scroll';
 
-import { AUTH_ERROR, AUTH_SUCCESS } from './types';
-import ConfigAuth from './configAuth';
+import configAuth from './configAuth';
+import dispatchError from './dispatchError';
+import dispatchSuccess from './dispatchSuccess';
 
 export const redirectToProject = () => {
 	browserHistory.push('/');
@@ -15,7 +16,7 @@ export const redirectToProject = () => {
 //==========================================================================
 
 // Adds new post to blog DB
-export const addNewProject = (id, formData, config) => async dispatch => {
+export const addNewProject = (formData, config) => async dispatch => {
 	try {
 		const { data: { message } } = await app.post(
 			`/api/create/project`,
@@ -23,27 +24,25 @@ export const addNewProject = (id, formData, config) => async dispatch => {
 			config
 		);
 
+		dispatchSuccess(dispatch, message);
 		redirectToProject();
-		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		dispatchError(dispatch, err);
 	}
 };
 
 // Deletes project from DB
 export const deleteProject = id => async dispatch => {
 	try {
-		const config = ConfigAuth();
+		const config = configAuth();
 		const { data: { message } } = await app.delete(
 			`/api/delete/project/${id}`,
 			config
 		);
 
-		dispatch({ type: AUTH_SUCCESS, payload: message });
+		dispatchSuccess(dispatch, message);
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		dispatchError(dispatch, err);
 	}
 };
 
@@ -56,11 +55,10 @@ export const editProject = (id, formProps, config) => async dispatch => {
 			config
 		);
 
+		dispatchSuccess(dispatch, message);
 		redirectToProject();
-		dispatch({ type: AUTH_SUCCESS, payload: message });
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		dispatchError(dispatch, err);
 	}
 };
 
@@ -69,8 +67,7 @@ export const fetchProject = id => async dispatch => {
 	try {
 		return await app.get(`/api/project/${id}`);
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		dispatchError(dispatch, err);
 	}
 };
 
@@ -79,7 +76,6 @@ export const fetchProjects = requestedRecords => async dispatch => {
 	try {
 		return await app.get(`/api/projectscollection`);
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err.toString();
+		dispatchError(dispatch, err);
 	}
 };

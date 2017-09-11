@@ -27,12 +27,8 @@ const validate = values => {
 };
 
 class Signup extends Component {
-	handleFormSubmit = async formProps => {
-		try {
-			await this.props.signupUser(formProps);
-		} catch (err) {
-			console.error(err);
-		}
+	handleFormSubmit = formProps => {
+		this.props.signupUser(formProps);
 	};
 
 	render() {

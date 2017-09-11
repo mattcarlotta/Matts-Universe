@@ -1,4 +1,4 @@
-const ConfigAuth = () => {
+const configAuth = () => {
 	return {
 		user: localStorage.getItem('token'),
 		headers: {
@@ -7,4 +7,4 @@ const ConfigAuth = () => {
 	};
 };
 
-export default ConfigAuth;
+export default configAuth;

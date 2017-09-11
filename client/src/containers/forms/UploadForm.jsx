@@ -1,22 +1,10 @@
 import { map } from 'lodash';
 import React, { Component } from 'react';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Form, Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 
-import ConfigAuth from '../../actions/configAuth';
-import CreateFormData from '../forms/configFormData';
-import {
-	addNewPost,
-	editPost,
-	fetchPost,
-	redirectToBlog
-} from '../../actions/postActionCreators';
-import {
-	allowedCharacters,
-	isRequired,
-	maxLengthAllowed
-} from '../forms/validateFormFields';
-import FIELDS from './data/blogFormFields';
+import { allowedCharacters, isRequired } from '../forms/validateFormFields';
+import FIELDS from './formFields';
 import NotFound from '../../components/notfound/notFound';
 import RenderDropZone from '../forms/renderDropZone';
 import RenderFormButtons from '../forms/renderFormButtons';
@@ -25,7 +13,7 @@ import RenderTextAreaField from '../forms/renderTextAreaField';
 import showCharactersLeft from '../forms/showCharactersLeft';
 import Spinner from '../../components/loaders/spinner';
 
-class BlogPostForm extends Component {
+class UploadForm extends Component {
 	state = {
 		isLoaded: false,
 		requestTimeout: false,
@@ -34,26 +22,26 @@ class BlogPostForm extends Component {
 	};
 
 	componentDidMount() {
-		if (this.props.location.query.titleId) this.fetchPostToEdit();
+		if (this.props.queryId) this.fetchItemToEdit();
 	}
 
 	componentWillUnmount() {
 		this.clearTimeout();
 	}
 
-	fetchPostToEdit = async () => {
+	fetchItemToEdit = async () => {
 		this.timeout = setInterval(this.timer, 5000);
 		try {
-			const { data: { foundPost } } = await this.props.fetchPost(
-				this.props.location.query.titleId
+			const { data: { foundItem } } = await this.props.fetchItem(
+				this.props.queryId
 			);
 
-			this.initializeForm(foundPost);
+			this.initializeForm(foundItem);
 			this.setState({
 				isLoaded: true,
-				imageOriginalName: foundPost.image.originalName,
-				imageSize: foundPost.image.size,
-				origImageFile: foundPost.image.fileName,
+				imageOriginalName: foundItem.image.originalName,
+				imageSize: foundItem.image.size,
+				origImageFile: foundItem.image.path,
 				useStoredImage: true
 			});
 		} catch (err) {
@@ -61,8 +49,8 @@ class BlogPostForm extends Component {
 		}
 	};
 
-	initializeForm = foundPost => {
-		this.props.initialize(foundPost);
+	initializeForm = foundItem => {
+		this.props.initialize(foundItem);
 	};
 
 	timer = () => {
@@ -74,24 +62,6 @@ class BlogPostForm extends Component {
 		clearInterval(this.timeout);
 	};
 
-	handleCreatePost = async (id, formData, config) => {
-		try {
-			await this.props.addNewPost(id, formData, config);
-			redirectToBlog();
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
-	handleEditPost = async (id, formData, config) => {
-		try {
-			await this.props.editPost(id, formData, config);
-			redirectToBlog();
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
 	handleOnDrop = newImage => {
 		this.setState({ newImageFiles: newImage, useStoredImage: false });
 	};
@@ -99,21 +69,9 @@ class BlogPostForm extends Component {
 	resetForm = reset => {
 		this.setState({
 			newImageFiles: [],
-			useStoredImage: this.props.location.query.titleId ? true : false
+			useStoredImage: this.props.queryId ? true : false
 		});
 		reset();
-	};
-
-	handleFormSubmit = formProps => {
-		const id = formProps._id ? formProps._id : null;
-		const formData = CreateFormData(formProps);
-		const config = ConfigAuth();
-
-		if (this.props.location.query.titleId) {
-			this.handleEditPost(id, formData, config);
-		} else {
-			this.handleCreatePost(id, formData, config);
-		}
 	};
 
 	renderDropZoneField = field => {
@@ -140,27 +98,28 @@ class BlogPostForm extends Component {
 	};
 
 	imageIsRequired = value => {
-		return !this.props.location.query.titleId && !value
-			? 'Required'
-			: undefined;
+		return !this.props.queryId && !value ? 'Required' : undefined;
 	};
 
 	render() {
 		const {
+			allowedLength,
 			descriptionValue,
-			imgTitleValue,
-			titleValue,
+			formTitle,
 			handleSubmit,
+			imgTitleValue,
+			maxFieldLength,
 			pristine,
+			queryId,
 			reset,
 			submitting,
-			serverError
+			serverError,
+			titleValue
 		} = this.props;
 		const { isLoaded, origImageFile, requestTimeout } = this.state;
-		const { titleId } = this.props.location.query;
 		const characterValue = [titleValue, imgTitleValue, descriptionValue];
 
-		if (titleId && !isLoaded && !origImageFile) {
+		if (queryId && !isLoaded && !origImageFile) {
 			if (requestTimeout || serverError) return <NotFound />;
 
 			return <Spinner />;
@@ -169,10 +128,10 @@ class BlogPostForm extends Component {
 		return (
 			<div className="form-container col-xs-12">
 				<h1>
-					{titleId ? 'Edit Post Form' : 'Create New Post'}
+					{formTitle}
 				</h1>
 				<hr />
-				<form onSubmit={handleSubmit(this.handleFormSubmit)}>
+				<Form onSubmit={handleSubmit}>
 					<Field
 						name="file"
 						component={this.renderDropZoneField}
@@ -180,10 +139,10 @@ class BlogPostForm extends Component {
 						placeholder="Upload Image"
 						validate={[this.imageIsRequired]}
 					/>
-					{map(FIELDS, ({ name, label, allowedLength }, key) => {
+					{map(FIELDS, ({ name, label }, key) => {
 						return (
 							<span key={key}>
-								{showCharactersLeft(characterValue[key], allowedLength)}
+								{showCharactersLeft(characterValue[key], allowedLength[key])}
 								<Field
 									name={name}
 									type="text"
@@ -196,7 +155,7 @@ class BlogPostForm extends Component {
 									validate={[
 										isRequired,
 										allowedCharacters,
-										maxLengthAllowed[key]
+										maxFieldLength[key]
 									]}
 								/>
 							</span>
@@ -207,13 +166,13 @@ class BlogPostForm extends Component {
 						pristine={pristine}
 						resetForm={() => this.resetForm(reset)}
 					/>
-				</form>
+				</Form>
 			</div>
 		);
 	}
 }
 
-const selector = formValueSelector('blogPostForm');
+const selector = formValueSelector('uploadForm');
 
 const mapStateToProps = state => {
 	return {
@@ -225,11 +184,5 @@ const mapStateToProps = state => {
 };
 
 export default reduxForm({
-	form: 'blogPostForm'
-})(
-	connect(mapStateToProps, {
-		addNewPost,
-		editPost,
-		fetchPost
-	})(BlogPostForm)
-);
+	form: 'uploadForm'
+})(connect(mapStateToProps)(UploadForm));

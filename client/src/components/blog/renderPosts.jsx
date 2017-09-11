@@ -19,11 +19,11 @@ const RenderPosts = ({
 			<h3 className="entry-date">
 				{timestamp}
 			</h3>
-			{image.fileName
+			{image
 				? <div className="entry-image">
 						<img
-							src={process.env.PUBLIC_URL + '/uploads/' + image.fileName}
-							alt=""
+							src={process.env.REACT_APP_API + image.path}
+							alt={image.name}
 						/>
 					</div>
 				: null}

@@ -76,11 +76,12 @@
 
 		.content {
 			max-width: 800px;
+			word-wrap: break-word;
 
 			img {
 				display: block;
 				max-width: 710px;
-				max-height: 500px;
+				max-height: 450px;
 				margin: auto;
 			}
 		}

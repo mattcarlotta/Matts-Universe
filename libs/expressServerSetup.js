@@ -6,19 +6,21 @@ module.exports = (app, express) => {
 	//============================================================//
 	if (process.env.NODE_ENV === 'production') {
 		// Express will serve up production assets
-		// like our main.js file, or main.css file
 		app.use(express.static('client/build'));
 
-		// Express will serve up the index.html file
-		// if it doesn't recognize the route
-
+		// Express will serve up the front-end index.html file if it doesn't recognize the route
 		app.get('*', (req, res) => {
-			res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+			res.sendFile(path.resolve('client', 'build', 'index.html'));
 		});
 	}
 
 	//============================================================//
-	/* CREATE NODE SERVER */
+	/* SHARE UPLOADED IMAGES */
+	//============================================================//
+	app.use('/public', express.static('public'));
+
+	//============================================================//
+	/* CREATE EXPRESS SERVER */
 	//============================================================//
 	const port = process.env.PORT || 5000;
 

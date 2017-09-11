@@ -8,15 +8,20 @@ const requireToken = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
 
 //============================================================//
+/* APP UPLOADS */
+//============================================================//
+const uploadImage = require('../middleware/multer');
+
+//============================================================//
 /* APP CONTROLLERS */
 //============================================================//
 const Authentication = require('../controllers/authentication');
 const Blog = require('../controllers/posts');
 const Projects = require('../controllers/projects');
 // const Comment = require('../controllers/comments');
-const imageCreation = require('../middleware/multer');
+
 //============================================================//
-/* APP ROUTES */
+/* EXPRESS ROUTES */
 //============================================================//
 module.exports = app => {
 	require('../routes/authentication')(
@@ -26,8 +31,8 @@ module.exports = app => {
 		requireToken,
 		auth
 	);
-	require('../routes/posts')(app, Blog, requireToken, auth, imageCreation);
-	require('../routes/projects')(app, Projects, requireToken, auth);
+	require('../routes/posts')(app, Blog, requireToken, auth, uploadImage);
+	require('../routes/projects')(app, Projects, requireToken, auth, uploadImage);
 	// require('../comments')(app, Comment, requireToken, auth);
 	// require('../seeds')(app);
 };

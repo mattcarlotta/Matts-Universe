@@ -18,7 +18,7 @@ const RenderDropZone = ({
 			? <span key="imageFromDB">
 					<li>
 						<img
-							src={process.env.PUBLIC_URL + '/uploads/' + origImageFile}
+							src={process.env.REACT_APP_API + origImageFile}
 							alt={imageOriginalName}
 						/>
 					</li>
@@ -43,10 +43,13 @@ const RenderDropZone = ({
 	return (
 		<div>
 			<DropZone
-				className="upload-container"
 				accept="image/jpeg, image/png, image/gif, image/bmp"
+				className="upload-container"
 				onDrop={handleOnDrop}
-				onChange={(filesToUpload, e) => field.input.onChange(filesToUpload)}
+				onChange={(filesToUpload, e) => {
+					e.preventDefault();
+					field.input.onChange(filesToUpload);
+				}}
 			>
 				{newImageFiles.length > 0 || useStoredImage
 					? <ul className="uploaded-images-container">

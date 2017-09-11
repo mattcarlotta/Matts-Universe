@@ -2,8 +2,9 @@ import * as app from 'axios';
 import { browserHistory } from 'react-router';
 
 import AppPromiseInterceptor from './appPromiseInterceptor';
-import { AUTH_ERROR, AUTH_SUCCESS } from './types';
-import ConfigAuth from './configAuth';
+import configAuth from './configAuth';
+import dispatchError from './dispatchError';
+import dispatchSuccess from './dispatchSuccess';
 
 AppPromiseInterceptor(app);
 
@@ -18,49 +19,49 @@ export const redirectToBlog = () => {
 // Blog Post C.R.U.D.
 //==========================================================================
 
-// Adds new post to blog DB
-export const addNewPost = (id, formData, config) => {
-	return async dispatch => {
-		app
-			.post(`/api/create/post`, formData, config)
-			.then(({ data: { message } }) => {
-				dispatch({ type: AUTH_SUCCESS, payload: message });
-			})
-			.catch(err => {
-				dispatch({ type: AUTH_ERROR, payload: err });
-				throw err;
-			});
-	};
+export const addNewPost = (formData, config) => async dispatch => {
+	try {
+		const { data: { message } } = await app.post(
+			`/api/create/post`,
+			formData,
+			config
+		);
+		dispatchSuccess(dispatch, message);
+		redirectToBlog();
+	} catch (err) {
+		dispatchError(dispatch, err);
+	}
 };
 // Deletes a single blog post from DB
-export const deletePost = id => {
-	return dispatch => {
-		const config = ConfigAuth();
-		app
-			.delete(`/api/delete/post/${id}`, config)
-			.then(({ data: { message } }) => {
-				dispatch({ type: AUTH_SUCCESS, payload: message });
-			})
-			.catch(err => {
-				dispatch({ type: AUTH_ERROR, payload: err });
-				throw err;
-			});
-	};
+export const deletePost = id => async dispatch => {
+	try {
+		const config = configAuth();
+
+		const { data: { message } } = await app.delete(
+			`/api/delete/post/${id}`,
+			config
+		);
+		dispatchSuccess(dispatch, message);
+		redirectToBlog();
+	} catch (err) {
+		dispatchError(dispatch, err);
+	}
 };
 
 // Edits a single blog post in DB
-export const editPost = (id, formData, config) => {
-	return dispatch => {
-		app
-			.put(`/api/edit/post/${id}`, formData, config)
-			.then(({ data: { message } }) => {
-				dispatch({ type: AUTH_SUCCESS, payload: message });
-			})
-			.catch(err => {
-				dispatch({ type: AUTH_ERROR, payload: err.toString() });
-				throw err;
-			});
-	};
+export const editPost = (id, formData, config) => async dispatch => {
+	try {
+		const { data: { message } } = await app.put(
+			`/api/edit/post/${id}`,
+			formData,
+			config
+		);
+
+		dispatchSuccess(dispatch, message);
+		redirectToBlog();
+	} catch (err) {
+		dispatchError(dispatch, err);
+	}
 };
 
 // Fetches a single post by navTitle from DB
@@ -68,8 +69,7 @@ export const fetchPost = id => async dispatch => {
 	try {
 		return await app.get(`/api/post/${id}`);
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err.toString() });
-		throw err;
+		dispatchError(dispatch, err);
 	}
 };
 
@@ -78,8 +78,7 @@ export const fetchPostCount = () => dispatch => {
 	try {
 		return app.get(`/api/blogcount`);
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		dispatchError(dispatch, err);
 	}
 };
 
@@ -93,7 +92,6 @@ export const fetchPosts = requestedRecords => async dispatch => {
 			}
 		});
 	} catch (err) {
-		dispatch({ type: AUTH_ERROR, payload: err });
-		throw err;
+		dispatchError(dispatch, err);
 	}
 };

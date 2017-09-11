@@ -3,7 +3,7 @@ import React from 'react';
 const RenderProjects = ({ image, title, imgtitle, description }) => {
 	return (
 		<div className="content">
-			<img src={image} alt="" />
+			<img src={process.env.REACT_APP_API + image.path} alt={image.name} />
 			<h2>
 				{title}
 			</h2>

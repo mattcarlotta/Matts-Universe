@@ -8,7 +8,7 @@ import Spinner from '../loaders/spinner';
 
 class ShowBlogPost extends Component {
 	state = {
-		foundPost: {},
+		foundItem: {},
 		requestTimeout: false
 	};
 
@@ -19,11 +19,11 @@ class ShowBlogPost extends Component {
 
 	fetchBlogPosts = async () => {
 		try {
-			const { data: { foundPost } } = await this.props.fetchPost(
+			const { data: { foundItem } } = await this.props.fetchPost(
 				this.props.location.query.postId
 			);
 			this.setState({
-				foundPost
+				foundItem
 			});
 		} catch (err) {
 			console.error(err);
@@ -44,10 +44,10 @@ class ShowBlogPost extends Component {
 	};
 
 	render() {
-		const { foundPost, requestTimeout } = this.state;
+		const { foundItem, requestTimeout } = this.state;
 		const singlePageIsLoaded = true;
 
-		if (isEmpty(foundPost)) {
+		if (isEmpty(foundItem)) {
 			if (requestTimeout) return <NotFound />;
 
 			return <Spinner />;
@@ -55,7 +55,7 @@ class ShowBlogPost extends Component {
 
 		this.clearTimeout();
 
-		const singleBlogPost = { ...foundPost, singlePageIsLoaded };
+		const singleBlogPost = { ...foundItem, singlePageIsLoaded };
 
 		return (
 			<div className="blog-container">

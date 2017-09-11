@@ -6,35 +6,35 @@ import { withRouter } from 'react-router';
 import configAuth from '../../actions/configAuth';
 import createFormData from '../forms/configFormData';
 import {
-	addNewPost,
-	editPost,
-	fetchPost
-} from '../../actions/postActionCreators';
-import { postMaxLengthAllowed } from '../forms/validateFormFields';
+	addNewProject,
+	editProject,
+	fetchProject
+} from '../../actions/projectActionCreators';
+import { projectMaxLengthAllowed } from '../forms/validateFormFields';
 import UploadForm from '../forms/UploadForm';
 
-class ShowBlogForm extends Component {
+class ShowProjectForm extends Component {
 	handleFormSubmit = formProps => {
 		const config = configAuth();
 		const formData = createFormData(formProps);
 		const id = formProps._id || null;
 
 		this.props.location.query.titleId
-			? this.props.editPost(id, formData, config)
-			: this.props.addNewPost(formData, config);
+			? this.props.editProject(id, formData, config)
+			: this.props.addNewProject(formData, config);
 	};
 
 	render() {
 		const { titleId } = this.props.location.query;
-		const { fetchPost } = this.props;
+		const { fetchProject } = this.props;
 
 		return (
 			<UploadForm
 				onSubmit={formProps => this.handleFormSubmit(formProps)}
-				allowedLength={[50, 100, 20000]}
-				fetchItem={fetchPost}
+				allowedLength={[30, 50, 250]}
+				fetchItem={fetchProject}
 				formTitle={titleId ? 'Edit Project' : 'Add Project'}
-				maxFieldLength={postMaxLengthAllowed}
+				maxFieldLength={projectMaxLengthAllowed}
 				queryId={titleId ? titleId : undefined}
 			/>
 		);
@@ -45,8 +45,8 @@ export default reduxForm({
 	form: 'uploadForm'
 })(
 	connect(null, {
-		addNewPost,
-		editPost,
-		fetchPost
-	})(withRouter(ShowBlogForm))
+		addNewProject,
+		editProject,
+		fetchProject
+	})(withRouter(ShowProjectForm))
 );

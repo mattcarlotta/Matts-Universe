@@ -2,47 +2,22 @@ const mongoose = require('mongoose');
 const Post = mongoose.model('posts');
 const moment = require('moment');
 const navHelper = require('../middleware/navHelper');
-const multer = require('multer');
+const throwError = require('../middleware/throwError');
 const fs = require('fs');
 
-storage = multer.diskStorage({
-	destination: function(request, file, callback) {
-		callback(null, 'client/public/uploads/');
-	},
-	limits: { fileSize: 10000000, files: 1 },
-	filename: function(request, file, callback) {
-		callback(null, Date.now() + '-' + file.originalname);
-	},
-	fileFilter: (req, file, callback) => {
-		if (!file.originalname.match(/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/)) {
-			return callback(new Error('Only images are allowed!'), false);
-		}
-
-		callback(null, true);
-	}
-});
-
-const upload = multer({ storage: storage }).single('file');
-
-const throwError = (res, err) => {
-	console.log(err);
-	res.status(500).json({ err: err.toString() });
-};
-// const upload = multer().single('file');
 //====================================================================================================================//
 // CREATE A POST
 //====================================================================================================================//
 exports.createPost = async (req, res) => {
 	try {
-		if (!req.body) throwError(res, 'There was a problem saving the image!');
-		if (req.file) {
-			req.body.image = {
-				fileName: req.file.filename,
-				originalName: req.file.originalname,
-				path: req.file.path,
-				size: req.file.size
-			};
-		}
+		if (!req.file) throw req.fileValidationError;
+
+		req.body.image = {
+			fileName: req.file.filename,
+			originalName: req.file.originalname,
+			path: req.file.path,
+			size: req.file.size
+		};
 
 		req.body.navTitle = navHelper.manipNavTitle(req.body.title);
 		req.body.timestamp = moment().format('MMMM Do YYYY');
@@ -51,7 +26,6 @@ exports.createPost = async (req, res) => {
 		await Post.create(newPost);
 		res.status(201).json({ message: 'Succesfully added a new post!' });
 	} catch (err) {
-		console.log(err);
 		throwError(res, err);
 	}
 };
@@ -94,11 +68,10 @@ exports.getPostCollectionCount = async (req, res) => {
 //====================================================================================================================//
 exports.showPost = async (req, res) => {
 	try {
-		const foundPost = await Post.findOne({ navTitle: req.params.id });
+		const foundItem = await Post.findOne({ navTitle: req.params.id });
 
-		res.status(201).json({ foundPost });
+		res.status(201).json({ foundItem });
 	} catch (err) {
-		console.log(err);
 		throwError(res, err);
 	}
 };
@@ -107,11 +80,10 @@ exports.showPost = async (req, res) => {
 // UPDATE A SINGLE POST
 //====================================================================================================================//
 exports.updatePost = async (req, res) => {
-	// let
 	try {
-		console.log(req.file);
-		if (!req.body) throwError(res, 'There was a problem saving the image!');
+		if (req.fileValidationError) throw req.fileValidationError;
 
+		let unlinkError;
 		if (req.file) {
 			req.body.image = {
 				fileName: req.file.filename,
@@ -120,10 +92,13 @@ exports.updatePost = async (req, res) => {
 				size: req.file.size
 			};
 
-			fs.unlink(`./${req.body.oldImage}`, function(err) {
-				if (err) console.log(err);
+			await fs.unlink(`./${req.body.oldImage}`, function(err) {
+				if (err)
+					unlinkError = 'There was a problem deleting the old post image';
 			});
 		}
+
+		if (unlinkError) throw unlinkError;
 
 		req.body.navTitle = navHelper.manipNavTitle(req.body.title);
 		const updatePost = req.body;
@@ -131,7 +106,6 @@ exports.updatePost = async (req, res) => {
 		await Post.findByIdAndUpdate(req.params.id, updatePost);
 		res.status(201).json({ message: 'Succesfully edited the post!' });
 	} catch (err) {
-		console.log(err);
 		throwError(res, err);
 	}
 };
@@ -139,7 +113,7 @@ exports.updatePost = async (req, res) => {
 //====================================================================================================================//
 // DELETE A SINGLE POST
 //====================================================================================================================//
-exports.deletePost = async (req, res, done) => {
+exports.deletePost = async (req, res) => {
 	let imagePath;
 	try {
 		const { image: { path } } = await Post.findOne(
