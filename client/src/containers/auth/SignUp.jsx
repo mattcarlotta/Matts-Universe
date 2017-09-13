@@ -60,9 +60,7 @@ class Signup extends Component {
 	}
 }
 
-Signup = reduxForm({
+export default reduxForm({
 	form: 'signup',
 	validate
-})(Signup);
-
-export default (Signup = connect(null, { authError, signupUser })(Signup));
+})(connect(null, { authError, signupUser })(Signup));

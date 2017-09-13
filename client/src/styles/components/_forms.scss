@@ -38,20 +38,6 @@
 	margin-bottom: 20px;
 }
 
-.form-input {
-	width: 100%;
-	margin-bottom: 5px;
-	color: $owhite;
-	background-color: transparent;
-	outline: none;
-	border: none;
-	border-bottom: 1px solid $lightblue;
-}
-
-.input-error {
-	border-bottom: 2px solid $orange;
-}
-
 .form-container {
 	display: flex;
 	flex-wrap: wrap;
@@ -60,7 +46,6 @@
 	margin: 0 auto;
 	margin-top: 20px;
 	margin-bottom: 100px;
-	// background-color: white;
 	padding: 10px 20px 30px 20px;
 
 	form {
@@ -81,6 +66,20 @@
 	}
 }
 
+.form-input {
+	width: 100%;
+	margin-bottom: 5px;
+	color: $owhite;
+	background-color: transparent;
+	outline: none;
+	border: none;
+	border-bottom: 1px solid $lightblue;
+
+	&:focus {
+		border-bottom: 2px solid $orange;
+	}
+}
+
 .form-details {
 	@extend .form-input;
 	padding: 10px;
@@ -88,8 +87,14 @@
 	border: 1px solid $lightblue;
 }
 
+.input-error {
+	border-bottom: 2px solid $orange;
+}
+
 .submit:focus {
 	@extend .no-link-focus;
+	background-color: $buttonblue;
+	border-color: $transparent;
 }
 
 .upload-container {

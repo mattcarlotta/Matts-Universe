@@ -34,23 +34,25 @@ export default WrappedComponent => {
 		showScrollButton(scrollY) {
 			return scrollY >= 1200
 				? <div
-						key="1"
+						key="scrolltotop"
 						onClick={() =>
 							Nav.scrollTo(0, { duration: 1000, smooth: 'easeInOutQuint' })}
-						className="scroll">
+						className="scroll"
+					>
 						<span className="icon">
 							<i className="fa fa-angle-double-up" aria-hidden="true" />
 						</span>
 						<span className="text">Top</span>
 					</div>
 				: <div
-						key="2"
+						key="scrolltobottom"
 						onClick={() =>
 							Nav.scrollToBottom({
 								duration: 1000,
 								smooth: 'easeInOutQuint'
 							})}
-						className="scroll">
+						className="scroll"
+					>
 						<span className="text">Bottom</span>
 						<span className="icon">
 							<i className="fa fa-angle-double-down" aria-hidden="true" />
@@ -65,7 +67,8 @@ export default WrappedComponent => {
 					<CSSTransitionGroup
 						transitionName="scrolltransition"
 						transitionEnterTimeout={300}
-						transitionLeaveTimeout={100}>
+						transitionLeaveTimeout={100}
+					>
 						{this.showScrollButton(this.state.scrollY)}
 					</CSSTransitionGroup>
 				</span>

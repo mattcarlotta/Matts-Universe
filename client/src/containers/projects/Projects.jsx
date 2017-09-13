@@ -32,12 +32,6 @@ class Projects extends Component {
 		this.setTimer();
 	}
 
-	// componentDidUpdate(prevProps, prevState) {
-	// 	if (this.state.projects) {
-	// 		if (prevState.projects.length !== this.state.projects) this.setTimer();
-	// 	}
-	// }
-
 	componentWillUnmount() {
 		this.clearTimer();
 	}

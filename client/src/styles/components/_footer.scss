@@ -1,7 +1,8 @@
-.navigation-container {
-	background: transparent;
+.footer-container {
+	background-color: $trueblue;
 
-	.navigation-bar {
+	.contact-nav {
+		padding-top: 5px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
@@ -18,7 +19,7 @@
 		}
 
 		li > a {
-			padding: 10px 20px;
+			padding: 10px 15px;
 			color: $lightblue;
 			transition: all 0.5s;
 
@@ -31,6 +32,10 @@
 			&:focus {
 				@extend .no-link-focus;
 			}
+		}
+
+		p {
+			margin-right: 20px;
 		}
 	}
 }

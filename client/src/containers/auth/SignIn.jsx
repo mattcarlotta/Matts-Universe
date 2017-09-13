@@ -7,15 +7,7 @@ import RenderFormButtons from '../forms/renderFormButtons';
 import FIELDS from './data/signinFormData';
 
 import { authError, signinUser } from '../../actions/authActionCreators';
-
-const validate = values => {
-	const errors = {};
-
-	if (!values.username) errors.username = 'Required';
-	if (!values.password) errors.password = 'Required';
-
-	return errors;
-};
+import { isRequired } from '../forms/validateFormFields';
 
 class Signin extends Component {
 	handleFormSubmit = formProps => {
@@ -37,6 +29,7 @@ class Signin extends Component {
 								type={type}
 								component={RenderInputField}
 								label={label}
+								validate={[isRequired]}
 							/>
 						);
 					})}
@@ -51,9 +44,6 @@ class Signin extends Component {
 	}
 }
 
-Signin = reduxForm({
-	form: 'signin',
-	validate
-})(Signin);
-
-export default connect(null, { authError, signinUser })(Signin);
+export default reduxForm({
+	form: 'signin'
+})(connect(null, { authError, signinUser })(Signin));

@@ -4,7 +4,6 @@ import DropZone from 'react-dropzone';
 const RenderDropZone = ({
 	field,
 	handleOnDrop,
-	fileError,
 	imageOriginalName,
 	imageSize,
 	label,

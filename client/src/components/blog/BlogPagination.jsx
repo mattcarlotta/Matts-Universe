@@ -35,9 +35,7 @@ class BlogPagination extends Component {
 			const {
 				data: { pageCount, postCount }
 			} = await this.props.fetchPostCount();
-			// debugger;
-			// console.log(pageCount, postCount);
-			// debugger;
+
 			this.setState({
 				pageCount: pageCount,
 				postCount: postCount,
