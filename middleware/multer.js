@@ -1,24 +1,31 @@
 const multer = require('multer');
-
-const storage = multer.diskStorage({
-	destination: function(request, file, callback) {
-		callback(null, 'public/uploads/');
-	},
-	limits: { fileSize: 10485760 },
-	filename: function(request, file, callback) {
-		callback(null, Date.now() + '-' + file.originalname);
-	}
-});
+const sharp = require('sharp');
 
 const uploadImage = multer({
-	storage: storage,
-	fileFilter: (req, file, cb) => {
+	fileFilter: (req, file, next) => {
 		if (!/\.(jpe?g|png|gif|bmp)$/i.test(file.originalname)) {
 			req.fileValidationError = 'That file extension is not accepted!';
-			return cb(null, false);
+			return next(null, false);
 		}
-		cb(null, true);
+		next(null, true);
 	}
 }).single('file');
 
-module.exports = uploadImage;
+module.exports = (req, res, next) => {
+	uploadImage(req, res, function() {
+		if (req.fileValidationError) return next();
+
+		const filename = Date.now() + '-' + req.file.originalname;
+		const filepath = `public/uploads/${filename}`;
+
+		sharp(req.file.buffer)
+			.resize(800, 600)
+			.min()
+			.toFile(filepath)
+			.then(function() {
+				req.file.filename = filename;
+				req.file.path = filepath;
+				return next();
+			});
+	});
+};

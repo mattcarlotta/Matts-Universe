@@ -6,8 +6,9 @@ const NoItemsFound = ({ message }) => {
 	return (
 		<div
 			className={
-				message.indexOf('blog') >= 0 ? 'blog-container' : 'project-container'
-			}>
+				message.indexOf('blog') >= 0 ? 'blog-container' : 'noproject-container'
+			}
+		>
 			<AdminPanel />
 			<div data-abide-error className="alert">
 				<p>

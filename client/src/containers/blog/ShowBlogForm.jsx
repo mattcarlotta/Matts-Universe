@@ -33,7 +33,7 @@ class ShowBlogForm extends Component {
 				onSubmit={formProps => this.handleFormSubmit(formProps)}
 				allowedLength={[50, 100, 20000]}
 				fetchItem={fetchPost}
-				formTitle={titleId ? 'Edit Project' : 'Add Project'}
+				formTitle={titleId ? 'Edit Post' : 'Add Post'}
 				maxFieldLength={postMaxLengthAllowed}
 				queryId={titleId ? titleId : undefined}
 			/>
