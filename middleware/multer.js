@@ -11,9 +11,9 @@ const uploadImage = multer({
 	}
 }).single('file');
 
-module.exports = (req, res, next) => {
+module.exports = (req, res, done) => {
 	uploadImage(req, res, function() {
-		if (req.fileValidationError) return next();
+		if (req.fileValidationError || !req.file) return done();
 
 		const filename = Date.now() + '-' + req.file.originalname;
 		const filepath = `public/uploads/${filename}`;
@@ -25,7 +25,7 @@ module.exports = (req, res, next) => {
 			.then(function() {
 				req.file.filename = filename;
 				req.file.path = filepath;
-				return next();
+				return done();
 			});
 	});
 };

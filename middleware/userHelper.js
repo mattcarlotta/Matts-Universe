@@ -19,12 +19,12 @@ exports.isLoggedIn = async (req, res, done) => {
 
 		if (!user.god) {
 			throw 'There is only one god: Me. You do not permission to do that.';
-			done();
+			return done();
 		}
 
 		req.user = user._id;
 		req.username = user.username;
-		done();
+		return done();
 	} catch (err) {
 		res.status(401).json({
 			err

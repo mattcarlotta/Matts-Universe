@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Project = mongoose.model('projects');
-const navHelper = require('../middleware/navHelper');
+const manipNavTitle = require('../middleware/navHelper').manipNavTitle;
 const throwError = require('../middleware/throwError');
 const fs = require('fs');
 
@@ -18,7 +18,7 @@ exports.createProject = async (req, res) => {
 			size: req.file.size
 		};
 
-		req.body.navTitle = await navHelper.manipNavTitle(req.body.title);
+		req.body.navTitle = await manipNavTitle(req.body.title);
 		const newProject = req.body;
 
 		await Project.create(newProject);
@@ -79,7 +79,7 @@ exports.updateProject = async (req, res) => {
 
 		if (unlinkError) throw unlinkError;
 
-		req.body.navTitle = await navHelper.manipNavTitle(req.body.title);
+		req.body.navTitle = await manipNavTitle(req.body.title);
 		const updateProject = req.body;
 
 		await Project.findByIdAndUpdate(req.params.id, updateProject);

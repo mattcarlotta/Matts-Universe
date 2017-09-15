@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const Post = mongoose.model('posts');
 const moment = require('moment');
-const navHelper = require('../middleware/navHelper');
+const covertToArray = require('../middleware/navHelper').covertToArray;
+const manipNavTitle = require('../middleware/navHelper').manipNavTitle;
+const stripDescription = require('../middleware/navHelper').stripDescription;
 const throwError = require('../middleware/throwError');
 const fs = require('fs');
 
@@ -10,7 +12,7 @@ const fs = require('fs');
 //====================================================================================================================//
 exports.createPost = async (req, res) => {
 	try {
-		if (!req.file) throw req.fileValidationError;
+		if (!req.file || req.fileValidationError) throw req.fileValidationError;
 
 		req.body.image = {
 			fileName: req.file.filename,
@@ -19,7 +21,7 @@ exports.createPost = async (req, res) => {
 			size: req.file.size
 		};
 
-		req.body.navTitle = navHelper.manipNavTitle(req.body.title);
+		req.body.navTitle = manipNavTitle(req.body.title);
 		req.body.timestamp = moment().format('MMMM Do YYYY');
 		req.body.createdAt = moment().unix();
 		const newPost = req.body;
@@ -41,7 +43,7 @@ exports.findPosts = async (req, res) => {
 			.limit(10)
 			.sort({ _id: -1 });
 
-		res.status(201).json({ posts: navHelper.stripDescription(allPosts) });
+		res.status(201).json({ posts: stripDescription(allPosts) });
 	} catch (err) {
 		throwError(res, err);
 	}
@@ -55,7 +57,7 @@ exports.getPostCollectionCount = async (req, res) => {
 		const postCount = await Post.count({});
 
 		res.status(201).json({
-			pageCount: navHelper.covertToArray(Math.ceil(postCount / 10)),
+			pageCount: covertToArray(Math.ceil(postCount / 10)),
 			postCount: 10 * Math.ceil(postCount / 10)
 		});
 	} catch (err) {
@@ -100,7 +102,7 @@ exports.updatePost = async (req, res) => {
 
 		if (unlinkError) throw unlinkError;
 
-		req.body.navTitle = navHelper.manipNavTitle(req.body.title);
+		req.body.navTitle = manipNavTitle(req.body.title);
 		const updatePost = req.body;
 
 		await Post.findByIdAndUpdate(req.params.id, updatePost);
