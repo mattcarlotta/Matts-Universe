@@ -5,7 +5,7 @@ const NotFound = () => {
 	return (
 		<div className="notfound-container">
 			<Link to="/">
-				<img src={require('../../images/notFound6.png')} alt="notFound.png" />
+				<img src={require('../../images/notFound.png')} alt="notFound.png" />
 			</Link>
 		</div>
 	);

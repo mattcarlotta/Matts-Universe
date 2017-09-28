@@ -4,6 +4,9 @@
 #Uploads Folder
 uploads
 
+#Scrap Images
+scrap/
+
 # Config
 **/config
 
