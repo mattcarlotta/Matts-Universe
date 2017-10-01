@@ -1,17 +1,20 @@
-import debounce from 'lodash/debounce';
+import { throttle } from 'lodash';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { animateScroll as Nav } from 'react-scroll';
 import { CSSTransitionGroup } from 'react-transition-group';
+
+import Header from './header';
 
 export default WrappedComponent => {
 	class WindowScroll extends Component {
 		constructor(props) {
 			super(props);
 			this.state = {
-				scrollY: window.scrollY
+				scrollY: window.scrollY,
+				fixedNavBar: false
 			};
-			this.handleScroll = debounce(this.handleScroll, 300);
+			this.handleScroll = throttle(this.handleScroll, 300);
 		}
 
 		componentDidMount() {
@@ -28,7 +31,17 @@ export default WrappedComponent => {
 		}
 
 		handleScroll = () => {
-			this.setState({ scrollY: window.scrollY });
+			this.setState({ scrollY: window.scrollY }, () => {
+				this.setState({ fixedNavBar: this.state.scrollY >= 30 ? true : false });
+			});
+		};
+
+		showFixedNavBar = fixedNavBar => {
+			return fixedNavBar
+				? <div className="fixed-nav">
+						<Header />
+					</div>
+				: null;
 		};
 
 		showScrollButton(scrollY) {
@@ -37,8 +50,7 @@ export default WrappedComponent => {
 						key="scrolltotop"
 						onClick={() =>
 							Nav.scrollTo(0, { duration: 1000, smooth: 'easeInOutQuint' })}
-						className="scroll"
-					>
+						className="scroll">
 						<span className="icon">
 							<i className="fa fa-angle-double-up" aria-hidden="true" />
 						</span>
@@ -51,8 +63,7 @@ export default WrappedComponent => {
 								duration: 1000,
 								smooth: 'easeInOutQuint'
 							})}
-						className="scroll"
-					>
+						className="scroll">
 						<span className="text">Bottom</span>
 						<span className="icon">
 							<i className="fa fa-angle-double-down" aria-hidden="true" />
@@ -61,15 +72,18 @@ export default WrappedComponent => {
 		}
 
 		render() {
+			const { scrollY, fixedNavBar } = this.state;
+
 			return (
 				<span ref={component => (this.component = component)}>
+					<Header />
+					{this.showFixedNavBar(fixedNavBar)}
 					<WrappedComponent {...this.props} />
 					<CSSTransitionGroup
 						transitionName="scrolltransition"
 						transitionEnterTimeout={300}
-						transitionLeaveTimeout={100}
-					>
-						{this.showScrollButton(this.state.scrollY)}
+						transitionLeaveTimeout={100}>
+						{this.showScrollButton(scrollY)}
 					</CSSTransitionGroup>
 				</span>
 			);

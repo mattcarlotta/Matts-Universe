@@ -1,3 +1,13 @@
+.fixed-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	background: $trueblue;
+	width: 100%;
+	border-bottom: 1px solid $owhite;
+}
+
 .navigation-container {
 	background: transparent;
 
