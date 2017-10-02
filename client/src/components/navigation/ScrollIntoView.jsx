@@ -31,8 +31,9 @@ export default WrappedComponent => {
 		}
 
 		handleScroll = () => {
-			this.setState({ scrollY: window.scrollY }, () => {
-				this.setState({ fixedNavBar: this.state.scrollY >= 30 ? true : false });
+			this.setState({
+				scrollY: window.scrollY,
+				fixedNavBar: window.scrollY >= 30 ? true : false
 			});
 		};
 

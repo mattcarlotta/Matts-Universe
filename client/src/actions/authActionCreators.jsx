@@ -36,6 +36,7 @@ export const authSuccess = message => {
 export const authenticateUser = id => async dispatch => {
 	try {
 		const config = configAuth();
+
 		if (!config.user) {
 			dispatch(fetchingUser(false));
 		} else {

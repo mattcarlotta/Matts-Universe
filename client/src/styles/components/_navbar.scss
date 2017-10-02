@@ -3,9 +3,21 @@
 	top: 0;
 	left: 0;
 	z-index: 1000;
-	background: $trueblue;
+	background: $owhite;
 	width: 100%;
-	border-bottom: 1px solid $owhite;
+	border-bottom: 1px solid $trueblue;
+	-webkit-animation-name: fadeIn;
+	-webkit-animation-duration: .3s;
+	animation-name: fadeIn;
+	animation-duration: .3s;
+
+	.navigation-container .navigation-bar li > a {
+		color: $trueblue;
+
+		&:hover {
+			color: $lightblue;
+		}
+	}
 }
 
 .navigation-container {
