@@ -5,12 +5,12 @@ export default [
 		title: 'Home'
 	},
 	{
-		pixel: 1200,
+		pixel: 1170,
 		icon: 'fa-question-circle-o',
 		title: 'About'
 	},
 	{
-		pixel: 2200,
+		pixel: 2170,
 		icon: 'fa-cogs',
 		title: 'Projects'
 	}

@@ -66,7 +66,6 @@ class ScrollButton extends Component {
 
 		return (
 			<span>
-				<div className="empty-space" />
 				<Header fixedNavBar={fixedNavBar} />
 				<CSSTransitionGroup
 					transitionName="scrolltransition"
