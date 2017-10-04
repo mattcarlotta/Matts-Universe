@@ -5,7 +5,13 @@ import Projects from '../containers/projects/Projects';
 const ShowProjects = () => {
 	return (
 		<div className="project-container">
-			<h1>What I've developed.</h1>
+			<div className="title">
+				<h1>What I've developed.</h1>
+				<p>
+					A slideshow of projects I've created starting with the most recent and
+					going as far back <br /> as early 2017.
+				</p>
+			</div>
 			<div className="project-content">
 				<Projects />
 			</div>

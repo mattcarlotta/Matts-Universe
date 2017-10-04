@@ -9,7 +9,8 @@ export const NavScrollTo = ({ pixel, icon, title }) => {
 				onClick={() => {
 					browserHistory.push('/');
 					Nav.scrollTo(pixel, { duration: 1150, smooth: 'easeInOutQuint' });
-				}}>
+				}}
+			>
 				<i className={`fa ${icon}`} aria-hidden="true" /> {title}
 			</Link>
 		</li>

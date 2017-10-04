@@ -18,34 +18,16 @@ body {
 	background-color: $trueblue;
 }
 
-.align-left {
-	float: left !important;
-}
-
-.bottom-padded {
-	margin-bottom: 30px;
-	padding-bottom: 30px;
-}
-
-.complete-expand {
-	width: 100%;
+.cursive-font {
+	font-family: 'Rock Salt', cursive;
 }
 
 .disabled {
 	cursor: not-allowed;
 }
 
-.d-f {
-	display: flex;
-}
-
 .default-font {
 	font-family: 'Roboto', sans-serif;
-}
-
-.extra-large-icons {
-	font-size: 75px;
-	margin-bottom: 20px;
 }
 
 .fa {
@@ -63,71 +45,8 @@ body {
 	cursor: pointer;
 }
 
-.f-l {
-	float: left;
-}
-
-.f-r {
-	float: right;
-}
-
-.landing-link {
-	color: $white;
-	margin-right: 40px;
-	text-shadow: 1px 1px 5px $trueblue;
-}
-
-.landing-link:hover {
-	color: $lightblue;
-}
-
-.l-i {
-	font-size: 36px;
-}
-
-.large-icons {
-	font-size: 30px;
-}
-
-.link-container {
-	margin-top: 20px;
-	margin-left: 40px;
-}
-
-.m-a {
-	margin: auto;
-}
-
-.m-b {
-	margin-bottom: 20px;
-}
-
-.m-r {
-	margin-right: 10px;
-}
-
-.m-r-item {
-	margin-right: 20px;
-}
-
-.m-t {
-	margin-top: 20px;
-}
-
-.m-t-item {
-	margin-top: 10px;
-}
-
-.m-20 {
-	margin: 20px;
-}
-
-.partial-expand {
-	width: 45%;
-}
-
-.p-l {
-	padding-left: 5px;
+.large-icon {
+	font-size: 20px;
 }
 
 .no-link-focus {
@@ -136,19 +55,24 @@ body {
 }
 
 .no-padding {
-	padding-right: 0;
-	padding-left: 0;
+	padding: 0;
+}
+
+.separator {
+	border: 0;
+	height: 1px;
+	background-image: linear-gradient(
+		to right,
+		$transparent,
+		$owhite,
+		$transparent
+	);
 }
 
 .small-icon {
 	font-size: 14px;
 	margin-top: 10px;
 	padding-left: 10px;
-}
-
-.small-icons {
-	font-size: 9px;
-	margin-bottom: 10px;
 }
 
 .wrapper {

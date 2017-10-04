@@ -5,10 +5,10 @@ const Footer = () => {
 	return (
 		<div className="footer-container">
 			<ul className="contact-nav">
-				<li className="link-centered">
+				<li>
 					<p>©2017 Matt Carlotta</p>
 				</li>
-				<li className="link-centered">
+				<li>
 					<Link>
 						<i
 							className="fa fa-envelope"
@@ -16,12 +16,12 @@ const Footer = () => {
 						/>carlotta.matt@gmail.com
 					</Link>
 				</li>
-				<li className="link-centered">
+				<li>
 					<a href="https://github.com/mattcarlotta">
 						<i className="fa fa-github" aria-hidden="true" />Github
 					</a>
 				</li>
-				<li className="link-centered">
+				<li>
 					<a href="https://www.linkedin.com/in/mattcarlotta/">
 						<i className="fa fa-linkedin-square" aria-hidden="true" />Linkedin
 					</a>

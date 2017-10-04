@@ -1,7 +1,9 @@
 import { isEmpty } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import { fetchPost } from '../../actions/postActionCreators';
+import BlogHeader from './blogHeader';
 import NotFound from '../notfound/notFound';
 import RenderPosts from './renderPosts';
 import Spinner from '../loaders/spinner';
@@ -59,7 +61,7 @@ class ShowBlogPost extends Component {
 
 		return (
 			<div className="blog-container">
-				<h1 className="title">Blog</h1>
+				<BlogHeader />
 				<RenderPosts {...singleBlogPost} />
 			</div>
 		);

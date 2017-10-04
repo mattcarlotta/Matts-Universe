@@ -3,7 +3,7 @@ import React from 'react';
 
 const RenderPagination = ({ currentPage, postCount, pageCount, goTo }) => {
 	return (
-		<ul className="pagination-container text-center">
+		<ul className="pagination-container">
 			<li className={currentPage === 1 ? 'disable-chevron' : ''}>
 				<button onClick={() => goTo(currentPage - 1, postCount)}>
 					<span className="small-font">&#60;</span>

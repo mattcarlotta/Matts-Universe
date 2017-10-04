@@ -7,17 +7,25 @@
 	padding-top: 40px;
 	height: 1000px;
 	color: $owhite;
+	text-align: center;
+
+	.title {
+		margin-bottom: 20px;
+		h1 {
+			@extend .cursive-font;
+			font-size: 30px;
+			margin-bottom: 20px;
+		}
+	}
 
 	h1,
 	h2,
 	h3,
 	h4 {
-		text-align: center;
 		width: 100%;
 	}
 
 	.project-content {
-		// text-shadow: 0px 0px 7px rgba(1, 64, 109, 0.5);
 		padding-top: 20px;
 		width: 800px;
 		margin: auto;

@@ -1,21 +1,20 @@
-@import "base/variables";
-@import "base/animations";
-@import "~slick-carousel/slick/slick.css";
-@import "~slick-carousel/slick/slick-theme.css";
-// @import "/app/public/assets/bootstrap/css/bootstrap.min.css";
-// @import "/app/public/assets/font-awesome/css/font-awesome.min.css";
+// Variables, animations and static css stylesheets
+@import 'base/variables';
+@import 'base/animations';
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
 
 // Components
-@import "components/about";
-@import "components/adminpanel";
-@import "components/blog";
-@import "components/body";
-@import "components/footer";
-@import "components/forms";
-@import "components/index";
-@import "components/navbar";
-@import "components/notfound";
-@import "components/notifications";
-@import "components/projects";
-@import "components/scroller";
-@import "components/spinner";
+@import 'components/about';
+@import 'components/adminpanel';
+@import 'components/blog';
+@import 'components/body';
+@import 'components/footer';
+@import 'components/forms';
+@import 'components/index';
+@import 'components/navbar';
+@import 'components/notfound';
+@import 'components/notifications';
+@import 'components/projects';
+@import 'components/scroller';
+@import 'components/spinner';

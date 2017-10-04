@@ -11,7 +11,9 @@
 	color: $blue;
 
 	h1 {
-		font-weight: 600;
+		@extend .cursive-font;
+		font-size: 30px;
+		margin-bottom: 40px;
 	}
 
 	.about-content {
@@ -41,7 +43,4 @@
 			}
 		}
 	}
-}
-
-.about-container::after {
 }

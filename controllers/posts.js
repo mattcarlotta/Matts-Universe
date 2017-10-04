@@ -22,7 +22,7 @@ exports.createPost = async (req, res) => {
 		};
 
 		req.body.navTitle = manipNavTitle(req.body.title);
-		req.body.timestamp = moment().format('MMMM Do YYYY');
+		req.body.timestamp = moment().format('dddd, MM.DD.YY');
 		req.body.createdAt = moment().unix();
 		const newPost = req.body;
 		await Post.create(newPost);

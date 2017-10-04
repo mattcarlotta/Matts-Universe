@@ -30,6 +30,8 @@
 		"passport-local": "^1.0.0",
 		"sharp": "^0.18.3"
 	},
-	"devDependencies": {},
+	"devDependencies": {
+		"prettier": "^1.7.4"
+	},
 	"description": ""
 }

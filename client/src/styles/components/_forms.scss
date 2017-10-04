@@ -17,8 +17,13 @@
 	}
 }
 
-.clear-values:focus {
-	@extend .no-link-focus;
+.clear-values {
+	width: 45%;
+	float: right;
+
+	:focus {
+		@extend .no-link-focus;
+	}
 }
 
 .characters-left {
@@ -91,10 +96,14 @@
 	border-bottom: 2px solid $orange;
 }
 
-.submit:focus {
-	@extend .no-link-focus;
-	background-color: $buttonblue;
-	border-color: $transparent;
+.submit {
+	width: 45%;
+
+	&:focus {
+		@extend .no-link-focus;
+		background-color: $buttonblue;
+		border-color: $transparent;
+	}
 }
 
 .upload-container {

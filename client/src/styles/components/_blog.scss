@@ -1,19 +1,12 @@
 .blog-container {
 	min-height: 850px;
 	margin-bottom: 30px;
-	transition: all .3s;
+	transition: all 0.3s;
 
 	hr {
+		@extend .separator;
 		margin-top: 20px;
 		margin-bottom: 10px;
-		border: 0;
-		height: 1px;
-		background-image: linear-gradient(
-			to right,
-			$transparent,
-			$owhite,
-			$transparent
-		);
 		width: 50%;
 	}
 
@@ -22,17 +15,26 @@
 	}
 
 	.title {
-		font-size: 60px;
-		font-family: 'Rock Salt', cursive;
+		// background-color: $blue-25;
 		text-align: center;
-		margin-top: 60px;
-		margin-bottom: 60px;
+		padding-top: 1px;
+		margin-top: 15px;
+		margin-bottom: 20px;
+		h1 {
+			font-size: 30px;
+			font-family: 'Rock Salt', cursive;
+		}
+		p {
+			font-size: 10px;
+			color: $owhite;
+		}
 	}
 }
 
 .entry-date {
 	width: 100%;
-	text-transform: uppercase;
+	margin-top: -10px;
+	margin-bottom: 10px;
 	font-size: 12px;
 	text-align: center;
 }
@@ -42,10 +44,12 @@
 	font-size: 12px;
 	font-weight: 400;
 	width: 100%;
+	margin-top: 20px;
 }
 
 .entry-link {
 	width: 100%;
+	margin-top: 20px;
 }
 
 .entry-link > a {
@@ -61,15 +65,16 @@
 		padding: 10px;
 		border-radius: 20px;
 		color: $lightblue;
-		-webkit-animation: background-color .3s ease-in-out forwards;
-		animation: all .3s ease-in-out forwards;
+		-webkit-animation: background-color 0.3s ease-in-out forwards;
+		animation: all 0.3s ease-in-out forwards;
 		text-decoration: none;
 	}
 }
 
 .entry-title {
-	color: $lightblue;
-	font-weight: 500;
+	color: $owhite;
+	font-size: 28px;
+	font-weight: 600;
 	text-transform: uppercase;
 	width: 100%;
 	text-align: center;
@@ -99,6 +104,7 @@
 	width: 100%;
 	text-align: center;
 	padding: 0;
+	margin-bottom: 20px;
 
 	.small-font {
 		font-size: 10px;
@@ -119,8 +125,8 @@
 			background-color: $lightblue;
 			border-radius: 4px;
 			color: $owhite;
-			-webkit-animation: background-color .3s ease-in-out forwards;
-			animation: all .3s ease-in-out forwards;
+			-webkit-animation: background-color 0.3s ease-in-out forwards;
+			animation: all 0.3s ease-in-out forwards;
 			@extend .no-link-focus;
 		}
 

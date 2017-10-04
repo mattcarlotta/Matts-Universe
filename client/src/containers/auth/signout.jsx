@@ -7,11 +7,11 @@ import { signoutUser } from '../../actions/authActionCreators';
 const SignOut = ({ username, signoutUser }) => {
 	return (
 		<li>
-			{username
-				? <Link onClick={() => signoutUser()} className="link-centered">
-						<i className="fa fa-sign-out" aria-hidden="true" /> SignOut
-					</Link>
-				: null}
+			{username ? (
+				<Link onClick={() => signoutUser()}>
+					<i className="fa fa-sign-out" aria-hidden="true" /> SignOut
+				</Link>
+			) : null}
 		</li>
 	);
 };

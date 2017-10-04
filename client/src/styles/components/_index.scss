@@ -13,10 +13,12 @@
 	height: 300px;
 	padding-top: 20px;
 	margin-top: 200px;
+	text-align: center;
 
 	h1 {
+		@extend .cursive-font;
+		font-size: 36px;
 		letter-spacing: 5px;
-		font-family: 'Rock Salt', cursive;
 		margin-bottom: 15px;
 		text-shadow: 1px 1px 5px $trueblue;
 	}
@@ -27,14 +29,7 @@
 	}
 
 	hr {
-		width: 400px;
-		border: 0;
-		height: 1px;
-		background-image: linear-gradient(
-			to right,
-			$transparent,
-			$owhite,
-			$transparent
-		);
+		@extend .separator;
+		width: 600px;
 	}
 }

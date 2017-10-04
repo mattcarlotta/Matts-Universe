@@ -1,4 +1,3 @@
-// import { isEmpty, isNumber } from 'lodash';
 import React, { Component } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -74,7 +73,9 @@ class BlogPagination extends Component {
 
 			return <Spinner />;
 		}
+
 		this.clearTimer();
+
 		return (
 			<span>
 				<RenderPagination
@@ -84,12 +85,6 @@ class BlogPagination extends Component {
 					goTo={this.goTo}
 				/>
 				<Blog updateBlogPostCount={this.updateBlogPostCount} />
-				<RenderPagination
-					currentPage={currentPage}
-					postCount={postCount}
-					pageCount={pageCount}
-					goTo={this.goTo}
-				/>
 			</span>
 		);
 	}
