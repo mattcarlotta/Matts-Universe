@@ -16,7 +16,7 @@ const About = () => {
 					<hr />
 				</div>
 				<div className="about-body">
-					<img src={aboutImage} alt="" />
+					<img src={aboutImage} alt="aboutImage.png" />
 				</div>
 			</div>
 		</div>

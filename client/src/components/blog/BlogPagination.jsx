@@ -9,85 +9,85 @@ import RenderPagination from './renderPagination';
 import Spinner from '../loaders/spinner';
 
 class BlogPagination extends Component {
-	state = {
-		requestTimeout: false,
-		isLoading: true
-	};
+  state = {
+    requestTimeout: false,
+    isLoading: true
+  };
 
-	componentDidMount() {
-		this.fetchBlogPostCount();
-		this.timeout = setTimeout(this.timer, 5000);
-	}
+  componentDidMount() {
+    this.fetchBlogPostCount();
+    this.timeout = setTimeout(this.timer, 5000);
+  }
 
-	componentWillUnmount() {
-		this.clearTimer();
-	}
+  componentWillUnmount() {
+    this.clearTimer();
+  }
 
-	updateBlogPostCount = () => {
-		this.setState({ isLoading: true, pageCount: null, postCount: null }, () => {
-			this.fetchBlogPostCount();
-		});
-	};
+  updateBlogPostCount = () => {
+    this.setState({ isLoading: true, pageCount: null, postCount: null }, () => {
+      this.fetchBlogPostCount();
+    });
+  };
 
-	fetchBlogPostCount = async () => {
-		try {
-			const {
-				data: { pageCount, postCount }
-			} = await this.props.fetchPostCount();
+  fetchBlogPostCount = async () => {
+    try {
+      const {
+        data: { pageCount, postCount }
+      } = await this.props.fetchPostCount();
 
-			this.setState({
-				pageCount: pageCount,
-				postCount: postCount,
-				isLoading: false
-			});
-		} catch (err) {
-			console.error(err);
-		}
-	};
+      this.setState({
+        pageCount: pageCount,
+        postCount: postCount,
+        isLoading: false
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-	goTo = (requestedPage, postCount) => {
-		if (requestedPage >= 1 && requestedPage * 10 <= postCount) {
-			browserHistory.push({
-				pathname: '/blog/page',
-				query: { pageId: requestedPage }
-			});
-		}
-	};
+  goTo = (requestedPage, postCount) => {
+    if (requestedPage >= 1 && requestedPage * 10 <= postCount) {
+      browserHistory.push({
+        pathname: '/blog/page',
+        query: { pageId: requestedPage }
+      });
+    }
+  };
 
-	clearTimer = () => {
-		clearTimeout(this.timeout);
-	};
+  clearTimer = () => {
+    clearTimeout(this.timeout);
+  };
 
-	timer = () => {
-		this.clearTimer();
-		this.setState({ requestTimeout: true });
-	};
+  timer = () => {
+    this.clearTimer();
+    this.setState({ requestTimeout: true });
+  };
 
-	render() {
-		const { isLoading, postCount, pageCount, requestTimeout } = this.state;
-		const currentPage = parseInt(this.props.location.query.pageId, 10);
+  render() {
+    const { isLoading, postCount, pageCount, requestTimeout } = this.state;
+    const currentPage = parseInt(this.props.location.query.pageId, 10);
 
-		if (isLoading || !postCount || !pageCount) {
-			if (requestTimeout)
-				return <NoItemsFound message={'No blog content was found!'} />;
+    if (isLoading || !postCount || !pageCount) {
+      if (requestTimeout)
+        return <NoItemsFound message={'No blog content was found!'} />;
 
-			return <Spinner />;
-		}
+      return <Spinner />;
+    }
 
-		this.clearTimer();
+    this.clearTimer();
 
-		return (
-			<span>
-				<RenderPagination
-					currentPage={currentPage}
-					postCount={postCount}
-					pageCount={pageCount}
-					goTo={this.goTo}
-				/>
-				<Blog updateBlogPostCount={this.updateBlogPostCount} />
-			</span>
-		);
-	}
+    return (
+      <span>
+        <Blog updateBlogPostCount={this.updateBlogPostCount} />
+        <RenderPagination
+          currentPage={currentPage}
+          postCount={postCount}
+          pageCount={pageCount}
+          goTo={this.goTo}
+        />
+      </span>
+    );
+  }
 }
 
 export default connect(null, { fetchPostCount })(withRouter(BlogPagination));

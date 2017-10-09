@@ -1,6 +1,9 @@
 # Mac OS BS
 *.DS_Store
 
+#Webstorm Files
+.idea
+
 #Uploads Folder
 uploads
 
