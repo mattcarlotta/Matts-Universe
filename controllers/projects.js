@@ -1,3 +1,4 @@
+const env = require('../config/env');
 const mongoose = require('mongoose');
 const Project = mongoose.model('projects');
 const manipNavTitle = require('../middleware/navHelper').manipNavTitle;
@@ -15,6 +16,7 @@ exports.createProject = async (req, res) => {
 			fileName: req.file.filename,
 			originalName: req.file.originalname,
 			path: req.file.path,
+			apiURL: env.APIURL + req.file.path,
 			size: req.file.size
 		};
 
@@ -68,6 +70,7 @@ exports.updateProject = async (req, res) => {
 				fileName: req.file.filename,
 				originalName: req.file.originalname,
 				path: req.file.path,
+				apiURL: env.APIURL + req.file.path,
 				size: req.file.size
 			};
 

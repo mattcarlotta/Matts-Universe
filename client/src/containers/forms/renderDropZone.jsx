@@ -6,6 +6,7 @@ const RenderDropZone = ({
 	handleOnDrop,
 	imageOriginalName,
 	imageSize,
+	imageAPIURL,
 	label,
 	map,
 	newImageFiles,
@@ -17,7 +18,7 @@ const RenderDropZone = ({
 			? <span key="imageFromDB">
 					<li>
 						<img
-							src={process.env.REACT_APP_API + origImageFile}
+							src={imageAPIURL}
 							alt={imageOriginalName}
 						/>
 					</li>

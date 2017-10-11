@@ -6,6 +6,7 @@ module.exports = mongoose => {
 			originalName: String,
 			fileName: String,
 			path: String,
+      apiURL: String,
 			size: String
 		},
 		imgtitle: String,

@@ -1,3 +1,4 @@
+const env = require('../config/env');
 const mongoose = require('mongoose');
 const Post = mongoose.model('posts');
 const moment = require('moment');
@@ -18,6 +19,7 @@ exports.createPost = async (req, res) => {
 			fileName: req.file.filename,
 			originalName: req.file.originalname,
 			path: req.file.path,
+			apiURL: env.APIURL + req.file.path,
 			size: req.file.size
 		};
 
@@ -91,6 +93,7 @@ exports.updatePost = async (req, res) => {
 				fileName: req.file.filename,
 				originalName: req.file.originalname,
 				path: req.file.path,
+        apiURL: env.APIURL + req.file.path,
 				size: req.file.size
 			};
 

@@ -41,6 +41,7 @@ class UploadForm extends Component {
 				isLoaded: true,
 				imageOriginalName: foundItem.image.originalName,
 				imageSize: foundItem.image.size,
+				imageAPIURL: foundItem.image.apiURL,
 				origImageFile: foundItem.image.path,
 				useStoredImage: true
 			});
@@ -78,6 +79,7 @@ class UploadForm extends Component {
 		const {
 			imageOriginalName,
 			imageSize,
+			imageAPIURL,
 			origImageFile,
 			newImageFiles,
 			useStoredImage
@@ -88,6 +90,7 @@ class UploadForm extends Component {
 				handleOnDrop={this.handleOnDrop}
 				imageOriginalName={imageOriginalName}
 				imageSize={imageSize}
+				imageAPIURL={imageAPIURL}
 				label="Upload Image"
 				origImageFile={origImageFile}
 				map={map}
@@ -127,9 +130,7 @@ class UploadForm extends Component {
 
 		return (
 			<div className="form-container col-xs-12">
-				<h1>
-					{formTitle}
-				</h1>
+				<h1>{formTitle}</h1>
 				<hr />
 				<Form onSubmit={handleSubmit}>
 					<Field
