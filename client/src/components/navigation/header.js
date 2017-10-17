@@ -3,8 +3,8 @@ import React from 'react';
 import { Link, browserHistory } from 'react-router';
 import { animateScroll as Nav } from 'react-scroll';
 
-import NAVSCROLLITEMS from './data/navScrollToIndexData.jsx';
-import NavScrollTo from './navScrollTo.jsx';
+import NAVSCROLLITEMS from './data/navScrollToIndexData';
+import NavScrollTo from './navScrollTo';
 import SignOut from '../../containers/auth/signout';
 
 const Header = ({ fixedNavBar }) => {

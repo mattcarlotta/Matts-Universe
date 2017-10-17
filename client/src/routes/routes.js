@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from '../components';
 import Landing from '../views/landing';
@@ -14,8 +13,6 @@ import ShowBlogPost from '../components/blog/ShowBlogPost';
 import ShowProjectForm from '../containers/projects/ShowProjectForm';
 import SignIn from '../containers/auth/SignIn';
 import SignUp from '../containers/auth/SignUp';
-
-injectTapEventPlugin();
 
 const routes = (
 	<Route path="/" component={OnLoadAuth(ScrollIntoView(App))}>

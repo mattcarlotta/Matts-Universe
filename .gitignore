@@ -1,8 +1,10 @@
 # Mac OS BS
 *.DS_Store
 
-#Webstorm Files
-.idea
+#Client files and folders
+client/build
+client/scripts
+client/src/images
 
 #Uploads Folder
 uploads
