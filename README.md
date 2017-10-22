@@ -1,6 +1,4 @@
-# Matts Universe
-<a href="https://mattcarlotta.io">mattcarlotta.io</a>
-
+# <a href="https://mattcarlotta.io">Matt's Universe</a>
 My personal website
 --------------------------------------------------------------------------------------------------------------
 
