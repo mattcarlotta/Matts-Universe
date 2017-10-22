@@ -8,6 +8,9 @@ module.exports = (app, express) => {
 		// Express will serve up production assets
 		app.use(express.static('client/build'));
 
+		// Express will serve up uploaded images
+		app.use('/uploads', express.static('uploads'));
+
 		// Express will serve up the front-end index.html file if it doesn't recognize the route
 		app.get('*', (req, res) => {
 			res.sendFile(path.resolve('client', 'build', 'index.html'));
@@ -17,7 +20,7 @@ module.exports = (app, express) => {
 	//============================================================//
 	/* SHARE UPLOADED IMAGES */
 	//============================================================//
-	app.use('/public', express.static('public'));
+	app.use('/uploads', express.static('uploads'));
 
 	//============================================================//
 	/* CREATE EXPRESS SERVER */

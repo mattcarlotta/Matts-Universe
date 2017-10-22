@@ -16,7 +16,7 @@ module.exports = (req, res, done) => {
 		if (req.fileValidationError || !req.file) return done();
 
 		const filename = Date.now() + '-' + req.file.originalname;
-		const filepath = `public/uploads/${filename}`;
+		const filepath = `uploads/${filename}`;
 
 		sharp(req.file.buffer)
 			.resize(800, 600)

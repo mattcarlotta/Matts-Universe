@@ -46,8 +46,7 @@ const RenderDropZone = ({
 				accept="image/jpeg, image/png, image/gif, image/bmp"
 				className="upload-container"
 				onDrop={handleOnDrop}
-				onChange={(filesToUpload, e) => {
-					e.preventDefault();
+				onChange={(filesToUpload) => {
 					field.input.onChange(filesToUpload);
 				}}
 			>

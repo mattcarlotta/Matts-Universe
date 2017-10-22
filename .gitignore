@@ -5,12 +5,12 @@
 client/build
 client/scripts
 client/src/images
+client/etc
 
-#Uploads Folder
-uploads
-
-#Scrap Images
+#Server files and folders
+uploads/
 scrap/
+prod.json
 
 # Config
 **/config
