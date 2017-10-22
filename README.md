@@ -1,10 +1,8 @@
 # <a href="https://mattcarlotta.io">Matt's Universe</a>
-My personal website
 --------------------------------------------------------------------------------------------------------------
+My personal website
 
 For the front end, this personal project utilizes the <a href="https://github.com/facebookincubator/create-react-app">Create-React-App</a> with some additional libraries:
-
-Client:
 - axios 0.16.2
 - babel-core 6.26.0
 - jquery 3.2.1
@@ -25,9 +23,8 @@ Client:
 - redux-form 7.1.1
 - redux-thunk 2.2.0
 
+--------------------------------------------------------------------------------------------------------------
 For the back end, this personal project utilizes a NodeJS environment with some additional libraries:
-
-Server:
 -	bcrypt-nodejs 0.0.3
 -	bluebird 3.4.7
 -	body-parser 1.15.2
