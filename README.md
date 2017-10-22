@@ -1,6 +1,7 @@
 # <a href="https://mattcarlotta.io">Matt's Universe</a>
 My personal website
 
+--------------------------------------------------------------------------------------------------------------
 For the front end, this personal project utilizes the <a href="https://github.com/facebookincubator/create-react-app">Create-React-App</a> with some additional libraries:
 - axios 0.16.2
 - babel-core 6.26.0
