@@ -1,5 +1,5 @@
 module.exports = (app, Authentication, requireSignin, requireToken, auth) => {
-	app.post('/api/signup', Authentication.signup);
+	// app.post('/api/signup', Authentication.signup);
 
 	app.post('/api/signin', requireSignin, Authentication.signin);
 

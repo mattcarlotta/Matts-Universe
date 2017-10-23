@@ -12,7 +12,7 @@ import ShowBlogForm from '../containers/blog/ShowBlogForm';
 import ShowBlogPost from '../components/blog/ShowBlogPost';
 import ShowProjectForm from '../containers/projects/ShowProjectForm';
 import SignIn from '../containers/auth/SignIn';
-import SignUp from '../containers/auth/SignUp';
+// import SignUp from '../containers/auth/SignUp';
 
 const routes = (
 	<Route path="/" component={OnLoadAuth(ScrollIntoView(App))}>
@@ -24,7 +24,7 @@ const routes = (
 		<Route path="/projects/new" component={RequireAuth(ShowProjectForm)} />
 		<Route path="/projects/edit/:id" component={RequireAuth(ShowProjectForm)} />
 		<Route path="/signin" component={SignIn} />
-		<Route path="/signup" component={SignUp} />
+		{/* <Route path="/signup" component={SignUp} /> */}
 		<Route path="*" component={NotFound} />
 	</Route>
 );

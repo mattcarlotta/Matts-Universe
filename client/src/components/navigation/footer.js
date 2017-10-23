@@ -13,17 +13,20 @@ const Footer = () => {
 						<i
 							className="fa fa-envelope"
 							aria-hidden="true"
-						/>carlotta.matt@gmail.com
+						/>
+						{ (window.innerWidth < 650) ? '' : 'carlotta.matt@gmail.com' }
 					</Link>
 				</li>
 				<li>
 					<a href="https://github.com/mattcarlotta">
-						<i className="fa fa-github" aria-hidden="true" />Github
+						<i className="fa fa-github" aria-hidden="true" />
+						{ (window.innerWidth < 650) ? '' : 'Github' }
 					</a>
 				</li>
 				<li>
 					<a href="https://www.linkedin.com/in/mattcarlotta/">
-						<i className="fa fa-linkedin-square" aria-hidden="true" />Linkedin
+						<i className="fa fa-linkedin-square" aria-hidden="true" />
+						{ (window.innerWidth < 650) ? '' : 'Linkedin' }
 					</a>
 				</li>
 			</ul>

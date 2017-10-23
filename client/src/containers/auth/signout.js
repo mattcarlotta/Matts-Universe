@@ -9,7 +9,7 @@ const SignOut = ({ username, signoutUser }) => {
 		<li>
 			{username ? (
 				<Link onClick={() => signoutUser()}>
-					<i className="fa fa-sign-out" aria-hidden="true" /> SignOut
+					<i className="fa fa-sign-out" aria-hidden="true" /> { (window.innerWidth < 650) ? '' : 'SignOut'}
 				</Link>
 			) : null}
 		</li>

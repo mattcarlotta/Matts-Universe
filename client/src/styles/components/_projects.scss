@@ -1,4 +1,8 @@
 .project-container {
+	@media (max-width: 750px) {
+		background-size: 250%;
+		background-position: center;
+	}
 	background: $lightblue url(../images/projectViewBackground.png);
 	background-size: cover;
 	background-position: top;
@@ -12,10 +16,18 @@
 	.title {
 		margin-bottom: 20px;
 		h1 {
+			@media (max-width: 750px) {
+				font-size: 25px;
+				padding-top: 20%;
+			}
 			@extend .cursive-font;
 			font-size: 30px;
 			margin-bottom: 20px;
 		}
+	}
+
+	p {
+		@media (max-width: 750px) { font-size: 10px; }
 	}
 
 	h1,
@@ -26,6 +38,8 @@
 	}
 
 	.project-content {
+		@media (max-width: 550px) { padding-top: 30%; }
+		@media (max-width: 800px) { width: 95%; }
 		padding-top: 20px;
 		width: 800px;
 		margin: auto;
@@ -90,7 +104,19 @@
 			max-width: 800px;
 			word-wrap: break-word;
 
+			h2 {
+				@media (max-width: 750px) { font-size: 20px; }
+			}
+
+			h3 {
+				@media (max-width: 750px) { font-size: 18px; }
+			}
+
+			h4 {
+				@media (max-width: 750px) { font-size: 14px; }
+			}
 			img {
+				@media (max-width: 800px) { width: 80%; }
 				display: block;
 				max-width: 710px;
 				max-height: 450px;

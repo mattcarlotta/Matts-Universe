@@ -74,7 +74,7 @@ class Projects extends Component {
 			if (requestTimeout)
 				return <NoItemsFound message={'No projects were found!'} />;
 
-			return <Spinner container={'project-container'} />;
+			return <Spinner />;
 		}
 
 		this.clearTimer();

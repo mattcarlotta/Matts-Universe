@@ -26,12 +26,12 @@ const Header = ({ fixedNavBar }) => {
 								})}
 						>
 							<i className="fa fa-commenting-o" aria-hidden="true" />
-							Blog
+							{(window.innerWidth < 650) ? '' : 'Blog' }
 						</Link>
 					</li>
 					<li>
 						<Link onClick={() => Nav.scrollToBottom()}>
-							<i className="fa fa-envelope-o" aria-hidden="true" /> Contact
+							<i className="fa fa-envelope-o" aria-hidden="true" /> {(window.innerWidth < 650) ? '' : 'Contact' }
 						</Link>
 					</li>
 					<SignOut />

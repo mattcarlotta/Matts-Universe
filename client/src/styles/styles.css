@@ -428,6 +428,9 @@ body {
   background-size: cover;
   background-position: bottom;
   background-repeat: no-repeat; }
+  @media only screen and (min-device-width: 350px) and (-webkit-min-device-pixel-ratio: 3) {
+    .index-container {
+      background-size: 20%; } }
 
 .placard {
   color: #f8f9fa;
