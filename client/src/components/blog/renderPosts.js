@@ -24,23 +24,24 @@ const RenderPosts = ({
 				<em>{imgtitle}</em>
 			</p>
 			<div className="entry-content">
-				{_.split(description, '\n').map((item, key) => {
+				{_.split(description, '\n').map((postDescription, key) => {
 					return (
 						<p key={key}>
-							{item}
+							{postDescription}
 							<br />
 						</p>
 					);
 				})}
 			</div>
-			{!singlePageIsLoaded ? (
+			{!singlePageIsLoaded && description.length >= 497 ? (
 				<div className="entry-link">
 					<Link
 						onClick={() =>
 							browserHistory.push({
 								pathname: `/blog/post/title`,
 								query: { postId: `${navTitle}` }
-							})}>
+							})}
+					>
 						<i className="fa fa-long-arrow-right" aria-hidden="true" />Continue
 						reading
 					</Link>

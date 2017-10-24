@@ -13,7 +13,9 @@ module.exports = {
 	},
 	stripDescription: function(allPosts) {
 		return _.map(allPosts, post => {
-			post.description = post.description.substring(0, 496) + '...';
+			post.description.length >= 497
+				? (post.description = post.description.substring(0, 496) + '...')
+				: null;
 			return post;
 		});
 	}
