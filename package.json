@@ -16,7 +16,6 @@
 		"bluebird": "^3.4.7",
 		"body-parser": "^1.15.2",
 		"concurrently": "^3.5.0",
-		"cors": "^2.8.1",
 		"express": "^4.14.0",
 		"jwt-decode": "^2.2.0",
 		"jwt-simple": "^0.5.1",

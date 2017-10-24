@@ -16,7 +16,9 @@
 	color: $blue;
 
 	h1 {
-		@media (max-width: 750px) { font-size: 25px; }
+		@media (max-width: 750px) {
+			font-size: 25px;
+		}
 		@extend .cursive-font;
 		font-size: 30px;
 		margin-bottom: 40px;
@@ -26,21 +28,28 @@
 		margin-top: -50px;
 
 		.underline {
-			@media (max-width: 437px) { display: none; }
-			@media (max-width: 750px) { padding-right: 70px; }
+			@media (max-width: 437px) {
+				display: none;
+			}
+			@media (max-width: 750px) {
+				padding-right: 70px;
+			}
 			margin-top: -18px;
-			padding-right: 95px;
+			padding-right: 96px;
 			hr {
-				@media (max-width: 750px) { width: 202px; border: .75px solid $blue; }
+				@media (max-width: 750px) {
+					width: 202px;
+					border: 0.75px solid $blue;
+				}
 				border: 1.2px solid $blue;
-				width: 272px;
+				width: 273px;
 			}
 		}
 
 		p {
 			@media (max-width: 750px) {
-			 font-size: 10px;
-			 margin-top: -15px;
+				font-size: 10px;
+				margin-top: -15px;
 			}
 			margin-top: 15px;
 			padding: 0 20px;
@@ -55,13 +64,20 @@
 		}
 
 		.about-body {
-			@media (max-width: 750px) { padding-top: 50%; }
+			@media (max-width: 750px) {
+				padding-top: 50%;
+			}
 			padding-top: 50px;
 			width: 100%;
-
-			img {
-				@media (max-width: 750px) { height: 150px; }
-				height: 650px;
+			.about-image {
+				width: 100%;
+				img {
+					@media (max-width: 750px) {
+						height: 150px;
+					}
+					max-width: 1500px;
+					width: 100%;
+				}
 			}
 		}
 	}

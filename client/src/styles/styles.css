@@ -66,7 +66,7 @@
     margin-top: -50px; }
     .about-container .about-content .underline {
       margin-top: -18px;
-      padding-right: 95px; }
+      padding-right: 96px; }
       @media (max-width: 437px) {
         .about-container .about-content .underline {
           display: none; } }
@@ -75,7 +75,7 @@
           padding-right: 70px; } }
       .about-container .about-content .underline hr {
         border: 1.2px solid #428fcc;
-        width: 272px; }
+        width: 273px; }
         @media (max-width: 750px) {
           .about-container .about-content .underline hr {
             width: 202px;
@@ -98,11 +98,14 @@
       @media (max-width: 750px) {
         .about-container .about-content .about-body {
           padding-top: 50%; } }
-      .about-container .about-content .about-body img {
-        height: 650px; }
-        @media (max-width: 750px) {
-          .about-container .about-content .about-body img {
-            height: 150px; } }
+      .about-container .about-content .about-body .about-image {
+        width: 100%; }
+        .about-container .about-content .about-body .about-image img {
+          max-width: 1500px;
+          width: 100%; }
+          @media (max-width: 750px) {
+            .about-container .about-content .about-body .about-image img {
+              height: 150px; } }
 
 .admin-tools {
   padding: 10px 20px 20px 20px;
@@ -265,9 +268,9 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto; }
-  @media (max-width: 750px) {
+  @media (max-width: 850px) {
     .post-container {
-      width: 90%; } }
+      width: 95%; } }
   .post-container hr {
     margin-top: 20px;
     margin-bottom: 10px;
@@ -343,6 +346,7 @@ body {
 
 .wrapper {
   width: 100%;
+  max-width: 2000px;
   overflow: scroll; }
 
 .footer-container {
@@ -469,14 +473,12 @@ body {
 
 .index-container {
   height: 1000px;
+  max-width: 2000px;
   width: 100%;
   background: #01406d url(../images/indexViewBackground.png);
-  background-size: cover;
+  background-size: 100%;
   background-position: bottom;
   background-repeat: no-repeat; }
-  @media (max-width: 750px) {
-    .index-container {
-      background-size: 125%; } }
 
 .placard {
   color: #f8f9fa;
@@ -509,6 +511,7 @@ body {
         width: 90%; } }
 
 .empty-space {
+  max-width: 2000px;
   width: 100%;
   color: #01406d;
   z-index: -1;
@@ -520,6 +523,7 @@ body {
   left: 0;
   z-index: 1000;
   background: #f8f9fa;
+  max-width: 2000px;
   width: 100%;
   height: 50px;
   border-bottom: 1px solid #01406d;
@@ -535,6 +539,7 @@ body {
 .navigation-container {
   background: transparent;
   position: absolute;
+  max-width: 2000px;
   width: 100%;
   height: 50px;
   z-index: 1;
@@ -776,15 +781,15 @@ body {
 
 .scrolltransition-enter {
   -webkit-animation-name: flipIn;
-  -webkit-animation-duration: .3s;
+  -webkit-animation-duration: 0.3s;
   animation-name: flipIn;
-  animation-duration: .3s; }
+  animation-duration: 0.3s; }
 
 .scrolltransition-leave {
   -webkit-animation-name: flipOut;
-  -webkit-animation-duration: .2s;
+  -webkit-animation-duration: 0.2s;
   animation-name: flipOut;
-  animation-duration: .2s; }
+  animation-duration: 0.2s; }
 
 .spinner, .spinner-clockwise, .spinner-counterclockwise {
   position: absolute;
