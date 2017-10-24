@@ -4,7 +4,9 @@
 	transition: all 0.3s;
 
 	hr {
-		@media (max-width: 750px) { width: 90%; }
+		@media (max-width: 750px) {
+			width: 90%;
+		}
 		@extend .separator;
 		margin-top: 20px;
 		margin-bottom: 10px;
@@ -25,7 +27,7 @@
 			font-size: 32px;
 			font-family: 'Rock Salt', cursive;
 		}
-		
+
 		p {
 			font-size: 10px;
 			color: $owhite;
@@ -84,7 +86,9 @@
 
 .entry-image {
 	img {
-		@media (max-width: 750px) { max-width: 325px; }
+		@media (max-width: 750px) {
+			max-width: 325px;
+		}
 		max-width: 700px;
 		max-height: 500px;
 		margin-top: 20px;
@@ -174,7 +178,9 @@
 }
 
 .post-container {
-	@media (max-width: 750px) { width: 90%; }
+	@media (max-width: 750px) {
+		width: 90%;
+	}
 	width: 800px;
 	display: flex;
 	flex-wrap: wrap;
@@ -183,7 +189,9 @@
 	margin: 0 auto;
 
 	hr {
-		@media (max-width: 750px) { width: 100%; }
+		@media (max-width: 750px) {
+			width: 100%;
+		}
 		margin-top: 20px;
 		margin-bottom: 10px;
 		border: 0;

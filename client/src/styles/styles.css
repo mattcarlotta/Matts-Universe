@@ -776,15 +776,15 @@ body {
 
 .scrolltransition-enter {
   -webkit-animation-name: flipIn;
-  -webkit-animation-duration: .3s;
+  -webkit-animation-duration: 0.3s;
   animation-name: flipIn;
-  animation-duration: .3s; }
+  animation-duration: 0.3s; }
 
 .scrolltransition-leave {
   -webkit-animation-name: flipOut;
-  -webkit-animation-duration: .2s;
+  -webkit-animation-duration: 0.2s;
   animation-name: flipOut;
-  animation-duration: .2s; }
+  animation-duration: 0.2s; }
 
 .spinner, .spinner-clockwise, .spinner-counterclockwise {
   position: absolute;

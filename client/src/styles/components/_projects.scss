@@ -27,7 +27,10 @@
 	}
 
 	p {
-		@media (max-width: 750px) { font-size: 10px; text-align: center; }
+		@media (max-width: 750px) {
+			font-size: 10px;
+			text-align: center;
+		}
 	}
 
 	h1,
@@ -38,8 +41,12 @@
 	}
 
 	.project-content {
-		@media (max-width: 550px) { padding-top: 30%; }
-		@media (max-width: 800px) { width: 95%; }
+		@media (max-width: 550px) {
+			padding-top: 30%;
+		}
+		@media (max-width: 800px) {
+			width: 95%;
+		}
 		padding-top: 20px;
 		width: 800px;
 		margin: auto;
@@ -105,18 +112,26 @@
 			word-wrap: break-word;
 
 			h2 {
-				@media (max-width: 750px) { font-size: 20px; }
+				@media (max-width: 750px) {
+					font-size: 20px;
+				}
 			}
 
 			h3 {
-				@media (max-width: 750px) { font-size: 18px; }
+				@media (max-width: 750px) {
+					font-size: 18px;
+				}
 			}
 
 			h4 {
-				@media (max-width: 750px) { font-size: 14px; }
+				@media (max-width: 750px) {
+					font-size: 14px;
+				}
 			}
 			img {
-				@media (max-width: 800px) { width: 80%; }
+				@media (max-width: 800px) {
+					width: 80%;
+				}
 				display: block;
 				max-width: 710px;
 				max-height: 450px;

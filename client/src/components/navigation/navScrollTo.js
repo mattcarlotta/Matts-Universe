@@ -11,7 +11,8 @@ export const NavScrollTo = ({ pixel, icon, title }) => {
 					Nav.scrollTo(pixel, { duration: 1150, smooth: 'easeInOutQuint' });
 				}}
 			>
-				<i className={`fa ${icon}`} aria-hidden="true" /> { (window.innerWidth < 650) ? '' : title}
+				<i className={`fa ${icon}`} aria-hidden="true" />
+				{window.innerWidth < 650 ? '' : title}
 			</Link>
 		</li>
 	);
