@@ -15,15 +15,23 @@ const About = () => {
 				<div className="underline">
 					<hr />
 				</div>
+<<<<<<< HEAD
 				{window.innerWidth < 1000 ? (
+=======
+				{window.innerWidth < 650 ? (
+>>>>>>> 2e0176bc3109a90314fc611119ad17b945f8e595
 					<div className="about-body-mobile">
 						<img src={aboutViewImageMobile} alt="aboutViewImageMobile.png" />
 					</div>
 				) : (
 					<div className="about-body">
+<<<<<<< HEAD
 						<div className="about-image">
 							<img src={aboutImage} alt="aboutImage.png" />
 						</div>
+=======
+						<img src={aboutImage} alt="aboutImage.png" />
+>>>>>>> 2e0176bc3109a90314fc611119ad17b945f8e595
 					</div>
 				)}
 			</div>

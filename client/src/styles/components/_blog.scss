@@ -178,8 +178,13 @@
 }
 
 .post-container {
+<<<<<<< HEAD
 	@media (max-width: 850px) {
 		width: 95%;
+=======
+	@media (max-width: 750px) {
+		width: 90%;
+>>>>>>> 2e0176bc3109a90314fc611119ad17b945f8e595
 	}
 	width: 800px;
 	display: flex;

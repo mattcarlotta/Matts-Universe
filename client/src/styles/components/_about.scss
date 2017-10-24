@@ -69,6 +69,7 @@
 			}
 			padding-top: 50px;
 			width: 100%;
+<<<<<<< HEAD
 			.about-image {
 				width: 100%;
 				img {
@@ -78,6 +79,14 @@
 					max-width: 1500px;
 					width: 100%;
 				}
+=======
+
+			img {
+				@media (max-width: 750px) {
+					height: 150px;
+				}
+				height: 650px;
+>>>>>>> 2e0176bc3109a90314fc611119ad17b945f8e595
 			}
 		}
 	}
