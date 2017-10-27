@@ -5,7 +5,7 @@
 	border-color: $pink;
 	color: $darkred;
 	text-align: center;
-	z-index: 1000;
+	z-index: 2;
 	width: 50%;
 	margin: 0 auto;
 	margin-top: 40px;
@@ -36,7 +36,7 @@
 		position: relative;
 		margin-bottom: 10px;
 		font-size: 14px;
-		font-family: 'Roboto', sans-serif;
+		font-family: $roboto;
 		margin-bottom: 4px;
 		line-height: 20px;
 		display: inline-block;

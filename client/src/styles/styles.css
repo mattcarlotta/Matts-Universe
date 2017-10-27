@@ -1,5 +1,25 @@
 @import url(~slick-carousel/slick/slick.css);
 @import url(~slick-carousel/slick/slick-theme.css);
+@import url(assets/font-awesome/css/font-awesome.min.css);
+@import url(assets/bootstrap/css/bootstrap.min.css);
+@font-face {
+  font-family: "Roboto Medium";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/Roboto-Medium.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Roboto Bold";
+  font-style: normal;
+  font-weight: 900;
+  src: url("assets/fonts/Roboto-Bold.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Rock Salt";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/RockSalt-Regular.ttf") format("truetype"); }
+
 @keyframes fadeIn {
   from {
     opacity: 0; }
@@ -197,7 +217,7 @@
 .entry-title {
   color: #f8f9fa;
   font-size: 28px;
-  font-weight: 600;
+  font-weight: 900;
   text-transform: uppercase;
   width: 100%;
   text-align: center; }
@@ -292,7 +312,7 @@ html {
       overflow-y: scroll; } }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.5px;
@@ -300,13 +320,10 @@ body {
   background-color: #01406d; }
 
 .cursive-font, .about-container h1, .placard h1, .project-container .title h1 {
-  font-family: 'Rock Salt', cursive; }
+  font-family: "Rock Salt", cursive; }
 
 .disabled {
   cursor: not-allowed; }
-
-.default-font {
-  font-family: 'Roboto', sans-serif; }
 
 .fa {
   margin-right: 5px; }
@@ -586,7 +603,7 @@ body {
   border-color: #ebccd1;
   color: #a94442;
   text-align: center;
-  z-index: 1000;
+  z-index: 2;
   width: 50%;
   margin: 0 auto;
   margin-top: 40px; }
@@ -613,7 +630,7 @@ body {
     position: relative;
     margin-bottom: 10px;
     font-size: 14px;
-    font-family: 'Roboto', sans-serif;
+    font-family: Roboto, sans-serif;
     margin-bottom: 4px;
     line-height: 20px;
     display: inline-block; }

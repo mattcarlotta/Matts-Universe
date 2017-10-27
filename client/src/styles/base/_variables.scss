@@ -1,3 +1,31 @@
+/// --FONTS-- ///
+@font-face {
+	font-family: "Roboto Medium";
+	font-style: normal;
+	font-weight: 500;
+	src: url("assets/fonts/Roboto-Medium.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Roboto Bold";
+	font-style: normal;
+	font-weight: 900;
+	src: url("assets/fonts/Roboto-Bold.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Rock Salt";
+	font-style: normal;
+	font-weight: 400;
+	src: url("assets/fonts/RockSalt-Regular.ttf") format("truetype");
+}
+
+$roboto: Roboto, sans-serif;
+$rock-salt: "Rock Salt", cursive;
+/// END ///
+
+
+/// --COLORS-- ///
 // blues
 $blue: #428fcc;
 $blue-25: rgba(0, 137, 194, 0.25);
@@ -40,3 +68,4 @@ $darkgrey: #7d7d7d;
 $darkbrown: #3a4141;
 $white: #ddd;
 $transparent: rgba(0, 0, 0, 0);
+/// END ///

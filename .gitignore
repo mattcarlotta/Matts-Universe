@@ -3,9 +3,10 @@
 
 #Client files and folders
 client/build
+client/etc
+client/src/styles/assets
 client/scripts
 client/src/images
-client/etc
 
 #Server files and folders
 uploads/

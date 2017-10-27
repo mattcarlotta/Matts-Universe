@@ -10,7 +10,7 @@ html {
 }
 
 body {
-	font-family: 'Roboto', sans-serif;
+	font-family: $roboto;
 	font-size: 14px;
 	font-weight: 400;
 	letter-spacing: 0.5px;
@@ -19,15 +19,11 @@ body {
 }
 
 .cursive-font {
-	font-family: 'Rock Salt', cursive;
+	font-family: $rock-salt;
 }
 
 .disabled {
 	cursor: not-allowed;
-}
-
-.default-font {
-	font-family: 'Roboto', sans-serif;
 }
 
 .fa {
