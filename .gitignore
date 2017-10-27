@@ -11,6 +11,7 @@ client/etc
 uploads/
 scrap/
 prod.json
+flightplan.js
 
 # Config
 **/config
