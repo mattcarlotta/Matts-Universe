@@ -1,24 +1,24 @@
 /// --FONTS-- ///
-// @font-face {
-//   font-family: "FontAwesome";
-//   font-weight: normal;
-//   font-style: normal;
-//   src: url("assets/fonts/fontawesome-webfont.eot"),
-//   url("assets/fonts/fontawesome-webfont.eot") format("embedded-opentype"),
-//   url("assets/fonts/fontawesome-webfont.woff") format("woff"),
-//   url("assets/fonts/fontawesome-webfont.ttf") format("truetype"),
-//   url("assets/fonts/fontawesome-webfont.svg") format("svg");
-// }
-//
+@font-face {
+  font-family: "FontAwesome";
+  font-weight: normal;
+  font-style: normal;
+  src: url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot"),
+  url("~font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),
+  url("~font-awesome/fonts/fontawesome-webfont.woff") format("woff"),
+  url("~font-awesome/fonts/fontawesome-webfont.ttf") format("truetype"),
+  url("~font-awesome/fonts/fontawesome-webfont.svg") format("svg");
+}
+
 // @font-face {
 //   font-family: "glyphicons";
 //   font-weight: normal;
 //   font-style: normal;
-//   src: url("assets/fonts/glyphicons-halflings-regular.eot"),
-//   url("assets/fonts/glyphicons-halflings-regular.eot") format("embedded-opentype"),
-//   url("assets/fonts/glyphicons-halflings-regular.woff") format("woff"),
-//   url("assets/fonts/glyphicons-halflings-regular.ttf") format("truetype"),
-//   url("assets/fonts/glyphicons-halflings-regular.svg") format("svg");
+//   src: url("~bootstrap/fonts/glyphicons-halflings-regular.eot"),
+//   url("~bootstrap/fonts/glyphicons-halflings-regular.woff2") format("woff2"),
+//   url("~bootstrap/fonts/glyphicons-halflings-regular.woff") format("woff"),
+//   url("~bootstrap/fonts/glyphicons-halflings-regular.ttf") format("truetype"),
+//   url("~bootstrap/fonts/glyphicons-halflings-regular.svg") format("svg");
 // }
 
 @font-face {
