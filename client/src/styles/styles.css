@@ -146,7 +146,7 @@
   .admin-tools button {
     margin-right: 5px; }
   .admin-tools h1 {
-    color: #ddd;
+    color: #ffffff;
     margin-top: 0;
     font-weight: 900; }
   .admin-tools .signout-button {
@@ -214,7 +214,7 @@
   cursor: pointer;
   padding: 10px;
   border-radius: 20px;
-  color: #ddd;
+  color: #ffffff;
   border: none;
   background-color: transparent;
   transition: all 0.5s; }
@@ -314,15 +314,6 @@
       .post-container hr {
         width: 100%; } }
 
-::-webkit-scrollbar {
-  display: none; }
-
-html {
-  overflow: scroll; }
-  @media (max-width: 1000px) {
-    html {
-      overflow-y: scroll; } }
-
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
@@ -366,6 +357,10 @@ body {
 .no-padding {
   padding: 0; }
 
+.scrollbar {
+  background-color: #a5a1a1;
+  border-radius: 3px; }
+
 .separator, .blog-container hr, .placard hr {
   border: 0;
   height: 1px;
@@ -378,8 +373,7 @@ body {
 
 .wrapper {
   width: 100%;
-  max-width: 2000px;
-  overflow: scroll; }
+  max-width: 2000px; }
 
 .footer-container {
   background-color: #01406d; }

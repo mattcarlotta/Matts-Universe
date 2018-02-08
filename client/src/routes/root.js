@@ -16,12 +16,10 @@ const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
 // APP CONFIGURED WITH REDUX STORE, BROWSERHISTORY AND ROUTES
-const App = () => {
-	return (
-		<Provider store={store}>
-			<Router history={history} routes={routes} />
-		</Provider>
-	);
-};
+const App = () => (
+	<Provider store={store}>
+		<Router history={history} routes={routes} />
+	</Provider>
+);
 
 export default App;

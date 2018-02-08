@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import Home from './home';
 import About from './about';
 import ShowProjects from './showProjects';
 
-const Landing = () => {
-	return (
-		<span>
-			<Home />
-			<About />
-			<ShowProjects />
-		</span>
-	);
-};
-
-export default Landing;
+export default () => (
+	<Fragment>
+		<Home />
+		<About />
+		<ShowProjects />
+	</Fragment>
+);
