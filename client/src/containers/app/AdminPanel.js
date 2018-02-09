@@ -1,14 +1,13 @@
 import map from 'lodash/map';
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button } from 'antd';
 
 import { deletePost } from '../../actions/postActionCreators';
 import { deleteProject } from '../../actions/projectActionCreators';
 import { signoutUser } from '../../actions/authActionCreators';
 import { deleteProjectById, deletePostById } from './data/deleteData';
-import ADMINBUTTONITEMS from '../../components/app/data/adminButtonData';
 import RenderAdminButtons from '../../components/app/renderAdminButtons';
 import SignOut from '../auth/signout';
 
@@ -19,7 +18,7 @@ class AdminPanel extends PureComponent {
 			: browserHistory.push(`/projects/new`);
 	};
 
-	onDeleteClick = id => {
+	onDeleteClick = ({props: {id}}) => {
 		if (this.props.location.query.pageId) {
 			deletePostById(
 				this.props.deletePost,
@@ -36,7 +35,7 @@ class AdminPanel extends PureComponent {
 		}
 	};
 
-	onEditClick = navTitle => {
+	onEditClick = ({props: {navTitle}}) => {
 		const path = this.props.location.query.pageId
 			? ['blog', 'post']
 			: ['projects', 'project'];
@@ -47,58 +46,43 @@ class AdminPanel extends PureComponent {
 		});
 	};
 
-	render() {
+	render = () => {
+		const { pageId } = this.props.location.query;
+		const addNewTitle = pageId ? 'Add New Post' : 'Add New Project';
+		const items = pageId ? this.props.posts : this.props.projects;
+		const BUTTONS = ['pencil-square-o','trash-o'];
 		return (
-			<span>
+			<Fragment>
 				{this.props.username && this.props.userIsGod
 					? <div className="admin-tools">
 							<h1>Admin Control Panel</h1>
-							<ButtonGroup>
-								<Button bsStyle="primary" onClick={this.onAddClick}>
+								<Button type="primary" onClick={this.onAddClick}>
 									<i className="fa fa-plus" aria-hidden="true" />
-									{this.props.location.query.pageId
-										? 'Add New Post'
-										: 'Add New Project'}
+									{addNewTitle}
 								</Button>
-								{map(ADMINBUTTONITEMS, ({ button }, key) => {
-									return (
+								{map(BUTTONS, (icon, key) => {
+									const title = icon === "trash-o" ? "Delete" : "Edit";
+									return(
 										<RenderAdminButtons
-											key={key}
-											bsStyle={button === 'edit' ? 'warning' : 'danger'}
-											id={
-												button === 'edit'
-													? 'admin-tools-edit'
-													: 'admin-tools-delete'
-											}
-											iconClassName={
-												button === 'edit' ? 'fa-pencil-square-o' : 'fa-trash-o'
-											}
-											title={button === 'edit' ? 'Edit' : 'Delete'}
-											items={
-												this.props.location.query.pageId
-													? this.props.posts
-													: this.props.projects
-											}
-											button={button}
-											onClickAction={
-												button === 'edit'
-													? this.onEditClick
-													: this.onDeleteClick
-											}
+												key={key}
+												iconClassName={`fa-${icon}`}
+												items={items}
+												onClickAction={ icon === "trash-o" ? this.onDeleteClick : this.onEditClick}
+												title={`${title} Projects`}
 										/>
-									);
-								})}
+									)})
+								}
 								<Button
 									onClick={() => this.props.signoutUser()}
 									className="signout-button"
 								>
 									<SignOut />
 								</Button>
-							</ButtonGroup>
 						</div>
-					: null}
-			</span>
-		);
+					: null
+				}
+			</Fragment>
+		)
 	}
 }
 

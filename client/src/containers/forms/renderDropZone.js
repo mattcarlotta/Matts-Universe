@@ -2,7 +2,10 @@ import React from 'react';
 import DropZone from 'react-dropzone';
 
 const RenderDropZone = ({
-	field,
+	input,
+	touched,
+	error,
+	// field,
 	handleOnDrop,
 	imageOriginalName,
 	imageSize,
@@ -47,7 +50,7 @@ const RenderDropZone = ({
 				className="upload-container"
 				onDrop={handleOnDrop}
 				onChange={(filesToUpload) => {
-					field.input.onChange(filesToUpload);
+					input.onChange(filesToUpload);
 				}}
 			>
 				{newImageFiles.length > 0 || useStoredImage
@@ -59,10 +62,9 @@ const RenderDropZone = ({
 							<p>Click or drag file to this area to upload.</p>
 						</span>}
 			</DropZone>
-			{field.meta.touched &&
-				field.meta.error &&
+			{touched && error &&
 				<div className="error-handlers">
-					{field.meta.error}
+					{error}
 				</div>}
 			<label className="form-label">
 				{label}

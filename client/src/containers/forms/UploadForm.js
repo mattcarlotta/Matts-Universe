@@ -75,31 +75,6 @@ class UploadForm extends Component {
 		reset();
 	};
 
-	renderDropZoneField = field => {
-		const {
-			imageOriginalName,
-			imageSize,
-			imageAPIURL,
-			origImageFile,
-			newImageFiles,
-			useStoredImage
-		} = this.state;
-		return (
-			<RenderDropZone
-				field={field}
-				handleOnDrop={this.handleOnDrop}
-				imageOriginalName={imageOriginalName}
-				imageSize={imageSize}
-				imageAPIURL={imageAPIURL}
-				label="Upload Image"
-				origImageFile={origImageFile}
-				map={map}
-				newImageFiles={newImageFiles}
-				useStoredImage={useStoredImage}
-			/>
-		);
-	};
-
 	imageIsRequired = value => {
 		return !this.props.queryId && !value ? 'Required' : undefined;
 	};
@@ -119,7 +94,16 @@ class UploadForm extends Component {
 			serverError,
 			titleValue
 		} = this.props;
-		const { isLoaded, origImageFile, requestTimeout } = this.state;
+		const {
+			imageOriginalName,
+			imageSize,
+			imageAPIURL,
+			isLoaded,
+			origImageFile,
+			newImageFiles,
+			requestTimeout,
+			useStoredImage
+		} = this.state;
 		const characterValue = [titleValue, imgTitleValue, descriptionValue];
 
 		if (queryId && !isLoaded && !origImageFile) {
@@ -135,7 +119,22 @@ class UploadForm extends Component {
 				<Form onSubmit={handleSubmit}>
 					<Field
 						name="file"
-						component={this.renderDropZoneField}
+						component={({ input, meta: { error, touched } }) =>
+							<RenderDropZone
+								input={input}
+								touched={touched}
+								error={error}
+								handleOnDrop={this.handleOnDrop}
+								imageOriginalName={imageOriginalName}
+								imageSize={imageSize}
+								imageAPIURL={imageAPIURL}
+								label="Upload Image"
+								origImageFile={origImageFile}
+								map={map}
+								newImageFiles={newImageFiles}
+								useStoredImage={useStoredImage}
+							/>
+						}
 						type="file"
 						placeholder="Upload Image"
 						validate={[this.imageIsRequired]}

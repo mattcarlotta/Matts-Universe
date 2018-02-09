@@ -1,24 +1,13 @@
 import { map, isEmpty } from 'lodash';
 import React, { Component } from 'react';
-import Slider from 'react-slick';
+import { Carousel } from 'antd';
 import { connect } from 'react-redux';
 import { fetchProjects } from '../../actions/projectActionCreators';
-import { NextArrow, PrevArrow } from '../../components/projects/sliderArrows';
 
 import AdminPanel from '../app/AdminPanel';
 import NoItemsFound from '../../components/app/noItemsFound';
 import RenderProjects from '../../components/projects/renderProjects';
 import Spinner from '../../components/loaders/spinner';
-
-const settings = {
-	dots: true,
-	infinite: true,
-	speed: 500,
-	slidesToShow: 1,
-	slidesToScroll: 1,
-	nextArrow: <NextArrow />,
-	prevArrow: <PrevArrow />
-};
 
 class Projects extends Component {
 	state = {
@@ -85,7 +74,7 @@ class Projects extends Component {
 					updateProjectItems={this.fetchAllProjects}
 					projects={projects}
 				/>
-				<Slider {...settings}>
+				<Carousel>
 					{map(projects, (project, key) => {
 						return (
 							<div key={key}>
@@ -93,7 +82,7 @@ class Projects extends Component {
 							</div>
 						);
 					})}
-				</Slider>
+				</Carousel>
 			</div>
 		);
 	}

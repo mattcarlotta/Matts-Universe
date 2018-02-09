@@ -1,0 +1,19 @@
+@mixin trans($dir...) {
+  -webkit-transform: translate3d($dir);
+  -moz-transform: translate3d($dir);
+  -ms-transform: translate3d($dir);
+  -o-transform: translate3d($dir);
+  transform: translate3d($dir);
+}
+@mixin t-a($action) {
+  -ms-touch-action: $action;
+  touch-action: $action;
+}
+@mixin u-s($selection) {
+  -webkit-user-select: $selection;
+  -webkit-touch-callout: $selection;
+  -moz-user-select: $selection;
+  -ms-user-select: $selection;
+  -khtml-user-select: $selection;
+  user-select: $selection;
+}

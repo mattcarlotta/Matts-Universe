@@ -1,6 +1,5 @@
 import * as app from 'axios';
 import { browserHistory } from 'react-router';
-import { animateScroll as Nav } from 'react-scroll';
 
 import configAuth from './configAuth';
 import dispatchError from './dispatchError';
@@ -8,7 +7,7 @@ import dispatchSuccess from './dispatchSuccess';
 
 export const redirectToProject = () => {
 	browserHistory.push('/');
-	Nav.scrollTo(2150, { duration: 1150, smooth: 'easeInOutQuint' });
+	// Nav.scrollTo(2150, { duration: 1150, smooth: 'easeInOutQuint' });
 };
 
 //==========================================================================

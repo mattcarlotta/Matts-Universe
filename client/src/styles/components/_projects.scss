@@ -55,6 +55,11 @@
 			max-height: 650px;
 		}
 
+		.slick-dots {
+			@extend %p-r;
+			top: 10px;
+		}
+
 		.chevron {
 			position: absolute;
 			top: 50%;
