@@ -1,13 +1,38 @@
 /// --FONTS-- ///
 @font-face {
-  font-family: 'slick';
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/MaterialIcons-Regular.eot") format("eot"),
+  url("assets/fonts/MaterialIcons-Regular.woff2") format("woff2"),
+  url("assets/fonts/MaterialIcons-Regular.woff") format("woff"),
+  url("assets/fonts/MaterialIcons-Regular.ttf") format("truetype"),
+  url("assets/fonts/MaterialIcons-Regular.svg") format("svg");
+}
+
+.material-icons {
+  font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  src: url('assets/fonts/slick.eot');
-  src: url('assets/fonts/slick.eot?#iefix') format('embedded-opentype'),
-  url('assets/fonts/slick.woff') format('woff'),
-  url('assets/fonts/slick.ttf') format('truetype'),
-  url('assets/fonts/slick.svg#slick') format('svg');
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
 }
 
 @font-face {
@@ -21,45 +46,62 @@
   url("~font-awesome/fonts/fontawesome-webfont.svg") format("svg");
 }
 
-// @font-face {
-//   font-family: "glyphicons";
-//   font-weight: normal;
-//   font-style: normal;
-//   src: url("~bootstrap/fonts/glyphicons-halflings-regular.eot"),
-//   url("~bootstrap/fonts/glyphicons-halflings-regular.woff2") format("woff2"),
-//   url("~bootstrap/fonts/glyphicons-halflings-regular.woff") format("woff"),
-//   url("~bootstrap/fonts/glyphicons-halflings-regular.ttf") format("truetype"),
-//   url("~bootstrap/fonts/glyphicons-halflings-regular.svg") format("svg");
-// }
+@font-face {
+	font-family: "Jura";
+	font-style: normal;
+	font-weight: 300;
+	src: url("assets/fonts/Jura-Light.ttf") format("truetype");
+}
 
 @font-face {
-	font-family: "Roboto Medium";
+	font-family: "Jura";
+	font-style: normal;
+	font-weight: 400;
+	src: url("assets/fonts/Jura-Regular.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Jura";
+	font-style: normal;
+	font-weight: 500;
+	src: url("assets/fonts/Jura-Medium.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Jura";
+	font-style: normal;
+	font-weight: 700;
+	src: url("assets/fonts/Jura-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Jura";
+	font-style: normal;
+	font-weight: 700;
+	src: url("assets/fonts/Jura-Bold.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: 400;
+	src: url("assets/fonts/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Roboto";
 	font-style: normal;
 	font-weight: 500;
 	src: url("assets/fonts/Roboto-Medium.ttf") format("truetype");
 }
 
 @font-face {
-	font-family: "Roboto Bold";
+	font-family: "Roboto";
 	font-style: normal;
 	font-weight: 900;
 	src: url("assets/fonts/Roboto-Bold.ttf") format("truetype");
 }
 
-@font-face {
-	font-family: "Rock Salt";
-	font-style: normal;
-	font-weight: 400;
-	src: url("assets/fonts/RockSalt-Regular.ttf") format("truetype");
-}
-
-@font-face {
-	font-family: "Rock Salt";
-	font-style: normal;
-	font-weight: 400;
-	src: url("assets/fonts/RockSalt-Regular.ttf") format("truetype");
-}
-
+$jura: "Jura", sans-serif;
 $roboto: Roboto, sans-serif;
-$rock-salt: "Rock Salt", cursive;
 /// END ///

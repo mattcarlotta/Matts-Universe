@@ -24,7 +24,9 @@
 		@media (max-width: 750px) {
 			font-size: 25px;
 		}
-		@extend .cursive-font;
+		// @extend .cursive-font;
+		font-family: $jura;
+		font-weight: 700;
 		font-size: 36px;
 		letter-spacing: 5px;
 		margin-bottom: 15px;

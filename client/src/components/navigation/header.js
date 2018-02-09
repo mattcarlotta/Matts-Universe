@@ -8,7 +8,7 @@ const Header = () => (
 		<ul className="navigation-bar">
 			<li>
 				<Link onClick={() => browserHistory.push('/')} >
-					<i className="fa fa-home" aria-hidden="true" />
+					<i className="material-icons">home</i>
 					{window.innerWidth < 650 ? '' : 'Home'}
 				</Link>
 			</li>
@@ -20,13 +20,13 @@ const Header = () => (
 							query: { pageId: 1 }
 						})}
 				>
-					<i className="fa fa-comments" aria-hidden="true" />
+					<i className="material-icons">forum</i>
 					{window.innerWidth < 650 ? '' : 'Blog'}
 				</Link>
 			</li>
 			<li>
 				<a href="http:///www.mattcarlotta.blogspot.com" rel="noopener noreferrer" target="_blank">
-					<i className="fa fa-briefcase" aria-hidden="true" />
+					<i className="material-icons">work</i>
 					{window.innerWidth < 650 ? '' : 'Portfolio'}
 				</a>
 			</li>

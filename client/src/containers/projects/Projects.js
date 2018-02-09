@@ -75,13 +75,11 @@ class Projects extends Component {
 					projects={projects}
 				/>
 				<Carousel>
-					{map(projects, (project, key) => {
-						return (
-							<div key={key}>
-								<RenderProjects {...project} />
-							</div>
-						);
-					})}
+					{map(projects, (project, key) => (
+						<div key={key}>
+							<RenderProjects {...project} />
+						</div>
+					))}
 				</Carousel>
 			</div>
 		);

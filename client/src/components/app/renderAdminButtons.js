@@ -29,9 +29,7 @@ const RenderAdminButtons = ({
 		>
 			<Button>
 				<i className={`fa ${iconClassName}`} aria-hidden="true" />
-				<span>
-					{title} <Icon type="down" />
-				</span>
+				{title} <Icon type="down" />
 			</Button>
 		</Dropdown>
 	);

@@ -9,7 +9,6 @@ import { deleteProject } from '../../actions/projectActionCreators';
 import { signoutUser } from '../../actions/authActionCreators';
 import { deleteProjectById, deletePostById } from './data/deleteData';
 import RenderAdminButtons from '../../components/app/renderAdminButtons';
-import SignOut from '../auth/signout';
 
 class AdminPanel extends PureComponent {
 	onAddClick = () => {
@@ -56,7 +55,7 @@ class AdminPanel extends PureComponent {
 				{this.props.username && this.props.userIsGod
 					? <div className="admin-tools">
 							<h1>Admin Control Panel</h1>
-								<Button type="primary" onClick={this.onAddClick}>
+								<Button onClick={this.onAddClick}>
 									<i className="fa fa-plus" aria-hidden="true" />
 									{addNewTitle}
 								</Button>
@@ -72,12 +71,6 @@ class AdminPanel extends PureComponent {
 										/>
 									)})
 								}
-								<Button
-									onClick={() => this.props.signoutUser()}
-									className="signout-button"
-								>
-									<SignOut />
-								</Button>
 						</div>
 					: null
 				}
