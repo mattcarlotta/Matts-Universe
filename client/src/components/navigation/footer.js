@@ -1,34 +1,22 @@
+import map from 'lodash/map';
 import React from 'react';
-import { Link } from 'react-router';
+import FOOTERLINKS from './links/footerLinks';
+import ResizeWindowOnChange from '../app/ResizeWindowOnChange';
 
-const Footer = () => {
-	return (
-		<div className="footer-container">
-			<ul className="contact-nav">
-				<li>
-					<p>©2017 Matt Carlotta</p>
-				</li>
-				<li>
-					<Link>
-						<i className="fa fa-envelope" rel="noopener noreferrer" target="_blank" />
-						{window.innerWidth < 650 ? '' : 'carlotta.matt@gmail.com'}
-					</Link>
-				</li>
-				<li>
-					<a href="https://github.com/mattcarlotta" rel="noopener noreferrer" target="_blank">
-						<i className="fa fa-github" aria-hidden="true" />
-						{window.innerWidth < 650 ? '' : 'Github'}
+export default ResizeWindowOnChange(() => (
+	<div className="footer-container">
+		<ul className="contact-nav">
+			<li>
+				<p>©2017 Matt Carlotta</p>
+			</li>
+			{map(FOOTERLINKS, ({ icon, link, title }) => (
+				<li key={title}>
+					<a href={link} rel="noopener noreferrer" target="_blank">
+						<i className={`fa ${icon}`} rel="noopener noreferrer" target="_blank" />
+						{window.innerWidth < 650 ? '' : title }
 					</a>
 				</li>
-				<li>
-					<a href="https://www.linkedin.com/in/mattcarlotta/" rel="noopener noreferrer" target="_blank">
-						<i className="fa fa-linkedin-square" aria-hidden="true" />
-						{window.innerWidth < 650 ? '' : 'Linkedin'}
-					</a>
-				</li>
-			</ul>
-		</div>
-	);
-};
-
-export default Footer;
+			))}
+		</ul>
+	</div>
+))

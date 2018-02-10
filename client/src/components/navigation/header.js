@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
+import ResizeWindowOnChange from '../app/ResizeWindowOnChange'
 import SignOut from '../../containers/auth/signout';
 
 const Header = () => (
@@ -30,9 +31,9 @@ const Header = () => (
 					{window.innerWidth < 650 ? '' : 'Portfolio'}
 				</a>
 			</li>
-			<SignOut />
+			<SignOut window={window.innerWidth} />
 		</ul>
 	</nav>
 );
 
-export default Header;
+export default ResizeWindowOnChange(Header);

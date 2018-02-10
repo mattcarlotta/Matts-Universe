@@ -4,13 +4,13 @@ import { Link } from 'react-router';
 
 import { signoutUser } from '../../actions/authActionCreators';
 
-const SignOut = ({ username, signoutUser }) => {
+const SignOut = ({ username, signoutUser, window }) => {
 	return (
 		<li>
 			{username ? (
 				<Link onClick={() => signoutUser()}>
 					<i className="material-icons">exit_to_app</i>
-					{window.innerWidth < 650 ? '' : 'SignOut'}
+					{window < 650 ? '' : 'SignOut'}
 				</Link>
 			) : null}
 		</li>

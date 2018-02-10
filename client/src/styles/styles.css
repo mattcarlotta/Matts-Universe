@@ -168,11 +168,11 @@
       .about-container h1 {
         font-size: 25px; } }
   .about-container .about-content {
-    margin-top: -75px; }
+    margin-top: -100px; }
     .about-container .about-content .underline {
       margin-top: -16px;
       padding-right: 103px; }
-      @media (max-width: 437px) {
+      @media (max-width: 749px) {
         .about-container .about-content .underline {
           display: none; } }
       @media (max-width: 750px) {
@@ -196,6 +196,8 @@
     .about-container .about-content .about-body-mobile {
       margin-top: 15px; }
       .about-container .about-content .about-body-mobile img {
+        display: block;
+        margin: 0 auto;
         width: 325px; }
     .about-container .about-content .about-body {
       padding-top: 50px;

@@ -1,6 +1,7 @@
 import React from 'react';
 import aboutImage from '../images/aboutViewImage.png';
 import aboutViewImageMobile from '../images/aboutViewImageMobile.png';
+import ResizeComponentOnChange from '../components/app/ResizeWindowOnChange';
 
 const About = () => {
 	return (
@@ -31,4 +32,4 @@ const About = () => {
 	);
 };
 
-export default About;
+export default ResizeComponentOnChange(About);

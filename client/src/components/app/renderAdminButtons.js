@@ -36,7 +36,3 @@ const RenderAdminButtons = ({
 };
 
 export default RenderAdminButtons;
-
-/*
-
-*/
