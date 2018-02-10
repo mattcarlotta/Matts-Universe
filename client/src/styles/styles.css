@@ -625,23 +625,16 @@ h1, h2, h3, h4, h5, h6 {
   height: 30px; }
 
 .fixed-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  background: #f8f9fa;
-  max-width: 2000px;
-  width: 100%;
-  height: 50px;
+  background: #f8f9fa !important;
   border-bottom: 1px solid #01406d;
   -webkit-animation-name: fadeIn;
   -webkit-animation-duration: 0.3s;
   animation-name: fadeIn;
   animation-duration: 0.3s; }
-  .fixed-nav .navigation-container .navigation-bar li > a {
-    color: #01406d; }
-    .fixed-nav .navigation-container .navigation-bar li > a:hover {
-      color: #1295f3; }
+  .fixed-nav .navigation-bar li > a {
+    color: #01406d !important; }
+    .fixed-nav .navigation-bar li > a:hover {
+      color: #1295f3 !important; }
 
 .navigation-container {
   background: transparent;

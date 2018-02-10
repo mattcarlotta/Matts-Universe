@@ -6,6 +6,6 @@ export default WrappedComponent => {
     componentWillUnmount = () => window.removeEventListener('resize', this.handleWindowResize);
 		componentDidMount = () =>	window.addEventListener('resize', this.handleWindowResize);
     handleWindowResize = debounce(() => this.forceUpdate(), 100);
-    render = () => ( <WrappedComponent /> )
+    render = () => ( <WrappedComponent {...this.props} /> )
   }
 }

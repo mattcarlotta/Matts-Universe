@@ -9,10 +9,7 @@ import RenderPosts from './renderPosts';
 import Spinner from '../loaders/spinner';
 
 class ShowBlogPost extends Component {
-  state = {
-    foundItem: {},
-    requestTimeout: false
-  };
+  state = { foundItem: {}, requestTimeout: false };
 
   componentDidMount() {
     this.fetchBlogPosts();
