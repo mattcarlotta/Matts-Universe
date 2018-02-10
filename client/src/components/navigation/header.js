@@ -6,8 +6,8 @@ import NAVLINKS from './links/headerLinks';
 import ResizeWindowOnChange from '../app/ResizeWindowOnChange'
 import SignOut from '../../containers/auth/signout';
 
-const Header = ({scrollY, setScrollHeight}) => (
-	<nav className={`navigation-container ${scrollY >= 30 ? 'fixed-nav' : ''}`}>
+const Header = ({setScrollHeight}) => (
+	<nav className="navigation-container">
 		<ul className="navigation-bar">
 			{map (NAVLINKS, ({ icon, pixel, pathname, query, title}) => (
 				<li key={icon}>

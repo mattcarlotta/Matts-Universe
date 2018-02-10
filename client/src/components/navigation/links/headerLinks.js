@@ -2,13 +2,13 @@ export default [
 	{
 		icon: 'home',
 		pathname: '/',
-		pixel: 1,
+		pixel: -1060,
 		title: 'Home'
 	},
 	{
 		icon: 'youtube_searched_for',
 		pathname: '/',
-		pixel: 1200,
+		pixel: 900,
 		title: 'About'
 	},
 	{
@@ -20,7 +20,7 @@ export default [
 	{
 		icon: 'developer_board',
 		pathname: '/',
-		pixel: 2200,
+		pixel: 2600,
 		title: 'Projects'
 	}
 ];
