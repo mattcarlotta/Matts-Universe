@@ -16,16 +16,14 @@ class Blog extends Component {
 		isLoading: true
 	};
 
-	componentDidMount() {
+	componentDidMount = () =>	{
 		this.fetchBlogPosts(this.state.currentPage - 1);
 		this.timeout = setTimeout(this.timer, 5000);
 	}
 
-	componentWillUnmount() {
-		this.clearTimer();
-	}
+	componentWillUnmount = () => this.clearTimer();
 
-	componentDidUpdate(nextProps, nextState) {
+	componentDidUpdate = (nextProps, nextState) => {
 		const currentLoadedPage = parseInt(this.props.location.query.pageId, 10);
 		if (this.state.currentPage !== currentLoadedPage) {
 			this.setState({ currentPage: currentLoadedPage, isLoading: true }, () => {
@@ -44,16 +42,14 @@ class Blog extends Component {
 		}
 	};
 
-	clearTimer = () => {
-		clearTimeout(this.timeout);
-	};
+	clearTimer = () => clearTimeout(this.timeout);
 
 	timer = () => {
 		this.clearTimer();
 		this.setState({ requestTimeout: true });
 	};
 
-	render() {
+	render = () => {
 		const {
 			currentPage,
 			isLoading,

@@ -5,11 +5,7 @@ import { withRouter } from 'react-router';
 
 import configAuth from '../../actions/configAuth';
 import createFormData from '../forms/configFormData';
-import {
-	addNewPost,
-	editPost,
-	fetchPost
-} from '../../actions/postActionCreators';
+import { addNewPost, editPost, fetchPost } from '../../actions/postActionCreators';
 import { postMaxLengthAllowed } from '../forms/validateFormFields';
 import UploadForm from '../forms/UploadForm';
 

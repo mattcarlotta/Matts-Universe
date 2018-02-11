@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import { allowedCharacters, isRequired } from '../forms/validateFormFields';
 import FIELDS from './formFields';
 import NotFound from '../../components/notfound/notFound';
-import RenderDropZone from '../forms/renderDropZone';
-import RenderFormButtons from '../forms/renderFormButtons';
-import RenderInputField from '../forms/renderInputField';
-import RenderTextAreaField from '../forms/renderTextAreaField';
-import showCharactersLeft from '../forms/showCharactersLeft';
+import RenderDropZone from './renderDropZone';
+import RenderFormButtons from './renderFormButtons';
+import RenderInputField from './renderInputField';
+import RenderTextAreaField from './renderTextAreaField';
+import showCharactersLeft from './showCharactersLeft';
 import Spinner from '../../components/loaders/spinner';
 
 class UploadForm extends Component {
@@ -21,13 +21,9 @@ class UploadForm extends Component {
 		useStoredImage: false
 	};
 
-	componentDidMount() {
-		if (this.props.queryId) this.fetchItemToEdit();
-	}
+	componentDidMount = () => this.props.queryId && this.fetchItemToEdit();
 
-	componentWillUnmount() {
-		this.clearTimeout();
-	}
+	componentWillUnmount = () => this.clearTimeout();
 
 	fetchItemToEdit = async () => {
 		this.timeout = setInterval(this.timer, 5000);
@@ -50,22 +46,16 @@ class UploadForm extends Component {
 		}
 	};
 
-	initializeForm = foundItem => {
-		this.props.initialize(foundItem);
-	};
+	initializeForm = foundItem => this.props.initialize(foundItem);
 
 	timer = () => {
 		this.setState({ requestTimeout: true });
 		this.clearTimeout();
 	};
 
-	clearTimeout = () => {
-		clearInterval(this.timeout);
-	};
+	clearTimeout = () => clearInterval(this.timeout);
 
-	handleOnDrop = newImage => {
-		this.setState({ newImageFiles: newImage, useStoredImage: false });
-	};
+	handleOnDrop = newImage => this.setState({ newImageFiles: newImage, useStoredImage: false });
 
 	resetForm = reset => {
 		this.setState({
@@ -75,9 +65,7 @@ class UploadForm extends Component {
 		reset();
 	};
 
-	imageIsRequired = value => {
-		return !this.props.queryId && !value ? 'Required' : undefined;
-	};
+	imageIsRequired = value => ( !this.props.queryId && !value ? 'Required' : undefined )
 
 	render() {
 		const {
@@ -115,7 +103,6 @@ class UploadForm extends Component {
 		return (
 			<div className="form-container col-xs-12">
 				<h1>{formTitle}</h1>
-				<hr />
 				<Form onSubmit={handleSubmit}>
 					<Field
 						name="file"

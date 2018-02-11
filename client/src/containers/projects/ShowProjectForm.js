@@ -24,7 +24,7 @@ class ShowProjectForm extends Component {
 			: this.props.addNewProject(formData, config);
 	};
 
-	render() {
+	render = () => {
 		const { titleId } = this.props.location.query;
 		const { fetchProject } = this.props;
 

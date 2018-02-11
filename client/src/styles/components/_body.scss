@@ -10,10 +10,6 @@ h1, h2, h3, h4, h5, h6 {
 	color: $white;
 }
 
-.cursive-font {
-	font-family: 'Rock Salt', cursive;
-}
-
 .disabled {
 	cursor: not-allowed;
 }
@@ -42,7 +38,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .no-link-focus {
-	text-decoration: none;
+	@extend %t-d-n;
 	outline: 0 !important;
 }
 

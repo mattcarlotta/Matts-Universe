@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ShowCharactersLeft = (propValue, limitValue) => {
+export default (propValue, limitValue) => {
 	if (propValue) {
 		let postCharactersLeft =
 			propValue.length <= limitValue
@@ -14,5 +14,3 @@ const ShowCharactersLeft = (propValue, limitValue) => {
 		);
 	}
 };
-
-export default ShowCharactersLeft;

@@ -4,18 +4,14 @@
 	transition: all 0.3s;
 
 	hr {
-		@media (max-width: 750px) {
-			width: 90%;
-		}
+		@media (max-width: 750px) { width: 90%; }
 		@extend .separator;
 		margin-top: 20px;
 		margin-bottom: 10px;
 		width: 50%;
 	}
 
-	p {
-		margin: 0;
-	}
+	p { @extend %m-0; }
 
 	.title {
 		text-align: center;
@@ -23,10 +19,7 @@
 		margin-top: 45px;
 		margin-bottom: 20px;
 
-		h1 {
-			font-size: 32px;
-			font-family: 'Rock Salt', cursive;
-		}
+		h1 { font-size: 32px; }
 
 		p {
 			font-size: 10px;
@@ -36,119 +29,104 @@
 }
 
 .entry-date {
+	@extend %t-a-c;
 	width: 100%;
 	margin-top: -10px;
 	margin-bottom: 10px;
 	font-size: 12px;
-	text-align: center;
 }
 
 .entry-content {
+	@extend %m-t-20;
 	color: $owhite;
 	font-size: 12px;
 	font-weight: 400;
 	width: 100%;
-	margin-top: 20px;
 }
 
 .entry-link {
+	@extend %m-t-20;
 	width: 100%;
-	margin-top: 20px;
 }
 
 .entry-link > a {
+	@extend %b-0;
 	cursor: pointer;
 	padding: 10px;
 	border-radius: 20px;
 	color: $white;
-	border: none;
 	background-color: transparent;
 	transition: all 0.5s;
 
 	&:hover {
+		@extend %t-d-n;
 		padding: 10px;
 		border-radius: 20px;
 		color: $lightblue;
 		-webkit-animation: background-color 0.3s ease-in-out forwards;
 		animation: all 0.3s ease-in-out forwards;
-		text-decoration: none;
 	}
 }
 
 .entry-title {
+	@extend %t-a-c, %t-t-u;
 	color: $owhite;
 	font-size: 28px;
 	font-weight: 900;
-	text-transform: uppercase;
 	width: 100%;
-	text-align: center;
 }
 
 .entry-image {
 	img {
-		@media (max-width: 750px) {
-			max-width: 325px;
-		}
+		@media (max-width: 750px) { max-width: 325px; }
+		@extend %d-b, %m-0-a, %m-t-20;
 		max-width: 700px;
 		max-height: 500px;
-		margin-top: 20px;
 		margin-bottom: 5px;
-		margin: 0 auto;
 		padding: 10px;
 	}
 }
 
 .img-title {
+	@extend %t-a-c;
 	font-size: 10px;
 	font-weight: 400;
 	color: grey;
-	text-align: center;
 	width: 100%;
 }
 
 .pagination-container {
+	@extend %m-b-20, %p-0, %t-a-c;
 	font-size: 12px;
 	width: 100%;
-	text-align: center;
-	padding: 0;
-	margin-bottom: 20px;
 
-	.small-font {
-		font-size: 10px;
-	}
+	.small-font { font-size: 10px;}
 
 	button {
+		@extend %b-0, %t-d-n;
 		height: 100%;
 		width: 100%;
 		background: transparent;
-		border: none;
 		outline: none;
 		padding: 5px 10px;
 		color: $lightblue;
 		outline: 0;
-		text-decoration: none;
 
 		&:hover {
+			@extend .no-link-focus;
 			background-color: $lightblue;
 			border-radius: 4px;
 			color: $owhite;
 			-webkit-animation: background-color 0.3s ease-in-out forwards;
 			animation: all 0.3s ease-in-out forwards;
-			@extend .no-link-focus;
 		}
 
-		&:focus {
-			@extend .no-link-focus;
-		}
+		&:focus { @extend .no-link-focus; }
 	}
 
 	li {
-		@extend .fix-cursor;
-		margin-right: 10px;
+		@extend %d-ib, .fix-cursor, %l-s-t-n, %m-r-10, %t-a-c;
 		border-radius: 4px;
-		list-style: none;
-		text-align: center;
-		display: inline-block;
 		vertical-align: middle;
 	}
 
@@ -159,9 +137,7 @@
 			color: $owhite;
 		}
 
-		&:hover {
-			@extend .active-page;
-		}
+		&:hover { @extend .active-page; }
 	}
 
 	.disable-chevron {
@@ -171,30 +147,22 @@
 			cursor: not-allowed;
 		}
 
-		&:hover {
-			@extend .disable-chevron;
-		}
+		&:hover { @extend .disable-chevron; }
 	}
 }
 
 .post-container {
-	@media (max-width: 850px) {
-		width: 95%;
-	}
+	@media (max-width: 850px) { width: 95%; }
+	@extend %m-0-a;
 	width: 800px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-	margin: 0 auto;
 
 	hr {
-		@media (max-width: 750px) {
-			width: 100%;
-		}
-		margin-top: 20px;
-		margin-bottom: 10px;
-		border: 0;
+		@media (max-width: 750px) { width: 100%; }
+		@extend %b-0, %m-b-0, %m-t-20;
 		height: 1px;
 		background-image: linear-gradient(
 			to right,

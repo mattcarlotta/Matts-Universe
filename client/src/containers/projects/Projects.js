@@ -1,5 +1,5 @@
 import { map, isEmpty } from 'lodash';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Carousel } from 'antd';
 import { connect } from 'react-redux';
 import { fetchProjects } from '../../actions/projectActionCreators';
@@ -56,7 +56,7 @@ class Projects extends Component {
 		this.setState({ requestTimeout: true });
 	};
 
-	render() {
+	render = () => {
 		const { isFetchingProjects, projects, requestTimeout } = this.state;
 
 		if (isEmpty(projects) || isFetchingProjects) {
@@ -69,11 +69,8 @@ class Projects extends Component {
 		this.clearTimer();
 
 		return (
-			<div>
-				<AdminPanel
-					updateProjectItems={this.fetchAllProjects}
-					projects={projects}
-				/>
+			<Fragment>
+				<AdminPanel updateProjectItems={this.fetchAllProjects} projects={projects} />
 				<Carousel>
 					{map(projects, (project, key) => (
 						<div key={key}>
@@ -81,7 +78,7 @@ class Projects extends Component {
 						</div>
 					))}
 				</Carousel>
-			</div>
+			</Fragment>
 		);
 	}
 }

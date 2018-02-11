@@ -129,23 +129,72 @@
   display: table;
   clear: both; }
 
+.entry-link > a, .pagination-container button, .post-container hr {
+  border: 0; }
+
+.about-container .about-content .about-body-mobile img, .about-container .about-content .about-body .about-image img, .entry-image img, .footer-container .contact-nav li {
+  display: block; }
+
+.pagination-container li {
+  display: inline-block; }
+
 .fa {
   margin-right: 5px; }
 
 .fix-cursor, .pagination-container li, .footer-container .contact-nav li > a:hover, .navigation-container .navigation-bar li > a:hover, .callout .close-notification, .scroll {
   cursor: pointer; }
 
-.f-l {
+.f-l, .footer-container .contact-nav li {
   float: left; }
 
 .f-r {
   float: right; }
 
+.admin-tools .signout-button, .pagination-container li, .footer-container .contact-nav {
+  list-style-type: none; }
+
+.blog-container p {
+  margin: 0; }
+
+.about-container .about-content .about-body-mobile img, .about-container .about-content .about-body .about-image img, .entry-image img, .post-container, .footer-container .contact-nav {
+  margin: 0 auto; }
+
+.admin-tools, .post-container hr {
+  margin-bottom: 0px; }
+
+.pagination-container {
+  margin-bottom: 20px; }
+
 .m-l-5 {
   margin-left: 5px; }
 
-.project-container .project-content .slick-dots {
+.pagination-container li {
+  margin-right: 10px; }
+
+.admin-tools h1 {
+  margin-top: 0; }
+
+.entry-content, .entry-link, .entry-image img, .post-container hr {
+  margin-top: 20px; }
+
+.pagination-container {
+  padding: 0; }
+
+.footer-container .contact-nav li, .project-container .project-content .slick-dots {
   position: relative; }
+
+.admin-tools, .entry-date, .entry-title, .img-title, .pagination-container, .pagination-container li {
+  text-align: center; }
+
+.admin-tools .signout-button:hover, .admin-tools .signout-button:focus,
+.admin-tools .signout-button > li:focus,
+.admin-tools .signout-button > li a:focus, .entry-link > a:hover, .pagination-container button, .no-link-focus, .admin-tools button:hover, .admin-tools button:focus, .admin-tools .signout-button > li:hover,
+.admin-tools .signout-button > li > a:hover,
+.admin-tools button > li > a, .pagination-container button:hover, .pagination-container button:focus, .footer-container .contact-nav li > a:focus, .clear-values :focus, .submit:focus, .navigation-container .navigation-bar li > a:focus, .callout .close-notification, .callout .close-notification:hover, .scroll:focus, .footer-container .contact-nav li > a:hover {
+  text-decoration: none; }
+
+.entry-title {
+  text-transform: uppercase; }
 
 .about-container {
   background: white url(../images/aboutViewBackground.png);
@@ -196,8 +245,6 @@
     .about-container .about-content .about-body-mobile {
       margin-top: 15px; }
       .about-container .about-content .about-body-mobile img {
-        display: block;
-        margin: 0 auto;
         width: 325px; }
     .about-container .about-content .about-body {
       padding-top: 50px;
@@ -209,40 +256,29 @@
         width: 100%; }
         .about-container .about-content .about-body .about-image img {
           max-width: 1500px;
-          width: 100%;
-          display: block;
-          margin: 0 auto; }
+          width: 100%; }
           @media (max-width: 750px) {
             .about-container .about-content .about-body .about-image img {
               height: 150px; } }
 
 .admin-tools {
-  padding: 10px 20px 20px 20px;
-  margin-bottom: 0;
-  text-align: center; }
+  padding: 10px 20px 20px 20px; }
   .admin-tools button {
     margin-right: 5px; }
   .admin-tools h1 {
     color: #ffffff;
-    margin-top: 0;
     font-weight: 900; }
   .admin-tools .signout-button {
-    list-style: none;
     opacity: 0.5;
     background-color: #17262c;
     border: 1px solid #17262c; }
     .admin-tools .signout-button:hover {
-      text-decoration: none;
       opacity: 1;
       color: #1295f3; }
   .admin-tools .signout-button > li:hover,
   .admin-tools .signout-button > li > a:hover,
   .admin-tools button > li > a {
     color: #1295f3; }
-  .admin-tools .signout-button:focus,
-  .admin-tools .signout-button > li:focus,
-  .admin-tools .signout-button > li a:focus {
-    text-decoration: none; }
 
 .blog-container {
   min-height: 850px;
@@ -255,16 +291,13 @@
     @media (max-width: 750px) {
       .blog-container hr {
         width: 90%; } }
-  .blog-container p {
-    margin: 0; }
   .blog-container .title {
     text-align: center;
     padding-top: 1px;
     margin-top: 45px;
     margin-bottom: 20px; }
     .blog-container .title h1 {
-      font-size: 32px;
-      font-family: 'Rock Salt', cursive; }
+      font-size: 32px; }
     .blog-container .title p {
       font-size: 10px;
       color: #f8f9fa; }
@@ -273,26 +306,22 @@
   width: 100%;
   margin-top: -10px;
   margin-bottom: 10px;
-  font-size: 12px;
-  text-align: center; }
+  font-size: 12px; }
 
 .entry-content {
   color: #f8f9fa;
   font-size: 12px;
   font-weight: 400;
-  width: 100%;
-  margin-top: 20px; }
+  width: 100%; }
 
 .entry-link {
-  width: 100%;
-  margin-top: 20px; }
+  width: 100%; }
 
 .entry-link > a {
   cursor: pointer;
   padding: 10px;
   border-radius: 20px;
   color: #ffffff;
-  border: none;
   background-color: transparent;
   transition: all 0.5s; }
   .entry-link > a:hover {
@@ -300,23 +329,18 @@
     border-radius: 20px;
     color: #1295f3;
     -webkit-animation: background-color 0.3s ease-in-out forwards;
-    animation: all 0.3s ease-in-out forwards;
-    text-decoration: none; }
+    animation: all 0.3s ease-in-out forwards; }
 
 .entry-title {
   color: #f8f9fa;
   font-size: 28px;
   font-weight: 900;
-  text-transform: uppercase;
-  width: 100%;
-  text-align: center; }
+  width: 100%; }
 
 .entry-image img {
   max-width: 700px;
   max-height: 500px;
-  margin-top: 20px;
   margin-bottom: 5px;
-  margin: 0 auto;
   padding: 10px; }
   @media (max-width: 750px) {
     .entry-image img {
@@ -326,27 +350,21 @@
   font-size: 10px;
   font-weight: 400;
   color: grey;
-  text-align: center;
   width: 100%; }
 
 .pagination-container {
   font-size: 12px;
-  width: 100%;
-  text-align: center;
-  padding: 0;
-  margin-bottom: 20px; }
+  width: 100%; }
   .pagination-container .small-font {
     font-size: 10px; }
   .pagination-container button {
     height: 100%;
     width: 100%;
     background: transparent;
-    border: none;
     outline: none;
     padding: 5px 10px;
     color: #1295f3;
-    outline: 0;
-    text-decoration: none; }
+    outline: 0; }
     .pagination-container button:hover {
       background-color: #1295f3;
       border-radius: 4px;
@@ -354,11 +372,7 @@
       -webkit-animation: background-color 0.3s ease-in-out forwards;
       animation: all 0.3s ease-in-out forwards; }
   .pagination-container li {
-    margin-right: 10px;
     border-radius: 4px;
-    list-style: none;
-    text-align: center;
-    display: inline-block;
     vertical-align: middle; }
   .pagination-container .active-page, .pagination-container .active-page:hover {
     background-color: #1295f3;
@@ -375,15 +389,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  margin: 0 auto; }
+  align-items: center; }
   @media (max-width: 850px) {
     .post-container {
       width: 95%; } }
   .post-container hr {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    border: 0;
     height: 1px;
     background-image: linear-gradient(to right, transparent, #f8f9fa, transparent);
     width: 100%; }
@@ -400,9 +410,6 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   color: #ffffff; }
-
-.cursive-font, .about-container h1 {
-  font-family: 'Rock Salt', cursive; }
 
 .disabled {
   cursor: not-allowed; }
@@ -430,7 +437,6 @@ h1, h2, h3, h4, h5, h6 {
 .admin-tools button > li > a, .admin-tools .signout-button:focus,
 .admin-tools .signout-button > li:focus,
 .admin-tools .signout-button > li a:focus, .pagination-container button:hover, .pagination-container button:focus, .footer-container .contact-nav li > a:focus, .clear-values :focus, .submit:focus, .navigation-container .navigation-bar li > a:focus, .callout .close-notification, .callout .close-notification:hover, .scroll:focus {
-  text-decoration: none;
   outline: 0 !important; }
 
 .no-padding {
@@ -461,24 +467,18 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    list-style: none; }
+    align-items: center; }
     @media (max-width: 650px) {
       .footer-container .contact-nav {
         margin-left: -20px; } }
     .footer-container .contact-nav li {
       height: 40px;
-      float: left;
-      position: relative;
-      display: block;
       margin-top: 15px; }
     .footer-container .contact-nav li > a {
       padding: 10px 15px;
       color: #1295f3;
       transition: all 0.5s; }
       .footer-container .contact-nav li > a:hover {
-        text-decoration: none;
         color: #f8f9fa; }
     .footer-container .contact-nav p {
       margin-right: 20px; }
