@@ -358,6 +358,7 @@
   .pagination-container .small-font {
     font-size: 10px; }
   .pagination-container button {
+    cursor: pointer;
     height: 100%;
     width: 100%;
     background: transparent;

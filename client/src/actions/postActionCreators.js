@@ -19,79 +19,56 @@ export const redirectToBlog = () => {
 // Blog Post C.R.U.D.
 //==========================================================================
 
-export const addNewPost = (formData, config) => async dispatch => {
-	try {
-		const { data: { message } } = await app.post(
-			`/api/create/post`,
-			formData,
-			config
-		);
-		dispatchSuccess(dispatch, message);
-		redirectToBlog();
-	} catch (err) {
-		dispatchError(dispatch, err);
+// Adds a single blog post to DB
+export const addNewPost = (formData, config) => (
+	dispatch => {
+		app.post('/api/create/post', formData, config)
+			.then(({ data: { message }}) => {
+				dispatchSuccess(dispatch, message);
+				redirectToBlog();
+		})
+		.catch(err => dispatchError(dispatch, err));
 	}
-};
-// Deletes a single blog post from DB
-export const deletePost = id => async dispatch => {
-	try {
-		const config = configAuth();
+)
 
-		const { data: { message } } = await app.delete(
-			`/api/delete/post/${id}`,
-			config
-		);
-		dispatchSuccess(dispatch, message);
-		redirectToBlog();
-	} catch (err) {
-		dispatchError(dispatch, err);
+// Deletes a single blog post from DB
+export const deletePost = id => (
+	dispatch => {
+		app.delete(`/api/delete/post/${id}`, configAuth())
+		.then(({data: { message }}) => {
+			dispatchSuccess(dispatch, message);
+			redirectToBlog();
+		})
+		.catch(err => dispatchError(dispatch, err));
 	}
-};
+)
 
 // Edits a single blog post in DB
-export const editPost = (id, formData, config) => async dispatch => {
-	try {
-		const { data: { message } } = await app.put(
-			`/api/edit/post/${id}`,
-			formData,
-			config
-		);
-
-		dispatchSuccess(dispatch, message);
-		redirectToBlog();
-	} catch (err) {
-		dispatchError(dispatch, err);
+export const editPost = (id, formData, config) => (
+	dispatch => {
+		app.put(`/api/edit/post/${id}`, formData, config)
+		.then(({data: { message }}) => {
+			dispatchSuccess(dispatch, message);
+			redirectToBlog();
+		})
+		.catch(err => dispatchError(dispatch, err))
 	}
-};
+);
 
 // Fetches a single post by navTitle from DB
-export const fetchPost = id => async dispatch => {
-	try {
-		return await app.get(`/api/post/${id}`);
-	} catch (err) {
-		dispatchError(dispatch, err);
-	}
-};
+export const fetchPost = id => dispatch => (
+	app.get(`/api/post/${id}`)
+	.catch(err => dispatchError(dispatch, err))
+)
 
 // Fetches the amount of posts located in DB
-export const fetchPostCount = () => dispatch => {
-	try {
-		return app.get(`/api/blogcount`);
-	} catch (err) {
-		dispatchError(dispatch, err);
-	}
-};
+export const fetchPostCount = () => dispatch => (
+	app.get(`/api/blogcount`)
+	.catch(err => dispatchError(dispatch, err))
+)
 
 // Fetches the initial first and/or next 10 posts in the DB
-export const fetchPosts = requestedRecords => async dispatch => {
-	try {
-		const skipByValue = requestedRecords ? requestedRecords : 0;
-		return await app.get(`/api/blogcollection`, {
-			params: {
-				skipByValue: skipByValue
-			}
-		});
-	} catch (err) {
-		dispatchError(dispatch, err);
-	}
-};
+export const fetchPosts = requestedRecords => dispatch => (
+	app.get(`/api/blogcollection`, {params: {skipByValue: requestedRecords ? requestedRecords : 0}})
+	.catch(err => dispatchError(dispatch, err))
+)

@@ -47,7 +47,7 @@ class AdminPanel extends PureComponent {
 
 	render = () => {
 		const { pageId } = this.props.location.query;
-		const addNewTitle = pageId ? 'Add New Post' : 'Add New Project';
+		const addNewTitle = pageId ? 'Post' : 'Project';
 		const items = pageId ? this.props.posts : this.props.projects;
 		const BUTTONS = ['pencil-square-o','trash-o'];
 		return (
@@ -57,7 +57,7 @@ class AdminPanel extends PureComponent {
 							<h1>Admin Control Panel</h1>
 								<Button onClick={this.onAddClick}>
 									<i className="fa fa-plus" aria-hidden="true" />
-									{addNewTitle}
+									Add New {addNewTitle}
 								</Button>
 								{map(BUTTONS, (icon, key) => {
 									const title = icon === "trash-o" ? "Delete" : "Edit";
@@ -67,7 +67,7 @@ class AdminPanel extends PureComponent {
 												iconClassName={`fa-${icon}`}
 												items={items}
 												onClickAction={ icon === "trash-o" ? this.onDeleteClick : this.onEditClick}
-												title={`${title} Projects`}
+												title={`${title}`}
 										/>
 									)})
 								}
