@@ -1,14 +1,12 @@
-import map from 'lodash/map';
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { Button } from 'antd';
 
 import { deletePost } from '../../actions/postActionCreators';
 import { deleteProject } from '../../actions/projectActionCreators';
 import { signoutUser } from '../../actions/authActionCreators';
-import { deleteProjectById, deletePostById } from './data/deleteData';
-import RenderAdminButtons from '../../components/app/renderAdminButtons';
+import { deleteProjectById, deletePostById } from './deleteData';
+import RenderAdminPanel from '../../components/app/renderAdminPanel';
 
 class AdminPanel extends PureComponent {
 	onAddClick = () => {
@@ -45,38 +43,16 @@ class AdminPanel extends PureComponent {
 		});
 	};
 
-	render = () => {
-		const { pageId } = this.props.location.query;
-		const addNewTitle = pageId ? 'Post' : 'Project';
-		const items = pageId ? this.props.posts : this.props.projects;
-		const BUTTONS = ['pencil-square-o','trash-o'];
-		return (
-			<Fragment>
-				{this.props.username && this.props.userIsGod
-					? <div className="admin-tools">
-							<h1>Admin Control Panel</h1>
-								<Button onClick={this.onAddClick}>
-									<i className="fa fa-plus" aria-hidden="true" />
-									Add New {addNewTitle}
-								</Button>
-								{map(BUTTONS, (icon, key) => {
-									const title = icon === "trash-o" ? "Delete" : "Edit";
-									return(
-										<RenderAdminButtons
-												key={key}
-												iconClassName={`fa-${icon}`}
-												items={items}
-												onClickAction={ icon === "trash-o" ? this.onDeleteClick : this.onEditClick}
-												title={`${title}`}
-										/>
-									)})
-								}
-						</div>
-					: null
-				}
-			</Fragment>
-		)
-	}
+	render = () => (
+		<RenderAdminPanel
+			{...this.props}
+			BUTTONS={['pencil-square-o','trash-o']}
+			onAddClick={this.onAddClick}
+			onDeleteClick={this.onDeleteClick}
+			onEditClick={this.onEditClick}
+			pageId={this.props.location.query.pageId}
+		/>
+	)
 }
 
 export default connect(

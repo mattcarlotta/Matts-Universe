@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchPost } from '../../actions/postActionCreators';
-import BlogHeader from './blogHeader';
-import NotFound from '../notfound/notFound';
-import RenderPosts from './renderPosts';
-import Spinner from '../loaders/spinner';
+import BlogHeader from '../../components/blog/blogHeader';
+import NotFound from '../../components/notfound/notFound';
+import RenderPosts from '../../components/blog/renderPosts';
+import Spinner from '../../components/loaders/spinner';
 
-class ShowBlogPost extends Component {
+class BlogPosts extends Component {
   state = { foundItem: {}, requestTimeout: false };
 
   componentDidMount() {
@@ -16,17 +16,10 @@ class ShowBlogPost extends Component {
     this.timeout = setInterval(this.timer, 5000);
   }
 
-  fetchBlogPosts = async () => {
-    try {
-      const { data: { foundItem } } = await this.props.fetchPost(
-        this.props.location.query.postId
-      );
-      this.setState({
-        foundItem
-      });
-    } catch (err) {
-      console.error(err);
-    }
+  fetchBlogPosts = () => {
+    this.props.fetchPost(this.props.location.query.postId)
+    .then(({data: { foundItem }}) => this.setState({foundItem}))
+    .catch(err => console.error(err))
   };
 
   componentWillUnmount() {
@@ -38,11 +31,9 @@ class ShowBlogPost extends Component {
     this.clearTimeout();
   };
 
-  clearTimeout = () => {
-    clearInterval(this.timeout);
-  };
+  clearTimeout = () => clearInterval(this.timeout);
 
-  render() {
+  render = () => {
     const { foundItem, requestTimeout } = this.state;
     const singlePageIsLoaded = true;
 
@@ -65,4 +56,4 @@ class ShowBlogPost extends Component {
   }
 }
 
-export default connect(null, { fetchPost })(ShowBlogPost);
+export default connect(null, { fetchPost })(BlogPosts);

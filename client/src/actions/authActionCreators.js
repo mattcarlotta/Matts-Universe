@@ -29,12 +29,11 @@ export const authSuccess = message => ({
 })
 
 // Attempts to auth a previously signed in user
-export const authenticateUser = id => {
+export const authenticateUser = id => dispatch => {
 	const config = configAuth();
 	return !config.user
-	 ? dispatch => dispatch(fetchingUser(false))
-	 : dispatch => {
-			app.get(`/api/signedin`, config)
+	 ? dispatch(fetchingUser(false))
+	 : app.get(`/api/signedin`, config)
 			.then(({data}) => {
 				dispatch({ type: SET_SIGNEDIN_USER, payload: data });
 				dispatch({ type: FETCHING_USER, payload: false });
@@ -45,7 +44,6 @@ export const authenticateUser = id => {
 				dispatch(signoutUser());
 				throw err;
 			})
-		}
 };
 
 // Allows AJAX time to fetch a user on refresh before loading app
@@ -60,35 +58,31 @@ export const resetNotifications = () => ({
 });
 
 // Attempts to sign in user
-export const signinUser = ({ username, password }) => (
-	dispatch => {
-		app.post('api/signin', { username, password })
-		.then(({data}) => {
-			localStorage.setItem('token', data.token);
-			dispatch({ type: SET_SIGNEDIN_USER, payload: data });
-			browserHistory.push('/');
-		})
-		.catch(({ response }) => {
-			const error = `Your username or password is incorrect!`;
-			dispatchError(dispatch, error);
-		});
-	}
+export const signinUser = ({ username, password }) => dispatch => (
+	app.post('api/signin', { username, password })
+	.then(({data}) => {
+		localStorage.setItem('token', data.token);
+		dispatch({ type: SET_SIGNEDIN_USER, payload: data });
+		browserHistory.push('/');
+	})
+	.catch(({ response }) => {
+		const error = `Your username or password is incorrect!`;
+		dispatchError(dispatch, error);
+	})
 )
 
 // Atempts to sign up user
-export const signupUser = ({ email, username, password }) => (
-	dispatch => {
-		app.post('api/signup', { email, username, password })
-		.then(({data}) => {
-			localStorage.setItem('token', data.token);
-			dispatch({ type: SET_SIGNEDIN_USER, payload: data.user });
-			browserHistory.push('/');
-		})
-		.catch(err => {
-			dispatchError(dispatch, err);
-			console.error(err);
-		});
-	}
+export const signupUser = ({ email, username, password }) => dispatch => (
+	app.post('api/signup', { email, username, password })
+	.then(({data}) => {
+		localStorage.setItem('token', data.token);
+		dispatch({ type: SET_SIGNEDIN_USER, payload: data.user });
+		browserHistory.push('/');
+	})
+	.catch(err => {
+		dispatchError(dispatch, err);
+		console.error(err);
+	})
 );
 
 // Signs user out

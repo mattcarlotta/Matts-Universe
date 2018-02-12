@@ -20,39 +20,33 @@ export const redirectToBlog = () => {
 //==========================================================================
 
 // Adds a single blog post to DB
-export const addNewPost = (formData, config) => (
-	dispatch => {
-		app.post('/api/create/post', formData, config)
-			.then(({ data: { message }}) => {
-				dispatchSuccess(dispatch, message);
-				redirectToBlog();
-		})
-		.catch(err => dispatchError(dispatch, err));
-	}
+export const addNewPost = (formData, config) => dispatch => (
+	app.post('/api/create/post', formData, config)
+		.then(({ data: { message }}) => {
+			dispatchSuccess(dispatch, message);
+			redirectToBlog();
+	})
+	.catch(err => dispatchError(dispatch, err))
 )
 
 // Deletes a single blog post from DB
-export const deletePost = id => (
-	dispatch => {
-		app.delete(`/api/delete/post/${id}`, configAuth())
-		.then(({data: { message }}) => {
-			dispatchSuccess(dispatch, message);
-			redirectToBlog();
-		})
-		.catch(err => dispatchError(dispatch, err));
-	}
+export const deletePost = id => dispatch => (
+	app.delete(`/api/delete/post/${id}`, configAuth())
+	.then(({data: { message }}) => {
+		dispatchSuccess(dispatch, message);
+		redirectToBlog();
+	})
+	.catch(err => dispatchError(dispatch, err))
 )
 
 // Edits a single blog post in DB
-export const editPost = (id, formData, config) => (
-	dispatch => {
-		app.put(`/api/edit/post/${id}`, formData, config)
-		.then(({data: { message }}) => {
-			dispatchSuccess(dispatch, message);
-			redirectToBlog();
-		})
-		.catch(err => dispatchError(dispatch, err))
-	}
+export const editPost = (id, formData, config) => dispatch => (
+	app.put(`/api/edit/post/${id}`, formData, config)
+	.then(({data: { message }}) => {
+		dispatchSuccess(dispatch, message);
+		redirectToBlog();
+	})
+	.catch(err => dispatchError(dispatch, err))
 );
 
 // Fetches a single post by navTitle from DB

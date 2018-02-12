@@ -3,10 +3,10 @@ import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import { fetchPostCount } from '../../actions/postActionCreators';
-import Blog from '../../containers/blog/Blog';
-import NoItemsFound from '../app/noItemsFound';
-import RenderPagination from './renderPagination';
-import Spinner from '../loaders/spinner';
+import Blog from './Blog';
+import NoItemsFound from '../../components/app/noItemsFound';
+import RenderPagination from '../../components/blog/renderPagination';
+import Spinner from '../../components/loaders/spinner';
 
 class BlogPagination extends Component {
   state = { requestTimeout: false, isLoading: true };
@@ -24,20 +24,11 @@ class BlogPagination extends Component {
     });
   };
 
-  fetchBlogPostCount = async () => {
-    try {
-      const {
-        data: { pageCount, postCount }
-      } = await this.props.fetchPostCount();
-
-      this.setState({
-        pageCount: pageCount,
-        postCount: postCount,
-        isLoading: false
-      });
-    } catch (err) {
-      console.error(err);
-    }
+  fetchBlogPostCount = () => {
+    this.props.fetchPostCount().then(({data: { pageCount, postCount }}) => {
+      this.setState({ pageCount: pageCount, postCount: postCount, isLoading: false });
+    })
+    .catch(err => console.error(err))
   };
 
   goTo = (requestedPage, postCount) => {

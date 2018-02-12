@@ -16,40 +16,29 @@ class Projects extends Component {
 		projects: []
 	};
 
-	componentDidMount() {
+	componentDidMount = () => {
 		this.fetchAllProjects();
 		this.setTimer();
 	}
 
-	componentWillUnmount() {
-		this.clearTimer();
-	}
+	componentWillUnmount = () => this.clearTimer();
 
-	fetchAllProjects = async () => {
-		try {
-			this.setState({ isFetchingProjects: true });
-
-			const {
-				data: { projects, projectCount }
-			} = await this.props.fetchProjects();
-
+	fetchAllProjects = () => {
+		this.setState({ isFetchingProjects: true });
+		this.props.fetchProjects()
+		.then(({data: { projects, projectCount }}) => {
 			this.setState({
 				isFetchingProjects: false,
 				projects: projects,
 				projectCount: projectCount
 			});
-		} catch (err) {
-			console.error(err);
-		}
+		})
+		.catch(err => console.error(err))
 	};
 
-	setTimer = () => {
-		this.timeout = setTimeout(this.timer, 5000);
-	};
+	setTimer = () => this.timeout = setTimeout(this.timer, 5000)
 
-	clearTimer = () => {
-		clearTimeout(this.timeout);
-	};
+	clearTimer = () => clearTimeout(this.timeout)
 
 	timer = () => {
 		this.clearTimer();

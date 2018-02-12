@@ -5,11 +5,11 @@ import Footer from './navigation/footer';
 
 const App = ({ children }) => (
 	<Fragment>
+		<RenderNotifications />
 		<div className="col-xs-12 no-padding">
 			{children}
 		</div>
 		<Footer />
-		<RenderNotifications />
 	</Fragment>
 );
 

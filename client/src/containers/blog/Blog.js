@@ -42,6 +42,12 @@ class Blog extends Component {
 		}
 	};
 
+	fetchBlogPosts = requestedPage => {
+		this.props.fetchPosts(requestedPage ? requestedPage * 10 : 0)
+		.then(({data: { posts }}) => this.setState({ posts, isLoading: false }))
+		.catch(err => console.error(err))
+	};
+
 	clearTimer = () => clearTimeout(this.timeout);
 
 	timer = () => {

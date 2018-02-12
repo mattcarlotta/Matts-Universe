@@ -25,13 +25,10 @@ class UploadForm extends Component {
 
 	componentWillUnmount = () => this.clearTimeout();
 
-	fetchItemToEdit = async () => {
+	fetchItemToEdit = () => {
 		this.timeout = setInterval(this.timer, 5000);
-		try {
-			const { data: { foundItem } } = await this.props.fetchItem(
-				this.props.queryId
-			);
-
+		this.props.fetchItem(this.props.queryId)
+		.then(({data: { foundItem }}) => {
 			this.initializeForm(foundItem);
 			this.setState({
 				isLoaded: true,
@@ -41,9 +38,8 @@ class UploadForm extends Component {
 				origImageFile: foundItem.image.path,
 				useStoredImage: true
 			});
-		} catch (err) {
-			console.error(err);
-		}
+		})
+		.catch(err => console.err(err))
 	};
 
 	initializeForm = foundItem => this.props.initialize(foundItem);
