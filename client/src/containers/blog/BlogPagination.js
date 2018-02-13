@@ -4,19 +4,13 @@ import { connect } from 'react-redux';
 
 import { fetchPostCount } from '../../actions/postActionCreators';
 import Blog from './Blog';
-import NoItemsFound from '../../components/app/noItemsFound';
 import RenderPagination from '../../components/blog/renderPagination';
-import Spinner from '../../components/loaders/spinner';
+import Loading from '../app/Loading';
 
 class BlogPagination extends Component {
-  state = { requestTimeout: false, isLoading: true };
+  state = { isLoading: true };
 
-  componentDidMount = () => {
-    this.fetchBlogPostCount();
-    this.timeout = setTimeout(this.timer, 5000);
-  }
-
-  componentWillUnmount = () => this.clearTimer();
+  componentDidMount = () => this.fetchBlogPostCount();
 
   updateBlogPostCount = () => {
     this.setState({ isLoading: true, pageCount: null, postCount: null }, () => {
@@ -40,25 +34,11 @@ class BlogPagination extends Component {
     }
   };
 
-  clearTimer = () => clearTimeout(this.timeout);
-
-  timer = () => {
-    this.clearTimer();
-    this.setState({ requestTimeout: true });
-  };
-
   render() {
-    const { isLoading, postCount, pageCount, requestTimeout } = this.state;
+    const { isLoading, postCount, pageCount } = this.state;
     const currentPage = parseInt(this.props.location.query.pageId, 10);
 
-    if (isLoading || !postCount || !pageCount) {
-      if (requestTimeout)
-        return <NoItemsFound message={'No blog content was found!'} />;
-
-      return <Spinner />;
-    }
-
-    this.clearTimer();
+    if (isLoading || !postCount || !pageCount) return <Loading items={[postCount, pageCount]} message={'No blog posts were found!'} />
 
     return (
       <Fragment>

@@ -4,17 +4,13 @@ import { connect } from 'react-redux';
 
 import { fetchPost } from '../../actions/postActionCreators';
 import BlogHeader from '../../components/blog/blogHeader';
-import NotFound from '../../components/notfound/notFound';
 import RenderPosts from '../../components/blog/renderPosts';
-import Spinner from '../../components/loaders/spinner';
+import Loading from '../app/Loading';
 
 class BlogPosts extends Component {
-  state = { foundItem: {}, requestTimeout: false };
+  state = { foundItem: {} };
 
-  componentDidMount() {
-    this.fetchBlogPosts();
-    this.timeout = setInterval(this.timer, 5000);
-  }
+  componentDidMount = () => this.fetchBlogPosts();
 
   fetchBlogPosts = () => {
     this.props.fetchPost(this.props.location.query.postId)
@@ -22,35 +18,15 @@ class BlogPosts extends Component {
     .catch(err => console.error(err))
   };
 
-  componentWillUnmount() {
-    this.clearTimeout();
-  }
-
-  timer = () => {
-    this.setState({ requestTimeout: true });
-    this.clearTimeout();
-  };
-
-  clearTimeout = () => clearInterval(this.timeout);
-
   render = () => {
-    const { foundItem, requestTimeout } = this.state;
-    const singlePageIsLoaded = true;
+    const { foundItem } = this.state;
 
-    if (isEmpty(foundItem)) {
-      if (requestTimeout) return <NotFound />;
-
-      return <Spinner />;
-    }
-
-    this.clearTimeout();
-
-    const singleBlogPost = { ...foundItem, singlePageIsLoaded };
+    if (isEmpty(foundItem)) return <Loading items={foundItem} message={'No blog posts were found!'} />
 
     return (
       <div className="blog-container">
         <BlogHeader />
-        <RenderPosts {...singleBlogPost} />
+        <RenderPosts {...foundItem} singlePageIsLoaded={true} />
       </div>
     );
   }

@@ -6,6 +6,7 @@ import {
 	AUTH_SUCCESS,
 	FETCHING_USER,
 	RESET_NOTIFICATIONS,
+	SET_PROJECTS,
 	SET_SIGNEDIN_USER,
 	UNAUTH_USER
 } from '../actions/types';
@@ -33,9 +34,19 @@ const authReducer = (state = {}, action) => {
 	}
 };
 
+const projectReducer = (state = {}, action) => {
+	switch (action.type) {
+		case SET_PROJECTS:
+			return {...state, projects: action.payload };
+		default:
+			return state;
+	}
+}
+
 const rootReducer = combineReducers({
 	auth: authReducer,
 	form: formReducer,
+	works: projectReducer,
 	routing
 });
 

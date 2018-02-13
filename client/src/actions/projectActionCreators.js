@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router';
 import configAuth from './configAuth';
 import dispatchError from './dispatchError';
 import dispatchSuccess from './dispatchSuccess';
+import { SET_PROJECTS } from './types';
 
 export const redirectToProject = () => browserHistory.push('/');
 
@@ -16,6 +17,7 @@ export const addNewProject = (formData, config) => dispatch => (
 	app.post('/api/create/project', formData, config)
 	.then(({ data: { message } }) => {
 		dispatchSuccess(dispatch, message);
+		dispatch(fetchProjects());
 		redirectToProject();
 	})
 	.catch(err => dispatchError(dispatch, err))
@@ -24,7 +26,10 @@ export const addNewProject = (formData, config) => dispatch => (
 // Deletes project from DB
 export const deleteProject = id => dispatch => (
 	app.delete(`/api/delete/project/${id}`, configAuth())
-	.then(({ data: { message }}) => dispatchSuccess(dispatch, message))
+	.then(({ data: { message }}) => {
+		dispatchSuccess(dispatch, message);
+		dispatch(fetchProjects());
+	})
 	.catch(err => dispatchError(dispatch, err))
 );
 
@@ -33,6 +38,7 @@ export const editProject = (id, formProps, config) => dispatch => (
 	app.put(`/api/edit/project/${id}`, formProps, config)
 	.then(({ data: { message }}) => {
 		dispatchSuccess(dispatch, message);
+		dispatch(fetchProjects());
 		redirectToProject();
 	})
 	.catch(err => dispatchError(dispatch, err))
@@ -48,5 +54,8 @@ export const fetchProject = id => dispatch => (
 // Fetches all projects from DB
 export const fetchProjects = requestedRecords => dispatch => (
 	app.get('/api/projectscollection')
+	.then(({data: { projects }}) => {
+		dispatch({ type: SET_PROJECTS, payload: projects })
+	})
 	.catch(err => dispatchError(dispatch, err))
 );

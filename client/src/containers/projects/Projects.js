@@ -5,61 +5,22 @@ import { connect } from 'react-redux';
 import { fetchProjects } from '../../actions/projectActionCreators';
 
 import AdminPanel from '../app/AdminPanel';
-import NoItemsFound from '../../components/app/noItemsFound';
 import RenderProjects from '../../components/projects/renderProjects';
-import Spinner from '../../components/loaders/spinner';
+import Loading from '../app/Loading';
 
 class Projects extends Component {
-	state = {
-		isFetchingProjects: false,
-		requestTimeout: false,
-		projects: []
-	};
+	componentDidMount = () => !this.props.projects && this.grabProjects();
 
-	componentDidMount = () => {
-		this.fetchAllProjects();
-		this.setTimer();
-	}
-
-	componentWillUnmount = () => this.clearTimer();
-
-	fetchAllProjects = () => {
-		this.setState({ isFetchingProjects: true });
-		this.props.fetchProjects()
-		.then(({data: { projects, projectCount }}) => {
-			this.setState({
-				isFetchingProjects: false,
-				projects: projects,
-				projectCount: projectCount
-			});
-		})
-		.catch(err => console.error(err))
-	};
-
-	setTimer = () => this.timeout = setTimeout(this.timer, 5000)
-
-	clearTimer = () => clearTimeout(this.timeout)
-
-	timer = () => {
-		this.clearTimer();
-		this.setState({ requestTimeout: true });
-	};
+	grabProjects = () => this.props.fetchProjects();
 
 	render = () => {
-		const { isFetchingProjects, projects, requestTimeout } = this.state;
+		const { projects } = this.props;
 
-		if (isEmpty(projects) || isFetchingProjects) {
-			if (requestTimeout)
-				return <NoItemsFound message={'No projects were found!'} />;
-
-			return <Spinner />;
-		}
-
-		this.clearTimer();
+		if (isEmpty(projects)) return <Loading items={projects} message={'No projects were found!'} />
 
 		return (
 			<Fragment>
-				<AdminPanel updateProjectItems={this.fetchAllProjects} projects={projects} />
+				<AdminPanel updateProjectItems={this.grabProjects} projects={projects} />
 				<Carousel>
 					{map(projects, (project, key) => (
 						<div key={key}>
@@ -72,4 +33,4 @@ class Projects extends Component {
 	}
 }
 
-export default connect(null, { fetchProjects })(Projects);
+export default connect(state => ({ projects: state.works.projects }), { fetchProjects })(Projects);

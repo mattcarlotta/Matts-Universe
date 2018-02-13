@@ -5,31 +5,18 @@ import { connect } from 'react-redux';
 import { deletePost } from '../../actions/postActionCreators';
 import { deleteProject } from '../../actions/projectActionCreators';
 import { signoutUser } from '../../actions/authActionCreators';
-import { deleteProjectById, deletePostById } from './deleteData';
 import RenderAdminPanel from '../../components/app/renderAdminPanel';
 
 class AdminPanel extends PureComponent {
 	onAddClick = () => {
-		this.props.location.query.pageId
-			? browserHistory.push(`/blog/post/new`)
-			: browserHistory.push(`/projects/new`);
+		const url = this.props.location.query.pageId ? '/blog/post/new' : '/projects/new'
+	 	browserHistory.push(url);
 	};
 
 	onDeleteClick = ({props: {id}}) => {
-		if (this.props.location.query.pageId) {
-			deletePostById(
-				this.props.deletePost,
-				this.props.updateBlogPostCount,
-				this.props.updateBlog,
-				id
-			);
-		} else {
-			deleteProjectById(
-				this.props.deleteProject,
-				this.props.updateProjectItems,
-				id
-			);
-		}
+		this.props.location.query.pageId
+			? this.props.deletePost(id).then(() => this.props.updateBlogPostCount()).catch(err => console.error(err))
+			: this.props.deleteProject(id).catch(err => console.error(err));
 	};
 
 	onEditClick = ({props: {navTitle}}) => {
