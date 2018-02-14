@@ -7,53 +7,57 @@ const LocalStrategy = require('passport-local');
 const User = mongoose.model('users');
 const config = require('../config/vars');
 
-// Create local Strategy
-const localOptions = { usernameField: 'username' };
+// Tell passport to use this Strategy
+// passport.use(
+// 	new JwtStrategy({
+// 		jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+// 		secretOrKey: config.secret,
+// 		},
+// 		async (payload, done) => {
+// 			console.log(payload, 'payload');
+// 			// const user = await User.findById(payload.sub);
+// 			//
+// 			// if(!user) return done(null, false, 'NO TOKEN FUCKER!');
+// 			//
+// 			// return done(null, user);
+// 		}
+// 	)
+// );
 
-// Setup localLogin Strategy
-const localLogin = new LocalStrategy(
-	localOptions,
-	async (username, password, done) => {
-		try {
-			// Verify email and password, call done with user
-			// if it is the correct email and password
-			// otherwise, call done with false
-			const user = await User.findOne({ username: username });
-
-			//compare passwords - is supplied password === user.password?
-			user.comparePassword(password, (err, isMatch) => {
-				if (err || !isMatch) return done(null, false);
-
-				return done(null, user);
-			});
-		} catch (err) {
-			return done(null, false);
-		}
-	}
-);
-
-// Setup options for jwt Strategy
-const jwtOptions = {
+// Create JWT Strategy || payload = jwt token (sub: user.id and iat: timestamp )
+passport.use(new JwtStrategy({
 	// tell Strategy where to look (from header authorization)
 	jwtFromRequest: ExtractJwt.fromHeader('authorization'),
 	secretOrKey: config.secret
-};
+	}, async (payload, done) => {
 
-// Create JWT Strategy || payload = jwt token (sub: user.id and iat: timestamp )
-const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
-	try {
-		// See if the user ID in payload exists
-		// If it does, call 'done' with user => authenticated
-		// otherwise, call done without a user object => not authenticated
-		const user = await User.findById(payload.sub);
+			const user = await User.findById(payload.sub);
 
-		// tell passport found user
-		return done(null, user);
-	} catch (err) {
-		return done(err, false);
-	}
-});
+			if (!user) return done(err, false);
 
-// Tell passport to use this Strategy
-passport.use(jwtLogin);
-passport.use(localLogin);
+			// tell passport found user
+			return done(null, user);
+	})
+)
+
+
+passport.use(new LocalStrategy({
+			usernameField: 'username',
+		},
+		async (username, password, done) => {
+			const user = await User.findOne({ username: username });
+
+			if (!user) return done(null, false);
+
+			//compare passwords - is supplied password === user.password?
+			user.comparePassword(password, (err, isMatch) => {
+				if (err || !isMatch) {
+					console.log('triggered');
+					return done(null, false, 'What the fuck!');
+				}
+
+				return done(null, user);
+			});
+		}
+	)
+);

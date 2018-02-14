@@ -65,9 +65,8 @@ export const signinUser = ({ username, password }) => dispatch => (
 		dispatch({ type: SET_SIGNEDIN_USER, payload: data });
 		browserHistory.push('/');
 	})
-	.catch(({ response }) => {
-		const error = `Your username or password is incorrect!`;
-		dispatchError(dispatch, error);
+	.catch(err => {
+		dispatchError(dispatch, err);
 	})
 )
 

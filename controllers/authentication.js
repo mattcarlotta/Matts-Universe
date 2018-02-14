@@ -11,40 +11,35 @@ const tokenForUser = user => {
 };
 
 exports.signedin = async (req, res, next) => {
-	try {
-		const userId = req.user; // pulled from userHelper isLoggedIn middleware
-
-		const existingUser = await User.findById(userId);
-
-		res
-			.status(200)
-			.json({ user: existingUser.username, isGod: existingUser.god });
-	} catch (e) {
-		res.status(401).json({
-			err:
-				'There was a problem with your login credentials. Please sign in again!'
-		});
-		return next(err, false);
-	}
+	console.log('message')
+	// res.status(200);
+	// try {
+	// 	const userId = req.user; // pulled from userHelper isLoggedIn middleware
+	//
+	// 	const existingUser = await User.findById(userId);
+	//
+	// 	res
+	// 		.status(200)
+	// 		.json({ user: existingUser.username, isGod: existingUser.god });
+	// } catch (e) {
+	// 	res.status(401).json({
+	// 		err:
+	// 			'There was a problem with your login credentials. Please sign in again!'
+	// 	});
+	// 	return next(err, false);
+	// }
 };
 
-exports.signin = async (req, res, next) => {
-	try {
-		const userId = req.user._id; // pulled from userHelper isLoggedIn middleware
+exports.signin = async (userId, res) => {
 		const existingUser = await User.findById(userId);
 
+		if (!userId) res.status(401).json({ err: 'There was a problem with your login credentials. Please sign in again!'});
+
 		res.status(200).json({
-			token: tokenForUser(req.user),
+			token: tokenForUser(userId),
 			user: existingUser.username,
 			isGod: existingUser.god
 		});
-	} catch (e) {
-		res.status(401).json({
-			err:
-				'There was a problem with your login credentials. Please sign in again!'
-		});
-		return next(err);
-	}
 };
 
 exports.signup = async (req, res) => {

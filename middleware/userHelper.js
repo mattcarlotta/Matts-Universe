@@ -7,27 +7,22 @@ const jwtDecode = require('jwt-decode');
 const User = mongoose.model('users');
 
 exports.isLoggedIn = async (req, res, done) => {
-	try {
 		let encodedId = req.headers.authorization;
 
 		if (isNil(encodedId) || isEmpty(encodedId)) {
-			throw 'You do not have permission to do that.';
+			req.errorMessage = 'You do not have permission to do that.';
+			return done();
 		}
 
 		const decodedId = await jwtDecode(encodedId);
 		const user = await User.findById(decodedId.sub);
 
 		if (!user.god) {
-			throw 'There is only one god: Me. You do not permission to do that.';
+			req.errorMessage = 'There is only one god: Me. You do not permission to do that.';
 			return done();
 		}
 
 		req.user = user._id;
 		req.username = user.username;
 		return done();
-	} catch (err) {
-		res.status(401).json({
-			err
-		});
-	}
 };

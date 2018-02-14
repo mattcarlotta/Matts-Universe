@@ -20,7 +20,7 @@ class ShowBlogForm extends Component {
 			: this.props.addNewPost(formData, config);
 	};
 
-	render() {
+	render = () => {
 		const { titleId } = this.props.location.query;
 		const { fetchPost } = this.props;
 

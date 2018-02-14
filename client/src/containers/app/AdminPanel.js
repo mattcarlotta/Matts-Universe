@@ -8,10 +8,7 @@ import { signoutUser } from '../../actions/authActionCreators';
 import RenderAdminPanel from '../../components/app/renderAdminPanel';
 
 class AdminPanel extends PureComponent {
-	onAddClick = () => {
-		const url = this.props.location.query.pageId ? '/blog/post/new' : '/projects/new'
-	 	browserHistory.push(url);
-	};
+	onAddClick = () => browserHistory.push(this.props.location.query.pageId ? '/blog/post/new' : '/projects/new');
 
 	onDeleteClick = ({props: {id}}) => {
 		this.props.location.query.pageId

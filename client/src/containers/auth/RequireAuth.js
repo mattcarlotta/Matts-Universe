@@ -24,7 +24,7 @@ export default ComposedComponent => {
 			browserHistory.push('/');
 		};
 
-		render() {
+		render = () => {
 			if (this.props.isLoading) return <Spinner />;
 
 			return (

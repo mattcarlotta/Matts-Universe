@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import DropZone from 'react-dropzone';
 
 import RenderPreviewImage from './renderPreviewImage';
+import RenderFormErrors from './renderFormErrors';
 
 export default ({
 	input,
@@ -40,12 +41,10 @@ export default ({
 					</Fragment>
 			}
 		</DropZone>
-		{touched && error &&
-			<div className="error-handlers">
-				{error}
-			</div>}
-		<label className="form-label">
-			{label}
-		</label>
+		<RenderFormErrors
+			error={error}
+			label={label}
+			touched={touched}
+		/>
 	</Fragment>
 );

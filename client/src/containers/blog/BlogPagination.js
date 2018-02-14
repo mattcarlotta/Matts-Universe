@@ -34,7 +34,7 @@ class BlogPagination extends Component {
     }
   };
 
-  render() {
+  render = () => {
     const { isLoading, postCount, pageCount } = this.state;
     const currentPage = parseInt(this.props.location.query.pageId, 10);
 
