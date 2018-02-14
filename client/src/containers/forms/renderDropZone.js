@@ -18,7 +18,7 @@ export default ({
 	origImageFile,
 	useStoredImage
 }) => (
-	<Fragment>
+	<div className="m-b-20">
 		<DropZone
 			accept="image/jpeg, image/png, image/gif, image/bmp"
 			className="upload-container"
@@ -46,5 +46,5 @@ export default ({
 			label={label}
 			touched={touched}
 		/>
-	</Fragment>
+	</div>
 );

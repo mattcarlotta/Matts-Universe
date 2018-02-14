@@ -7,36 +7,18 @@ const LocalStrategy = require('passport-local');
 const User = mongoose.model('users');
 const config = require('../config/vars');
 
-// Tell passport to use this Strategy
-// passport.use(
-// 	new JwtStrategy({
-// 		jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-// 		secretOrKey: config.secret,
-// 		},
-// 		async (payload, done) => {
-// 			console.log(payload, 'payload');
-// 			// const user = await User.findById(payload.sub);
-// 			//
-// 			// if(!user) return done(null, false, 'NO TOKEN FUCKER!');
-// 			//
-// 			// return done(null, user);
-// 		}
-// 	)
-// );
-
-// Create JWT Strategy || payload = jwt token (sub: user.id and iat: timestamp )
 passport.use(new JwtStrategy({
-	// tell Strategy where to look (from header authorization)
-	jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-	secretOrKey: config.secret
+		jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+		secretOrKey: config.secret
 	}, async (payload, done) => {
 
-			const user = await User.findById(payload.sub);
+		if (!payload || !payload.sub) return done(null, false, 'Unable to automatically sign in, please try logging in again.');
 
-			if (!user) return done(err, false);
+		const user = await User.findById(payload.sub);
 
-			// tell passport found user
-			return done(null, user);
+		if (!user) return done(null, false, 'Unable to authenticate previous session, please try logging in again.');
+
+		return done(null, user);
 	})
 )
 
@@ -47,14 +29,10 @@ passport.use(new LocalStrategy({
 		async (username, password, done) => {
 			const user = await User.findOne({ username: username });
 
-			if (!user) return done(null, false);
+			if (!user) return done(null, false, 'There was a problem with your login credentials. That username does not exist in our records.');
 
-			//compare passwords - is supplied password === user.password?
 			user.comparePassword(password, (err, isMatch) => {
-				if (err || !isMatch) {
-					console.log('triggered');
-					return done(null, false, 'What the fuck!');
-				}
+				if (err || !isMatch) return done(null, false, 'That username and/or password does not match!');
 
 				return done(null, user);
 			});

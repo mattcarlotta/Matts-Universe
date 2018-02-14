@@ -5,28 +5,27 @@ module.exports = (app, Authentication, requireSignin, requireToken, auth) => {
 
 	app.post('/api/signin', (req, res, next) => {
     passport.authenticate('local', (err, user, errorMessage) => {
-			if (err || !user || errorMessage) res.status(401).json({ err: errorMessage });
-			Authentication.signin(user._id, res);
+
+			if (err || errorMessage) {
+				res.status(401).json({ err: errorMessage });
+				return next();
+			}
+
+			Authentication.signin(user._id, res, next);
     })(req, res, next)
 	});
 
 
 	app.get(
-		'*/api/signedin',
-		passport.authenticate('jwt', { session: false }),
-		auth.isLoggedIn,
-		Authentication.signedin
-	);
+		'*/api/signedin', (req, res, next) => {
+			passport.authenticate('jwt', (err, user, errorMessage) => {
 
-	// app.get('*/api/signedin', (req, res, next) => {
-	// 	passport.authenticate('jwt-login', (err, user, errorMessage) => {
-	// 		console.log('triggered', user);
-	// 		// if (err || !user || errorMessage) res.status(401).json({ err: errorMessage });
-	// 		//
-	// 		// auth.isLoggedIn((user, req, res, next), (req) => {
-	// 		// 	console.log('this was returned');
-	// 		// 	//Authentication.signedin
-	// 		// });
-	// 	})(req, res, next)
-	// });
+				if (err || !user || errorMessage) {
+					res.status(401).json({ err: err ? err : errorMessage });
+					return next();
+				}
+
+				Authentication.signedin(user._id, res, next);
+			})(req, res, next)
+		});
 };

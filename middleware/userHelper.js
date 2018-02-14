@@ -1,7 +1,5 @@
 const { isNil, isEmpty } = require('lodash');
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt-nodejs');
 const jwtDecode = require('jwt-decode');
 
 const User = mongoose.model('users');

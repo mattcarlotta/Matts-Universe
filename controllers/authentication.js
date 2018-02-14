@@ -1,81 +1,59 @@
 const mongoose = require('mongoose');
 const jwt = require('jwt-simple');
 const moment = require('moment');
-
 const config = require('../config/vars');
 const User = mongoose.model('users');
 
-const tokenForUser = user => {
-	const timestamp = new Date().getTime();
-	return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
-};
+const tokenForUser = user => ( jwt.encode({ sub: user, iat: new Date().getTime() }, config.secret) )
 
-exports.signedin = async (req, res, next) => {
-	console.log('message')
-	// res.status(200);
-	// try {
-	// 	const userId = req.user; // pulled from userHelper isLoggedIn middleware
-	//
-	// 	const existingUser = await User.findById(userId);
-	//
-	// 	res
-	// 		.status(200)
-	// 		.json({ user: existingUser.username, isGod: existingUser.god });
-	// } catch (e) {
-	// 	res.status(401).json({
-	// 		err:
-	// 			'There was a problem with your login credentials. Please sign in again!'
-	// 	});
-	// 	return next(err, false);
-	// }
-};
+exports.signedin = async (userId, res, done) => {
+	const existingUser = await User.findById(userId);
 
-exports.signin = async (userId, res) => {
-		const existingUser = await User.findById(userId);
-
-		if (!userId) res.status(401).json({ err: 'There was a problem with your login credentials. Please sign in again!'});
-
-		res.status(200).json({
-			token: tokenForUser(userId),
-			user: existingUser.username,
-			isGod: existingUser.god
-		});
-};
-
-exports.signup = async (req, res) => {
-	try {
-		const email = req.body.email;
-		const password = req.body.password;
-		const username = req.body.username;
-
-		if (!email || !username || !password) {
-			const err = 'You must provide a valid email, username and password!';
-			throw err;
-		} else {
-			// check if email exists
-			const existingUser = await User.findOne({
-				email: email,
-				username: username
-			});
-			// throw error if any matches
-			if (existingUser) {
-				throw err;
-			} else {
-				// if new user, create and save user record
-				const user = new User({
-					email: email,
-					username: username,
-					password: password
-				});
-				// save user
-				await user.save();
-
-				// send back a token and user
-				res.json({ token: tokenForUser(user), user: user.username });
-			}
-		}
-	} catch (err) {
-		if (err.name) err = 'That email and/or username is currently in use!';
-		res.status(400).send({ err });
+	if (!userId || !existingUser) {
+		res.status(401).json({ err: 'There was a problem with your login credentials. Please sign in again!'});
+		return done();
 	}
+
+	res.status(200).json({ user: existingUser.username, isGod: existingUser.god });
 };
+
+exports.signin = async (userId, res, done) => {
+	const existingUser = await User.findById(userId);
+
+	if (!existingUser) {
+		res.status(401).json({ err: 'There was a problem with your login credentials. Please sign in again!'});
+		return done();
+	}
+
+	res.status(200).json({
+		token: tokenForUser(userId),
+		user: existingUser.username,
+		isGod: existingUser.god
+	});
+};
+
+exports.signup = async (req, res, done) => {
+	const email = req.body.email;
+	const password = req.body.password;
+	const username = req.body.username;
+
+	if (!email || !username || !password) {
+		res.status(400).send({ err: 'Missing credentials' });
+		return done();
+	}
+
+	// check if email exists
+	const existingUser = await User.find({$or:[{email: email},{username: username}]})
+		// throw error if any matches
+	if (existingUser) {
+		res.status(400).send({ err: 'That email and/or username is currently in use!' });
+		return done();
+	}
+
+	// if new user, create and save user record
+	const user = new User({ email: email, username: username, password: password });
+	// save user
+	await user.save();
+	// send back a token and user
+	res.json({ token: tokenForUser(user), user: user.username });
+}
