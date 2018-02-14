@@ -1,100 +1,63 @@
 .auth-container {
-	@extend .flex-wrap-center;
+	@extend %flex-wrap-center, %m-0-a, .m-b-20, %m-t-20;
 	min-height: 600px;
-	margin: 0 auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
 	background-color: transparent;
 	padding: 10px 20px 30px 20px;
 
-	form {
-		width: 300px;
-	}
-
-	h1 {
-		text-align: center;
-		width: 100%;
-	}
+	form { width: 300px; }
+	h1 { @extend %t-a-c, %w-100;}
 }
 
 .clear-values {
+	@extend .f-r;
 	width: 45%;
-	float: right;
 
-	:focus {
-		@extend .no-link-focus;
-	}
+	&:focus { @extend .no-link-focus;}
 }
 
-.characters-left {
-	font-size: 10px;
-}
+.characters-left { font-size: 10px; }
 
 .error-handlers {
-	font-size: 11px;
-	margin-bottom: 5px;
-	font-weight: 700;
 	color: $orange;
+	font-size: 11px;
+	font-weight: 700;
+	margin-bottom: 5px;
 }
 
 .form-label {
+	@extend .m-b-20;
 	color: $darkgrey;
 	font-size: 12px;
-	margin-bottom: 20px;
 }
 
 .form-container {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-	margin: 0 auto;
-	margin-top: 20px;
+	@extend %flex-wrap-center, %m-t-20;
 	margin-bottom: 100px;
 	padding: 10px 20px 30px 20px;
 
-	form {
-		width: 700px;
-	}
-
-	input {
-		width: 100%;
-	}
-
-	textarea {
-		height: 300px;
-	}
-
-	h1 {
-		text-align: center;
-		width: 100%;
-	}
+	form { width: 700px;}
+	input { @extend %w-100; }
+	textarea { height: 300px; }
+	h1 { @extend %t-a-c, %w-100; }
 }
 
 .form-input {
-	width: 100%;
+	@extend %b-0, %outline-none, %w-100;
 	margin-bottom: 5px;
 	color: $owhite;
 	background-color: transparent;
-	outline: none;
-	border: none;
 	border-bottom: 1px solid $lightblue;
 
-	&:focus {
-		border-bottom: 2px solid $orange;
-	}
+	&:focus { border-bottom: 2px solid $orange; }
 }
 
 .form-details {
-	@extend .form-input;
+	@extend .form-input, %m-b-10;
 	padding: 10px;
-	margin-bottom: 10px;
 	border: 1px solid $lightblue;
 }
 
-.input-error {
-	border-bottom: 2px solid $orange;
-}
+.input-error { border-bottom: 2px solid $orange; }
 
 .submit {
 	width: 45%;
@@ -107,13 +70,13 @@
 }
 
 .upload-container {
+	@extend %t-a-c;
 	padding: 15px;
 	height: 150px;
 	border-width: 2px;
 	border-color: rgb(102, 102, 102);
 	border-style: dashed;
 	border-radius: 5px;
-	text-align: center;
 
 	i {
 		font-size: 75px;
@@ -122,7 +85,7 @@
 }
 
 .uploaded-images-container {
-	list-style: none;
+	@extend %l-s-t-n;
 	img {
 		max-height: 100px;
 	}

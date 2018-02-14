@@ -7,7 +7,7 @@ import { resetNotifications } from '../../actions/authActionCreators';
 class RenderNotifications extends PureComponent {
 	componentDidUpdate = () => {
 		const { errorMessage, successMessage} = this.props;
-		message.config({ top: 50 });
+		message.config({ top: 75 });
 		errorMessage && message.error(errorMessage, 2, this.props.resetNotifications())
 		successMessage && message.success(successMessage, 2, this.props.resetNotifications());
 	}

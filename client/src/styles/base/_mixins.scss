@@ -1,3 +1,7 @@
+@mixin anim($action...) {
+  -webkit-animation: $action;
+  animation: $action;
+}
 @mixin trans($dir...) {
   -webkit-transform: translate3d($dir);
   -moz-transform: translate3d($dir);

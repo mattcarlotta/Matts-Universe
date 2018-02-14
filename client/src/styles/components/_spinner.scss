@@ -1,13 +1,11 @@
 .spinner {
-	position: absolute;
+	@extend %m-a, %p-a;
+	@include anim(rotate 0.8s 0s ease-in-out infinite)
 	left: 0;
 	right: 0;
 	top: 0;
 	bottom: 0;
-	margin: auto;
 	border-radius: 100%;
-	-webkit-animation: rotate 0.8s 0s ease-in-out infinite;
-	animation: rotate 0.8s 0s ease-in-out infinite;
 }
 
 .spinner-clockwise {
@@ -22,34 +20,34 @@
 }
 
 .spinner-container {
-	position: relative;
+	@extend %p-r;
+	@include anim(fadeIn 1s 0s ease-in-out forwards)
 	margin-top: 20%;
 	margin-bottom: 20%;
 	padding-bottom: 30px;
-	animation: fadeIn 1s 0s ease-in-out forwards;
 	transition: ease-in-out;
 }
 
 .outer-circle {
 	@media (max-width: 1000px) {
-		height: 37px;
-		width: 37px;
 		border: 2px solid;
 		border-color: transparent $owhite;
+		height: 37px;
+		width: 37px;
 	}
 
+	height: 75px;
 	border: 4px solid;
 	border-color: transparent $owhite;
-	height: 75px;
 	width: 75px;
 }
 
 .middle-circle {
 	@media (max-width: 1000px) {
-		height: 25px;
-		width: 25px;
 		border: 1px solid;
 		border-color: transparent $owhite;
+		height: 25px;
+		width: 25px;
 	}
 
 	border: 2px solid;
@@ -60,10 +58,10 @@
 
 .inner-circle {
 	@media (max-width: 1000px) {
-		height: 21px;
-		width: 21px;
 		border: 1px solid;
 		border-color: transparent $owhite;
+		height: 21px;
+		width: 21px;
 	}
 
 	border: 1px solid;

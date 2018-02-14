@@ -7,26 +7,20 @@
 		right: 10px;
 	}
 
+	@extend %b-0, %d-b, .fix-cursor, %t-a-c;
 	z-index: 2000;
 	background-color: $darkblue;
 	width: 75px;
 	height: 45px;
 	position: fixed;
 	border-radius: 5px;
-	border: none;
 	bottom: 10px;
 	right: 10px;
-	display: block;
 	padding: 3px;
-	text-align: center;
-	@extend .fix-cursor;
 
 	.text {
-		@media (max-width: 800px) {
-			display: none;
-		}
-		text-transform: uppercase;
-		width: 100px;
+		@media (max-width: 800px) { display: none;}
+		@extend %t-t-u, %w-100;
 		font-size: 13px;
 		margin-left: 3px;
 	}

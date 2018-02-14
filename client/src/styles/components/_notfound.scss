@@ -1,16 +1,10 @@
 .notfound-container {
-	@media (max-width: 900px) {
-		height: 100vh;
-		padding-top: 50%;
-	}
-	text-align: center;
+	@media (max-width: 900px) { height: 100vh; padding-top: 50%; }
+	@extend %t-a-c;
 
 	img {
-		@media (max-width: 900px) {
-			height: 300px;
-			margin-left: -50px;
-		}
+		@media (max-width: 900px) { height: 300px; margin-left: -50px; }
+		@extend %m-0-a;
 		height: 86vh;
-		margin: 0 auto;
 	}
 }
