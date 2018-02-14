@@ -50,15 +50,8 @@
 %p-r {position: relative;}
 %pl-10 {padding-left: 10px;}
 %pr-10 {padding-right: 10px;}
-.small-icon {
-  @extend %pl-10, %m-t-10;
-  font-size: 14px;
-}
-%separator {
-  @extend %b-0;
-	height: 1px;
-	background-image: linear-gradient(to right,$transparent,$owhite,$transparent);
-}
+.small-icon { @extend %pl-10, %m-t-10; font-size: 14px; }
+%separator { @extend %b-0; height: 1px; background-image: linear-gradient(to right,$transparent,$owhite,$transparent); }
 %t-a-c {text-align: center;}
 %t-d-n {text-decoration: none;}
 %t-t-c {text-transform: capitalize;}
