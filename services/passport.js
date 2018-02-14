@@ -18,6 +18,8 @@ passport.use(new JwtStrategy({
 
 		if (!user) return done(null, false, 'Unable to authenticate previous session, please try logging in again.');
 
+		if (!user.god) return done(null, false, 'You do not have permission to do that.')
+
 		return done(null, user);
 	})
 )

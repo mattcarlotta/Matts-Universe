@@ -12,8 +12,8 @@ const uploadImage = multer({
 }).single('file');
 
 module.exports = (req, res, done) => {
-	uploadImage(req, res, function() {
-		if (req.fileValidationError || !req.file) return done();
+	uploadImage(req, res, () => {
+		if (req.fileValidationError || !req.file) return done(null, false, req.fileValidationError);
 
 		const filename = Date.now() + '-' + req.file.originalname;
 		const filepath = `uploads/${filename}`;
@@ -22,10 +22,10 @@ module.exports = (req, res, done) => {
 			.resize(800, 600)
 			.min()
 			.toFile(filepath)
-			.then(function() {
+			.then(() => {
 				req.file.filename = filename;
 				req.file.path = filepath;
-				return done();
+				return done(null, true);
 			});
 	});
 };

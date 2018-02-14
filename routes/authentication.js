@@ -1,6 +1,6 @@
 const passport = require('passport');
 
-module.exports = (app, Authentication, requireSignin, requireToken, auth) => {
+module.exports = (app, Authentication) => {
 	// app.post('/api/signup', Authentication.signup);
 
 	app.post('/api/signin', (req, res, next) => {
