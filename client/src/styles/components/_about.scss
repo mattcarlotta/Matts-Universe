@@ -40,9 +40,10 @@
 		}
 
 		.about-body-mobile {
-			margin-top: 15px;
+			margin-top: 100px;
 
 			img {
+				@media (max-width: 750px) { width: 100%; }
 				@extend %d-b, %m-0-a;
 				width: 325px;
 			}

@@ -8,9 +8,7 @@
 	border-radius: 100%;
 }
 
-.spinner-clockwise {
-	@extend .spinner;
-}
+.spinner-clockwise { @extend .spinner; }
 
 .spinner-counterclockwise {
 	@extend .spinner;
