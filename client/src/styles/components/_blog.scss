@@ -104,6 +104,7 @@
 
 	button {
 		@extend %b-0, %t-d-n;
+		cursor: pointer;
 		height: 100%;
 		width: 100%;
 		background: transparent;

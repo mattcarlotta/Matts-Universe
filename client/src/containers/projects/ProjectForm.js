@@ -13,7 +13,7 @@ import {
 import { projectMaxLengthAllowed } from '../forms/validateFormFields';
 import UploadForm from '../forms/UploadForm';
 
-class ShowProjectForm extends Component {
+class ProjectForm extends Component {
 	handleFormSubmit = formProps => {
 		const config = configAuth();
 		const formData = createFormData(formProps);
@@ -48,5 +48,5 @@ export default reduxForm({
 		addNewProject,
 		editProject,
 		fetchProject
-	})(withRouter(ShowProjectForm))
+	})(withRouter(ProjectForm))
 );

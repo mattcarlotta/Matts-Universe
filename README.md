@@ -3,27 +3,22 @@ My personal website
 
 --------------------------------------------------------------------------------------------------------------
 For the front-end, this personal project utilizes the <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> with some additional libraries:
-- axios v0.16.2
-- babel-core v6.26.0
-- jquery v3.2.1
-- node-sass-chokidar v0.0.3
-- npm-run-all v4.1.1
-- prettier v1.7.4
-- react v15.6.1
-- react-bootstrap v0.31.3
-- react-dom v15.6.1
-- react-dropzone v4.2.0
-- react-redux v5.0.6
-- react-router v3.0.4
-- react-router-redux v4.0.8
-- react-scripts v1.0.14
-- react-scroll v1.5.5
-- react-slick v0.15.4
-- react-transition-group v1.2.0
-- redux v3.7.2
-- redux-form v7.1.1
-- redux-thunk v2.2.0
-
+- antd v3.2.0,
+-	axios v0.17.1,
+-	font-awesome v4.7.0,
+-	node-sass-chokidar v0.0.3,
+-	npm-run-all v4.1.2,
+-	react v16.2.0,
+-	react-custom-scrollbars v4.2.1,
+-	react-dom v16.2.0,
+-	react-dropzone v4.2.7,
+-	react-redux v5.0.6,
+-	react-router v3.2.0,
+-	react-router-redux v4.0.8,
+-	rebound v0.0.15,
+-	redux v3.7.2,
+-	redux-form v7.2.3,
+-	redux-thunk v2.2.0
 --------------------------------------------------------------------------------------------------------------
 For the back-end, this personal project utilizes a NodeJS environment with some additional libraries:
 -	bcrypt-nodejs v0.0.3

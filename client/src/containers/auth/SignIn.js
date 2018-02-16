@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import RenderInputField from '../forms/renderInputField';
 import RenderFormButtons from '../forms/renderFormButtons';
-import FIELDS from './data/signinFormData';
+import FIELDS from './fields/signinFormFields';
 
 import { authError, signinUser } from '../../actions/authActionCreators';
 import { isRequired } from '../forms/validateFormFields';

@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-// import { Scrollbars } from 'react-custom-scrollbars';
 import SpringScrollbars from '../../components/app/SpringScrollbars';
 
 import { authenticateUser, fetchingUser } from '../../actions/authActionCreators';

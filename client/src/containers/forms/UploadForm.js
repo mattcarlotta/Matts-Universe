@@ -5,33 +5,25 @@ import { connect } from 'react-redux';
 
 import { allowedCharacters, isRequired } from '../forms/validateFormFields';
 import FIELDS from './formFields';
-import NotFound from '../../components/notfound/notFound';
 import RenderDropZone from './renderDropZone';
 import RenderFormButtons from './renderFormButtons';
 import RenderInputField from './renderInputField';
 import RenderTextAreaField from './renderTextAreaField';
 import showCharactersLeft from './showCharactersLeft';
-import Spinner from '../../components/loaders/spinner';
+import Loading from '../app/Loading';
 
 class UploadForm extends Component {
 	state = {
 		isLoaded: false,
-		requestTimeout: false,
 		newImageFiles: [],
 		useStoredImage: false
 	};
 
 	componentDidMount = () => this.props.queryId && this.fetchItemToEdit();
 
-	componentWillUnmount = () => this.clearTimeout();
-
-	fetchItemToEdit = async () => {
-		this.timeout = setInterval(this.timer, 5000);
-		try {
-			const { data: { foundItem } } = await this.props.fetchItem(
-				this.props.queryId
-			);
-
+	fetchItemToEdit = () => {
+		this.props.fetchItem(this.props.queryId)
+		.then(({data: { foundItem }}) => {
 			this.initializeForm(foundItem);
 			this.setState({
 				isLoaded: true,
@@ -41,19 +33,11 @@ class UploadForm extends Component {
 				origImageFile: foundItem.image.path,
 				useStoredImage: true
 			});
-		} catch (err) {
-			console.error(err);
-		}
+		})
+		.catch(err => console.err(err))
 	};
 
 	initializeForm = foundItem => this.props.initialize(foundItem);
-
-	timer = () => {
-		this.setState({ requestTimeout: true });
-		this.clearTimeout();
-	};
-
-	clearTimeout = () => clearInterval(this.timeout);
 
 	handleOnDrop = newImage => this.setState({ newImageFiles: newImage, useStoredImage: false });
 
@@ -89,15 +73,12 @@ class UploadForm extends Component {
 			isLoaded,
 			origImageFile,
 			newImageFiles,
-			requestTimeout,
 			useStoredImage
 		} = this.state;
 		const characterValue = [titleValue, imgTitleValue, descriptionValue];
 
 		if (queryId && !isLoaded && !origImageFile) {
-			if (requestTimeout || serverError) return <NotFound />;
-
-			return <Spinner />;
+			return <Loading items={origImageFile} message={'Unable to locate the project or post!'} serverError={serverError} />
 		}
 
 		return (
