@@ -1,151 +1,52 @@
 .project-container {
-	@media (max-width: 750px) {
-		background-size: 250%;
-		background-position: center;
-	}
+	@extend %t-a-c;
 	background: $lightblue url(../images/projectViewBackground.png);
 	background-size: cover;
 	background-position: top;
 	background-repeat: no-repeat;
-
 	padding-top: 40px;
 	height: 1000px;
+	max-width: 2000px;
 	color: $owhite;
-	text-align: center;
 
 	.title {
-		margin-bottom: 20px;
+		@extend .m-b-20;
 		h1 {
-			@media (max-width: 750px) {
-				font-size: 25px;
-				padding-top: 20%;
-			}
-			font-family: $jura;
+			@media (max-width: 750px) { font-size: 25px; padding-top: 20%; }
+			@extend .m-b-20;
 			font-size: 30px;
-			margin-bottom: 20px;
 		}
 	}
 
-	p {
-		@media (max-width: 750px) {
-			font-size: 10px;
-			text-align: center;
-		}
-	}
+	p { @media (max-width: 750px) { font-size: 10px; text-align: center; } }
 
-	h1,
-	h2,
-	h3,
-	h4 {
-		width: 100%;
-	}
+	h1,	h2, h3, h4 { @extend %w-100; }
 
 	.project-content {
-		@media (max-width: 550px) {
-			padding-top: 30%;
-		}
-		@media (max-width: 800px) {
-			width: 95%;
-		}
+		@media (max-width: 550px) { padding-top: 30%; }
+		@media (max-width: 800px) {	width: 95%;	}
+		@extend %m-a;
 		padding-top: 20px;
 		width: 800px;
-		margin: auto;
 
-		.slick-list {
-			max-height: 650px;
-		}
-
-		.slick-dots {
-			@extend %p-r;
-			top: 10px;
-		}
-
-		.chevron {
-			position: absolute;
-			top: 50%;
-			height: 20px;
-			width: 20px;
-			transform: translateY(-50%);
-			cursor: pointer;
-			z-index: 1000;
-			padding: 3px;
-		}
-
-		.prevpage-chevron {
-			@extend .chevron;
-			left: 0;
-		}
-
-		.nextpage-chevron {
-			@extend .chevron;
-			right: 0;
-		}
-
-		.nextpage-chevron:hover,
-		.prevpage-chevron:hover {
-			color: $trueblue;
-		}
-
-		.dot-button-container {
-			position: relative;
-			float: left;
-			display: block;
-			left: 45%;
-			color: $trueblue;
-			font-size: 12px;
-
-			.activeProject {
-				color: black;
-				font-size: 10px;
-				border: 2px solid $owhite;
-				border-radius: 50%;
-			}
-
-			li {
-				position: relative;
-				float: left;
-				display: block;
-				right: 50%;
-				margin: 0 5px;
-				padding: 0;
-				cursor: pointer;
-			}
-		}
+		.slick-list { max-height: 650px;}
+		.slick-dots { @extend %p-r; top: 10px; }
 
 		.content {
 			max-width: 800px;
 			word-wrap: break-word;
 
-			h2 {
-				@media (max-width: 750px) {
-					font-size: 20px;
-				}
-			}
-
-			h3 {
-				@media (max-width: 750px) {
-					font-size: 18px;
-				}
-			}
-
-			h4 {
-				@media (max-width: 750px) {
-					font-size: 14px;
-				}
-			}
+			h2 { @media (max-width: 750px) { font-size: 20px;	}	}
+			h3 { @media (max-width: 750px) { font-size: 18px;	}	}
+			h4 { @media (max-width: 750px) { font-size: 14px;	}	}
 			img {
-				@media (max-width: 800px) {
-					width: 80%;
-				}
-				display: block;
+				@media (max-width: 800px) { width: 80%;	}
+				@extend %d-b, %m-a;
 				max-width: 710px;
 				max-height: 450px;
-				margin: auto;
 			}
 		}
 	}
 }
 
-.noproject-container {
-	height: 100%;
-}
+.noproject-container { @extend %h-100; }
