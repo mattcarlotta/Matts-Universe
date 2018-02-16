@@ -39,10 +39,10 @@ export const authenticateUser = id => dispatch => {
 				dispatch({ type: FETCHING_USER, payload: false });
 			})
 			.catch(err => {
-				dispatchError(dispatch, err);
+				console.log('err', err);
 				dispatch({ type: FETCHING_USER, payload: false });
 				dispatch(signoutUser());
-				throw err;
+				dispatchError(dispatch, err);
 			})
 };
 
@@ -65,10 +65,7 @@ export const signinUser = ({ username, password }) => dispatch => (
 		dispatch({ type: SET_SIGNEDIN_USER, payload: data });
 		browserHistory.push('/');
 	})
-	.catch(({ response }) => {
-		const error = `Your username or password is incorrect!`;
-		dispatchError(dispatch, error);
-	})
+	.catch(err => dispatchError(dispatch, err))
 )
 
 // Atempts to sign up user
@@ -79,10 +76,7 @@ export const signupUser = ({ email, username, password }) => dispatch => (
 		dispatch({ type: SET_SIGNEDIN_USER, payload: data.user });
 		browserHistory.push('/');
 	})
-	.catch(err => {
-		dispatchError(dispatch, err);
-		console.error(err);
-	})
+	.catch(err => dispatchError(dispatch, err))
 );
 
 // Signs user out

@@ -6,9 +6,9 @@ export default [
 		title: 'Home'
 	},
 	{
-		icon: 'youtube_searched_for',
+		icon: 'help_outline',
 		pathname: '/',
-		pixel: 900,
+		pixel: 925,
 		title: 'About'
 	},
 	{
@@ -18,7 +18,7 @@ export default [
 		title: 'Blog'
 	},
 	{
-		icon: 'developer_board',
+		icon: 'description',
 		pathname: '/',
 		pixel: 2600,
 		title: 'Projects'

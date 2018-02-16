@@ -32,9 +32,9 @@ export default class SpringScrollbars extends Component {
     <Scrollbars
       {...this.props}
       ref="scrollbars"
-      style={{ width: '100%', top: '50px' }}
+      style={{ width: '100%', top: '70px' }}
       autoHeight
-      autoHeightMin={`calc(100vh - 50px)`}
+      autoHeightMin={`calc(100vh - 70px)`}
       autoHide
       autoHideTimeout={500}
       autoHideDuration={200}

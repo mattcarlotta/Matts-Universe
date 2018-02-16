@@ -27,28 +27,24 @@ const validate = values => {
 };
 
 class Signup extends Component {
-	handleFormSubmit = formProps => {
-		this.props.signupUser(formProps);
-	};
+	handleFormSubmit = formProps => this.props.signupUser(formProps);
 
-	render() {
+	render = () => {
 		const { handleSubmit, pristine, reset, submitting } = this.props;
 
 		return (
 			<div className="auth-container col-xs-12">
 				<form onSubmit={handleSubmit(this.handleFormSubmit)}>
 					<h1>Sign Up</h1>
-					{map(FIELDS, ({ name, type, component, label }, key) => {
-						return (
-							<Field
-								key={key}
-								name={name}
-								type={type}
-								component={RenderInputField}
-								label={label}
-							/>
-						);
-					})}
+					{map(FIELDS, ({ name, type, component, label }, key) => (
+						<Field
+							key={key}
+							name={name}
+							type={type}
+							component={RenderInputField}
+							label={label}
+						/>
+					))}
 					<RenderFormButtons
 						submitting={submitting}
 						pristine={pristine}

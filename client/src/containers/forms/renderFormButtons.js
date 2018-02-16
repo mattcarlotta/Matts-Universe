@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({ submitting, pristine, resetForm }) => (
+export default ({ submitting, pristine, reset }) => (
 	<div>
 		<button
 			type="submit"
@@ -13,7 +13,7 @@ export default ({ submitting, pristine, resetForm }) => (
 			type="button"
 			className="clear-values btn btn-danger"
 			disabled={pristine || submitting}
-			onClick={resetForm}
+			onClick={reset}
 		>
 			Clear
 		</button>

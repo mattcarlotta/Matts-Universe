@@ -9,7 +9,7 @@ import SignOut from '../../containers/auth/signout';
 const Header = ({setScrollHeight}) => (
 	<nav className="navigation-container">
 		<ul className="navigation-bar">
-			{map (NAVLINKS, ({ icon, pixel, pathname, query, title}) => (
+			{map(NAVLINKS, ({ icon, pixel, pathname, query, title}) => (
 				<li key={icon}>
 					<Link
 						onClick={() => {

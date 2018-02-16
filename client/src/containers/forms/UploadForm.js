@@ -107,32 +107,22 @@ class UploadForm extends Component {
 						placeholder="Upload Image"
 						validate={[this.imageIsRequired]}
 					/>
-					{map(FIELDS, ({ name, label }, key) => {
-						return (
-							<span key={key}>
-								{showCharactersLeft(characterValue[key], allowedLength[key])}
-								<Field
-									name={name}
-									type="text"
-									component={
-										name === 'title' || name === 'imgtitle'
-											? RenderInputField
-											: RenderTextAreaField
-									}
-									label={label}
-									validate={[
-										isRequired,
-										allowedCharacters,
-										maxFieldLength[key]
-									]}
-								/>
-							</span>
-						);
-					})}
+					{map(FIELDS, ({ name, label }, key) => (
+						<div className="m-b-20" key={key}>
+							{showCharactersLeft(characterValue[key], allowedLength[key])}
+							<Field
+								name={name}
+								type="text"
+								component={ name === 'title' || name === 'imgtitle' ? RenderInputField : RenderTextAreaField }
+								label={label}
+								validate={[isRequired, allowedCharacters, maxFieldLength[key]]}
+							/>
+						</div>
+					))}
 					<RenderFormButtons
 						submitting={submitting}
 						pristine={pristine}
-						resetForm={() => this.resetForm(reset)}
+						reset={() => this.resetForm(reset)}
 					/>
 				</Form>
 			</div>
