@@ -1,24 +1,13 @@
 import { map, isEmpty } from 'lodash';
-import React, { Component } from 'react';
-import Slider from 'react-slick';
+import React, { Component, Fragment } from 'react';
+import { Carousel } from 'antd';
 import { connect } from 'react-redux';
 import { fetchProjects } from '../../actions/projectActionCreators';
-import { NextArrow, PrevArrow } from '../../components/projects/sliderArrows';
 
 import AdminPanel from '../app/AdminPanel';
 import NoItemsFound from '../../components/app/noItemsFound';
 import RenderProjects from '../../components/projects/renderProjects';
 import Spinner from '../../components/loaders/spinner';
-
-const settings = {
-	dots: true,
-	infinite: true,
-	speed: 500,
-	slidesToShow: 1,
-	slidesToScroll: 1,
-	nextArrow: <NextArrow />,
-	prevArrow: <PrevArrow />
-};
 
 class Projects extends Component {
 	state = {
@@ -67,7 +56,7 @@ class Projects extends Component {
 		this.setState({ requestTimeout: true });
 	};
 
-	render() {
+	render = () => {
 		const { isFetchingProjects, projects, requestTimeout } = this.state;
 
 		if (isEmpty(projects) || isFetchingProjects) {
@@ -80,21 +69,16 @@ class Projects extends Component {
 		this.clearTimer();
 
 		return (
-			<div>
-				<AdminPanel
-					updateProjectItems={this.fetchAllProjects}
-					projects={projects}
-				/>
-				<Slider {...settings}>
-					{map(projects, (project, key) => {
-						return (
-							<div key={key}>
-								<RenderProjects {...project} />
-							</div>
-						);
-					})}
-				</Slider>
-			</div>
+			<Fragment>
+				<AdminPanel updateProjectItems={this.fetchAllProjects} projects={projects} />
+				<Carousel>
+					{map(projects, (project, key) => (
+						<div key={key}>
+							<RenderProjects {...project} />
+						</div>
+					))}
+				</Carousel>
+			</Fragment>
 		);
 	}
 }

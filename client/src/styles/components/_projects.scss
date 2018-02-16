@@ -20,7 +20,7 @@
 				font-size: 25px;
 				padding-top: 20%;
 			}
-			@extend .cursive-font;
+			font-family: $jura;
 			font-size: 30px;
 			margin-bottom: 20px;
 		}
@@ -53,6 +53,11 @@
 
 		.slick-list {
 			max-height: 650px;
+		}
+
+		.slick-dots {
+			@extend %p-r;
+			top: 10px;
 		}
 
 		.chevron {

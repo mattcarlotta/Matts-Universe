@@ -1,6 +1,7 @@
 import map from 'lodash/map';
 import React from 'react';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { Dropdown, Button, Icon, Menu } from 'antd';
+const { Item: MenuItem } = Menu;
 
 const RenderAdminButtons = ({
 	bsStyle,
@@ -8,36 +9,29 @@ const RenderAdminButtons = ({
 	iconClassName,
 	title,
 	items,
-	button,
 	onClickAction
 }) => {
 	return (
-		<DropdownButton
-			bsStyle={bsStyle}
-			id={id}
-			title={
-				<span>
-					<i className={`fa ${iconClassName}`} aria-hidden="true" />
-					<span>
-						{title}
-					</span>
-				</span>
+		<Dropdown
+			overlay={
+				<Menu onClick={({item}) => onClickAction(item)}>
+					{items === undefined
+						? <MenuItem disabled>No content was found!</MenuItem>
+						: map(items, ({ _id, navTitle }) => (
+								<MenuItem key={_id} id={_id} navTitle={navTitle}>
+									<i className={`fa ${iconClassName}`} aria-hidden="true" />
+									{navTitle}
+							</MenuItem>
+					))}
+				</Menu>
 			}
+			trigger={['click']}
 		>
-			{items === undefined
-				? <MenuItem disabled>No content was found!</MenuItem>
-				: map(items, ({ _id, navTitle }) => {
-						return button === 'delete'
-							? <MenuItem key={_id} onClick={() => onClickAction(_id)}>
-									<i className={`fa ${iconClassName}`} aria-hidden="true" />
-									{navTitle}
-								</MenuItem>
-							: <MenuItem key={_id} onClick={() => onClickAction(navTitle)}>
-									<i className={`fa ${iconClassName}`} aria-hidden="true" />
-									{navTitle}
-								</MenuItem>;
-					})}
-		</DropdownButton>
+			<Button>
+				<i className={`fa ${iconClassName}`} aria-hidden="true" />
+				{title} <Icon type="down" />
+			</Button>
+		</Dropdown>
 	);
 };
 

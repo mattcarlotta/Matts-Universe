@@ -1,45 +1,38 @@
 import map from 'lodash/map';
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
-import { animateScroll as Nav } from 'react-scroll';
 
-import NAVSCROLLITEMS from './data/navScrollToIndexData';
-import NavScrollTo from './navScrollTo';
+import NAVLINKS from './links/headerLinks';
+import ResizeWindowOnChange from '../app/ResizeWindowOnChange'
 import SignOut from '../../containers/auth/signout';
 
-const Header = ({ fixedNavBar }) => {
-	return (
-		<div className={fixedNavBar ? 'fixed-nav' : null}>
-			<nav className="navigation-container">
-				<ul className="navigation-bar">
-					{map(NAVSCROLLITEMS, ({ pixel, icon, title }, key) => {
-						return (
-							<NavScrollTo key={key} pixel={pixel} icon={icon} title={title} />
-						);
-					})}
-					<li>
-						<Link
-							onClick={() =>
-								browserHistory.push({
-									pathname: `/blog/page`,
-									query: { pageId: 1 }
-								})}
-						>
-							<i className="fa fa-commenting-o" aria-hidden="true" />
-							{window.innerWidth < 650 ? '' : 'Blog'}
-						</Link>
-					</li>
-					<li>
-						<Link onClick={() => Nav.scrollToBottom()}>
-							<i className="fa fa-envelope-o" aria-hidden="true" />
-							{window.innerWidth < 650 ? '' : 'Contact'}
-						</Link>
-					</li>
-					<SignOut />
-				</ul>
-			</nav>
-		</div>
-	);
-};
+const Header = ({setScrollHeight}) => (
+	<nav className="navigation-container">
+		<ul className="navigation-bar">
+			{map (NAVLINKS, ({ icon, pixel, pathname, query, title}) => (
+				<li key={icon}>
+					<Link
+						onClick={() => {
+							browserHistory.push({pathname, query});
+							pixel && window.setTimeout(() => setScrollHeight(pixel), 100);
+							}
+						}
+					>
+						<i className="material-icons">{icon}</i>
+						{window.innerWidth < 650 ? '' : title}
+					</Link>
+				</li>
+			))}
+			<li>
+				<a href="http:///www.mattcarlotta.blogspot.com" rel="noopener noreferrer" target="_blank">
+					<i className="material-icons">work</i>
+					{window.innerWidth < 650 ? '' : 'Portfolio'}
+				</a>
+			</li>
+			<SignOut window={window.innerWidth} />
+		</ul>
+	</nav>
+)
 
-export default Header;
+
+export default ResizeWindowOnChange(Header);

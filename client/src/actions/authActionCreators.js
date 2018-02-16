@@ -17,20 +17,16 @@ import dispatchError from './dispatchError';
 //==========================================================================
 
 // Displays error messages
-export const authError = error => {
-	return {
-		type: AUTH_ERROR,
-		payload: error
-	};
-};
+export const authError = error => ({
+	type: AUTH_ERROR,
+	payload: error
+})
 
 // Displays success messages
-export const authSuccess = message => {
-	return {
-		type: AUTH_SUCCESS,
-		payload: message
-	};
-};
+export const authSuccess = message => ({
+	type: AUTH_SUCCESS,
+	payload: message
+})
 
 // Attempts to auth a previously signed in user
 export const authenticateUser = id => async dispatch => {

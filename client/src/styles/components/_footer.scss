@@ -2,22 +2,17 @@
 	background-color: $trueblue;
 
 	.contact-nav {
-		@media (max-width: 650px) {
-			margin-left: -20px;
-		}
+		@media (max-width: 650px) { margin-left: -20px; }
+		@extend %l-s-t-n, %m-0-a;
 		padding-top: 5px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: center;
-		margin: 0 auto;
-		list-style: none;
 
 		li {
+			@extend %d-b, .f-l, %p-r;
 			height: 40px;
-			float: left;
-			position: relative;
-			display: block;
 			margin-top: 15px;
 		}
 
@@ -27,18 +22,13 @@
 			transition: all 0.5s;
 
 			&:hover {
-				text-decoration: none;
+				@extend .fix-cursor, %t-d-n;
 				color: $owhite;
-				@extend .fix-cursor;
 			}
 
-			&:focus {
-				@extend .no-link-focus;
-			}
+			&:focus { @extend .no-link-focus; }
 		}
 
-		p {
-			margin-right: 20px;
-		}
+		p { margin-right: 20px; }
 	}
 }

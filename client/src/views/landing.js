@@ -4,14 +4,8 @@ import Home from './home';
 import About from './about';
 import ShowProjects from './showProjects';
 
-const Landing = () => {
-	return (
-		<span>
-			<Home />
-			<About />
-			<ShowProjects />
-		</span>
-	);
-};
-
-export default Landing;
+export default () => [
+	<Home key="home" />,
+	<About key="about" />,
+	<ShowProjects key="projects" />
+]

@@ -1,31 +1,27 @@
 .admin-tools {
+	@extend %m-b-0, %t-a-c;
 	padding: 10px 20px 20px 20px;
-	margin-bottom: 0;
-	text-align: center;
 
 	button {
 		margin-right: 5px;
 
-		&:hover,
-		&:focus {
-			@extend .no-link-focus;
-		}
+		&:hover, &:focus { @extend .no-link-focus; }
 	}
 
 	h1 {
+		@extend %m-t-0;
 		color: $white;
-		margin-top: 0;
 		font-weight: 900;
 	}
 
 	.signout-button {
-		list-style: none;
+		@extend %l-s-t-n;
 		opacity: 0.5;
 		background-color: $darkblue;
 		border: 1px solid $darkblue;
 
 		&:hover {
-			text-decoration: none;
+			@extend %t-d-n;
 			opacity: 1;
 			color: $lightblue;
 		}
@@ -40,8 +36,5 @@
 
 	.signout-button:focus,
 	.signout-button > li:focus,
-	.signout-button > li a:focus {
-		text-decoration: none;
-		@extend .no-link-focus;
-	}
+	.signout-button > li a:focus { @extend .no-link-focus, %t-d-n; }
 }

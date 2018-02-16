@@ -4,23 +4,16 @@ import { Link } from 'react-router';
 
 import { signoutUser } from '../../actions/authActionCreators';
 
-const SignOut = ({ username, signoutUser }) => {
-	return (
-		<li>
-			{username ? (
-				<Link onClick={() => signoutUser()}>
-					<i className="fa fa-sign-out" aria-hidden="true" />
-					{window.innerWidth < 650 ? '' : 'SignOut'}
+const SignOut = ({ username, signoutUser, window }) => (
+	<li>
+		{username
+			? <Link onClick={() => signoutUser()}>
+					<i className="material-icons">exit_to_app</i>
+					{window < 650 ? '' : 'SignOut'}
 				</Link>
-			) : null}
-		</li>
-	);
-};
+		 : null
+	 }
+	</li>
+)
 
-const mapStateToProps = state => {
-	return {
-		username: state.auth.username
-	};
-};
-
-export default connect(mapStateToProps, { signoutUser })(SignOut);
+export default connect(state => ({ username: state.auth.username}), { signoutUser })(SignOut);

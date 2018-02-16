@@ -1,25 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
 import { authError, signoutUser } from '../../actions/authActionCreators';
 import Spinner from '../../components/loaders/spinner';
 
-export default function(ComposedComponent) {
+export default ComposedComponent => {
 	class Authentication extends Component {
-		componentWillMount() {
-			if (!this.props.isLoading) {
-				if (!this.props.username || !this.props.userIsGod) {
-					this.redirectUser();
-				}
+		componentWillMount = () => {
+			if (!this.props.isLoading && (!this.props.username || !this.props.userIsGod)) {
+				this.redirectUser();
 			}
 		}
 
-		componentWillUpdate(nextProps, nextState) {
-			if (!this.props.isLoading) {
-				if (!nextProps.username || !nextProps.userIsGod) {
-					this.redirectUser();
-				}
+		componentWillUpdate = (nextProps, nextState) => {
+			if (!this.props.isLoading && (!nextProps.username || !nextProps.userIsGod)) {
+				this.redirectUser();
 			}
 		}
 
@@ -32,11 +28,12 @@ export default function(ComposedComponent) {
 			if (this.props.isLoading) return <Spinner />;
 
 			return (
-				<span>
+				<Fragment>
 					{this.props.username && this.props.userIsGod
 						? <ComposedComponent {...this.props} />
-						: null}
-				</span>
+						: null
+					}
+				</Fragment>
 			);
 		}
 	}

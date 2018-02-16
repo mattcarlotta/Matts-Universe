@@ -1,25 +1,18 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { message } from 'antd';
 
-import RenderAlert from '../../components/app/RenderAlert';
 import { resetNotifications } from '../../actions/authActionCreators';
 
-const RenderNotifications = ({
-	successMessage,
-	errorMessage,
-	resetNotifications
-}) => {
-	return (
-		<span>
-			{(errorMessage || successMessage) &&
-				<RenderAlert
-					successMessage={successMessage}
-					errorMessage={errorMessage}
-					resetNotifications={resetNotifications}
-				/>}
-		</span>
-	);
-};
+class RenderNotifications extends PureComponent {
+	componentDidUpdate = () => {
+		const { errorMessage, successMessage} = this.props;
+		errorMessage && message.error(errorMessage, 1.5, this.props.resetNotifications())
+		successMessage && message.success(successMessage, 1.5, this.props.resetNotifications());
+	}
+
+	render = () => ( <span /> )
+}
 
 export default connect(
 	state => ({

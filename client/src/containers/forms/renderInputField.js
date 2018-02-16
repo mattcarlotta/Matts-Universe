@@ -1,26 +1,18 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import RenderFormErrors from './renderFormErrors';
 
-const RenderInputField = ({ input, label, type, meta: { touched, error } }) => {
-	return (
-		<div>
-			<div>
-				<input
-					className={touched && error ? 'form-input input-error' : 'form-input'}
-					{...input}
-					type={type}
-					placeholder={label}
-				/>
-				{touched &&
-					error &&
-					<div className="error-handlers">
-						{error}
-					</div>}
-				<label className="form-label">
-					{label}
-				</label>
-			</div>
-		</div>
-	);
-};
-
-export default RenderInputField;
+export default ({ input, label, type, meta: { touched, error } }) => (
+	<Fragment>
+		<input
+			className={touched && error ? 'form-input input-error' : 'form-input'}
+			{...input}
+			type={type}
+			placeholder={label}
+		/>
+		<RenderFormErrors
+			error={error}
+			label={label}
+			touched={touched}
+		/>
+	</Fragment>
+);

@@ -2,11 +2,11 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import App from '../components';
+import DashWrapper from '../containers/app/DashWrapper';
 import Landing from '../views/landing';
 import NotFound from '../components/notfound/notFound';
-import OnLoadAuth from '../containers/app/OnLoadAuth';
+// import OnLoadAuth from '../containers/app/OnLoadAuth';
 import RequireAuth from '../containers/auth/RequireAuth';
-import ScrollIntoView from '../components/navigation/ScrollIntoView';
 import ShowBlog from '../views/showBlog';
 import ShowBlogForm from '../containers/blog/ShowBlogForm';
 import ShowBlogPost from '../components/blog/ShowBlogPost';
@@ -15,7 +15,7 @@ import SignIn from '../containers/auth/SignIn';
 // import SignUp from '../containers/auth/SignUp';
 
 const routes = (
-	<Route path="/" component={OnLoadAuth(ScrollIntoView(App))}>
+	<Route path="/" component={DashWrapper(App)}>
 		<IndexRoute component={Landing} />
 		<Route path="/blog/:id" component={ShowBlog} />
 		<Route path="/blog/post/new" component={RequireAuth(ShowBlogForm)} />

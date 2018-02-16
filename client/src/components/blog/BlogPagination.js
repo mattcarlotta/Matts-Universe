@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -9,19 +9,14 @@ import RenderPagination from './renderPagination';
 import Spinner from '../loaders/spinner';
 
 class BlogPagination extends Component {
-  state = {
-    requestTimeout: false,
-    isLoading: true
-  };
+  state = { requestTimeout: false, isLoading: true };
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.fetchBlogPostCount();
     this.timeout = setTimeout(this.timer, 5000);
   }
 
-  componentWillUnmount() {
-    this.clearTimer();
-  }
+  componentWillUnmount = () => this.clearTimer();
 
   updateBlogPostCount = () => {
     this.setState({ isLoading: true, pageCount: null, postCount: null }, () => {
@@ -54,9 +49,7 @@ class BlogPagination extends Component {
     }
   };
 
-  clearTimer = () => {
-    clearTimeout(this.timeout);
-  };
+  clearTimer = () => clearTimeout(this.timeout);
 
   timer = () => {
     this.clearTimer();
@@ -77,7 +70,7 @@ class BlogPagination extends Component {
     this.clearTimer();
 
     return (
-      <span>
+      <Fragment>
         <Blog updateBlogPostCount={this.updateBlogPostCount} />
         <RenderPagination
           currentPage={currentPage}
@@ -85,7 +78,7 @@ class BlogPagination extends Component {
           pageCount={pageCount}
           goTo={this.goTo}
         />
-      </span>
+      </Fragment>
     );
   }
 }

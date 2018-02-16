@@ -1,33 +1,23 @@
 import React from 'react';
+import RenderFormErrors from './renderFormErrors';
 
-const RenderTextAreaField = ({
+export default ({
 	input,
 	label,
 	type,
 	meta: { touched, error }
-}) => {
-	return (
-		<div>
-			<div>
-				<textarea
-					{...input}
-					className={
-						touched && error ? 'form-details input-error' : 'form-details'
-					}
-					placeholder={label}
-					type={type}
-				/>
-				{touched &&
-					error &&
-					<div className="error-handlers">
-						{error}
-					</div>}
-				<label className="form-label">
-					{label}
-				</label>
-			</div>
-		</div>
-	);
-};
-
-export default RenderTextAreaField;
+}) => (
+	<div>
+		<textarea
+			{...input}
+			className={touched && error ? 'form-details input-error' : 'form-details'}
+			placeholder={label}
+			type={type}
+		/>
+		<RenderFormErrors
+			error={error}
+			label={label}
+			touched={touched}
+		/>
+	</div>
+);
