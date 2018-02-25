@@ -1,9 +1,8 @@
 import map from 'lodash/map';
 import React from 'react';
 import FOOTERLINKS from './links/footerLinks';
-import ResizeWindowOnChange from '../app/ResizeWindowOnChange';
 
-export default ResizeWindowOnChange(() => (
+export default () => (
 	<div className="footer-container">
 		<ul className="contact-nav">
 			<li>
@@ -13,10 +12,10 @@ export default ResizeWindowOnChange(() => (
 				<li key={title}>
 					<a href={link} rel="noopener noreferrer" target="_blank">
 						<i className={`fa ${icon}`} rel="noopener noreferrer" target="_blank" />
-						{window.innerWidth < 650 ? '' : title }
+						<span className="footer-title">{title}</span>
 					</a>
 				</li>
 			))}
 		</ul>
 	</div>
-))
+)

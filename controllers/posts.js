@@ -13,7 +13,7 @@ const fs = require('fs');
 //====================================================================================================================//
 exports.createPost = async (req, res) => {
 	try {
-		if (!req.file || req.fileValidationError) throw req.fileValidationError;
+		if (!req.file) throw Error('Unable to locate requested image to be save!');
 
 		req.body.image = {
 			fileName: req.file.filename,
@@ -74,6 +74,8 @@ exports.showPost = async (req, res) => {
 	try {
 		const foundItem = await Post.findOne({ navTitle: req.params.id });
 
+		if (!foundItem) throw Error('Unable to locate the requested post!')
+
 		res.status(201).json({ foundItem });
 	} catch (err) {
 		throwError(res, err);
@@ -85,9 +87,8 @@ exports.showPost = async (req, res) => {
 //====================================================================================================================//
 exports.updatePost = async (req, res) => {
 	try {
-		if (req.fileValidationError) throw req.fileValidationError;
-
 		let unlinkError;
+
 		if (req.file) {
 			req.body.image = {
 				fileName: req.file.filename,
@@ -98,8 +99,7 @@ exports.updatePost = async (req, res) => {
 			};
 
 			await fs.unlink(`./${req.body.oldImage}`, function(err) {
-				if (err)
-					unlinkError = 'There was a problem deleting the old post image';
+				if (err) unlinkError = 'There was a problem updating the old post image!';
 			});
 		}
 
@@ -121,17 +121,11 @@ exports.updatePost = async (req, res) => {
 exports.deletePost = async (req, res) => {
 	let imagePath;
 	try {
-		const { image: { path } } = await Post.findOne(
-			{ _id: req.params.id },
-			{ 'image.path': 1, _id: 0 }
-		);
-		imagePath = path;
-	} catch (err) {
-		throwError(res, err);
-	}
+		const { image: { path } } = await Post.findOne({ _id: req.params.id }, { 'image.path': 1, _id: 0 });
 
-	try {
-		fs.unlink(`./${imagePath}`, async err => {
+		if (!path) throw Error('Unable to locate image file path to be deleted!')
+
+		fs.unlink(`./${path}`, async err => {
 			if (err) throw err;
 
 			await Post.findByIdAndRemove(req.params.id);

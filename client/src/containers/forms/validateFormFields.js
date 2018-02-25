@@ -7,7 +7,7 @@ export const maxLength100 = maxLength(100);
 export const maxLength250 = maxLength(250);
 export const maxLength20000 = maxLength(20000);
 export const allowedCharacters = value =>
-	/[~`@#$%&*+=[\]\\/{}|\\":<>]/g.test(value)
+	/[~`@#$%&*+=[\]\\{}|\\<>]/g.test(value)
 		? 'Please remove any special characters'
 		: undefined;
 export const postMaxLengthAllowed = [maxLength50, maxLength100, maxLength20000];

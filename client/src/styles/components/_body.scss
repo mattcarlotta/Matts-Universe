@@ -1,5 +1,5 @@
 body {
-	font-family: $jura;
+	font-family: $juraregular;
 	font-size: 14px;
 	font-weight: 600;
 	color: $lightblue;
@@ -7,6 +7,13 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 { color: $white; }
+
+.error-message {
+	@extend %t-a-c;
+	font-size: 16px;
+	font-family: $juramedium;
+	color: $red;
+}
 
 .scrollbar {
   background-color: $softwarmgrey;

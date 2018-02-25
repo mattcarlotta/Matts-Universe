@@ -53,15 +53,7 @@ module.exports = (app, Projects, uploadImage) => {
 				return next();
 			}
 
-			uploadImage(req, res, (err, success, errorMessage) => {
-
-				if (err || errorMessage) {
-					res.status(401).json({ err: err ? err : errorMessage });
-					return next();
-				}
-
-				Projects.deleteProject(req, res, next);
-			});
+			Projects.deleteProject(req, res, next);
 		})(req, res, next)
 	});
 

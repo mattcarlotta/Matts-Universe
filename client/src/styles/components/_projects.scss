@@ -11,6 +11,7 @@
 
 	.title {
 		@extend .m-b-20;
+		font-family: $juramedium;
 		h1 {
 			@media (max-width: 750px) { font-size: 25px; padding-top: 20%; }
 			@extend .m-b-20;
@@ -18,21 +19,22 @@
 		}
 	}
 
-	p { @media (max-width: 750px) { font-size: 10px; text-align: center; } }
+	p { @media (max-width: 750px) { font-size: 12px; text-align: center; } }
 
 	h1,	h2, h3, h4 { @extend %w-100; }
 
 	.project-content {
-		@media (max-width: 550px) { padding-top: 30%; }
+		@media (max-width: 550px) { padding-top: 100px; }
 		@media (max-width: 800px) {	width: 95%;	}
 		@extend %m-a;
 		padding-top: 20px;
 		width: 800px;
 
-		.slick-list { max-height: 650px;}
+		.slick-list { max-height: 700px;}
 		.slick-dots { @extend %p-r; top: 10px; }
 
 		.content {
+
 			max-width: 800px;
 			word-wrap: break-word;
 
@@ -40,10 +42,17 @@
 			h3 { @media (max-width: 750px) { font-size: 18px;	}	}
 			h4 { @media (max-width: 750px) { font-size: 14px;	}	}
 			img {
-				@media (max-width: 800px) { width: 80%;	}
+				@media (max-width: 800px) { max-width: 80%;	}
 				@extend %d-b, %m-a;
 				max-width: 710px;
 				max-height: 450px;
+			}
+			a {
+				@include anim(background-color 0.3s ease-in-out forwards);
+				color:($seablue);
+
+				&:hover { color: $lightertrueblue; }
+				&:focus { @extend %no-link-focus; }
 			}
 		}
 	}

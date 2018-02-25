@@ -47,38 +47,24 @@
 }
 
 @font-face {
-	font-family: "Jura";
+	font-family: "Jura Light";
 	font-style: normal;
 	font-weight: 300;
 	src: url("assets/fonts/Jura-Light.ttf") format("truetype");
 }
 
 @font-face {
-	font-family: "Jura";
+	font-family: "Jura Regular";
 	font-style: normal;
 	font-weight: 400;
 	src: url("assets/fonts/Jura-Regular.ttf") format("truetype");
 }
 
 @font-face {
-	font-family: "Jura";
+	font-family: "Jura Medium";
 	font-style: normal;
 	font-weight: 500;
 	src: url("assets/fonts/Jura-Medium.ttf") format("truetype");
-}
-
-@font-face {
-	font-family: "Jura";
-	font-style: normal;
-	font-weight: 700;
-	src: url("assets/fonts/Jura-SemiBold.ttf") format("truetype");
-}
-
-@font-face {
-	font-family: "Jura";
-	font-style: normal;
-	font-weight: 700;
-	src: url("assets/fonts/Jura-Bold.ttf") format("truetype");
 }
 
 @font-face {
@@ -102,6 +88,8 @@
 	src: url("assets/fonts/Roboto-Bold.ttf") format("truetype");
 }
 
-$jura: "Jura", sans-serif;
+$juralight: "Jura Light", sans-serif;
+$juraregular: "Jura Regular", sans-serif;
+$juramedium: "Jura Medium", sans-serif;
 $roboto: Roboto, sans-serif;
 /// END ///

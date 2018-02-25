@@ -6,6 +6,8 @@
 		@extend %flex-wrap-center, %l-s-t-n, %m-0-a;
 		padding-top: 5px;
 
+		.footer-title { @media (max-width: 650px) { display: none; } }
+
 		li {
 			@extend %d-b, .f-l, %p-r;
 			height: 40px;

@@ -1,9 +1,9 @@
 import React from 'react';
 import aboutImage from '../images/aboutViewImage.png';
 import aboutViewImageMobile from '../images/aboutViewImageMobile.png';
-import ResizeComponentOnChange from '../components/app/ResizeWindowOnChange';
+// import ResizeComponentOnChange from '../components/app/ResizeWindowOnChange';
 
-export default ResizeComponentOnChange(() => (
+export default () => (
 	<div className="about-bgcolor">
 		<div className="about-bg"/>
 		<div className="about-container">
@@ -11,23 +11,21 @@ export default ResizeComponentOnChange(() => (
 				<h1>What I create.</h1>
 				<p>
 					Melding two passions of commercial illustration with programming in
-					several different <br /> languages, I develop standalone and web
+					several different <br className="break-title"/> languages, I develop standalone and web
 					applications across multiple platforms.
 				</p>
 				<div className="underline">
 					<hr />
 				</div>
-				{window.innerWidth < 1100
-					? <div className="about-body-mobile">
-						<img src={aboutViewImageMobile} alt="aboutViewImageMobile.png" />
+				<div className="about-body-mobile">
+				 	<img src={aboutViewImageMobile} alt="aboutViewImageMobile.png" />
+			 	</div>
+				<div className="about-body">
+					<div className="about-image">
+						<img src={aboutImage} alt="aboutImage.png" />
 					</div>
-					:	<div className="about-body">
-						<div className="about-image">
-							<img src={aboutImage} alt="aboutImage.png" />
-						</div>
-					</div>
-				}
+				</div>
 			</div>
 		</div>
 	</div>
-))
+)

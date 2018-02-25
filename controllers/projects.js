@@ -10,7 +10,7 @@ const fs = require('fs');
 //====================================================================================================================//
 exports.createProject = async (req, res) => {
 	try {
-		if (!req.file) throw req.fileValidationError;
+		if (!req.file) throw Error('Unable to locate requested image to be save!');
 
 		req.body.image = {
 			fileName: req.file.filename,
@@ -51,6 +51,8 @@ exports.grabProject = async (req, res) => {
 	try {
 		const foundItem = await Project.findOne({ navTitle: req.params.id });
 
+		if (!foundItem) throw Error('Unable to locate requested project!')
+
 		res.status(201).json({ foundItem });
 	} catch (err) {
 		throwError(res, err);
@@ -62,9 +64,8 @@ exports.grabProject = async (req, res) => {
 //====================================================================================================================//
 exports.updateProject = async (req, res) => {
 	try {
-		if (req.fileValidationError) throw req.fileValidationError;
-
 		let unlinkError;
+
 		if (req.file) {
 			req.body.image = {
 				fileName: req.file.filename,
@@ -75,8 +76,7 @@ exports.updateProject = async (req, res) => {
 			};
 
 			await fs.unlink(`./${req.body.oldImage}`, function(err) {
-				if (err)
-					unlinkError = 'There was a problem deleting the old project image';
+				if (err) unlinkError = 'There was a problem updating the old project image!';
 			});
 		}
 
@@ -96,19 +96,12 @@ exports.updateProject = async (req, res) => {
 // DELETE A PROJECT
 //====================================================================================================================//
 exports.deleteProject = async (req, res) => {
-	let imagePath;
 	try {
-		const { image: { path } } = await Project.findOne(
-			{ _id: req.params.id },
-			{ 'image.path': 1, _id: 0 }
-		);
-		imagePath = path;
-	} catch (err) {
-		throwError(res, err);
-	}
+		const { image: { path } } = await Project.findOne({ _id: req.params.id }, { 'image.path': 1, _id: 0 });
 
-	try {
-		fs.unlink(`./${imagePath}`, async err => {
+		if (!path) throw Error('Unable to locate image file path to be deleted!')
+
+		fs.unlink(`./${path}`, async err => {
 			if (err) throw err;
 
 			await Project.findByIdAndRemove(req.params.id);

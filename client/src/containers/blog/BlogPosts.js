@@ -8,20 +8,26 @@ import RenderPosts from '../../components/blog/renderPosts';
 import Loading from '../app/Loading';
 
 class BlogPosts extends Component {
-  state = { foundItem: {} };
+  state = { foundItem: {}, serverError: '' };
 
   componentDidMount = () => this.fetchBlogPosts();
 
   fetchBlogPosts = () => {
     this.props.fetchPost(this.props.location.query.postId)
     .then(({data: { foundItem }}) => this.setState({foundItem}))
-    .catch(err => console.error(err))
+    .catch(err => this.setState({ serverError: err }))
   };
 
   render = () => {
-    const { foundItem } = this.state;
+    const { foundItem, serverError } = this.state;
 
-    if (isEmpty(foundItem)) return <Loading items={foundItem} message={'No blog posts were found!'} />
+    if (isEmpty(foundItem)) return (
+      <Loading
+        items={foundItem}
+        message={'No blog posts were found that matched that title!'}
+        serverError={serverError}
+      />
+    )
 
     return (
       <div className="blog-container">

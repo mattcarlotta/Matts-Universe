@@ -8,7 +8,7 @@ import RenderPagination from '../../components/blog/renderPagination';
 import Loading from '../app/Loading';
 
 class BlogPagination extends Component {
-  state = { isLoading: true };
+  state = { isLoading: true, serverError: '' };
 
   componentDidMount = () => this.fetchBlogPostCount();
 
@@ -22,7 +22,7 @@ class BlogPagination extends Component {
     this.props.fetchPostCount().then(({data: { pageCount, postCount }}) => {
       this.setState({ pageCount: pageCount, postCount: postCount, isLoading: false });
     })
-    .catch(err => console.error(err))
+  .catch(err => this.setState({ serverError: err }))
   };
 
   goTo = (requestedPage, postCount) => {
@@ -35,10 +35,16 @@ class BlogPagination extends Component {
   };
 
   render = () => {
-    const { isLoading, postCount, pageCount } = this.state;
+    const { isLoading, postCount, pageCount, serverError } = this.state;
     const currentPage = parseInt(this.props.location.query.pageId, 10);
 
-    if (isLoading || !postCount || !pageCount) return <Loading items={[postCount, pageCount]} message={'No blog posts were found!'} />
+    if (isLoading || !postCount || !pageCount) return (
+      <Loading
+        items={[postCount, pageCount]}
+        message={'No blog posts were found!'}
+        serverError={serverError}
+      />
+    )
 
     return (
       <Fragment>
