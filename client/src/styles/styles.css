@@ -653,15 +653,12 @@ h1, h2, h3, h4, h5, h6 {
       .project-container .project-content {
         width: 95%; } }
     .project-container .project-content .slick-list {
-      max-height: 650px; }
+      max-height: 700px; }
     .project-container .project-content .slick-dots {
       top: 10px; }
     .project-container .project-content .content {
       max-width: 800px;
       word-wrap: break-word; }
-      @media (min-width: 550px) {
-        .project-container .project-content .content {
-          padding-top: 100px; } }
       @media (max-width: 750px) {
         .project-container .project-content .content h2 {
           font-size: 20px; } }
@@ -680,7 +677,7 @@ h1, h2, h3, h4, h5, h6 {
       .project-container .project-content .content a {
         -webkit-animation: background-color 0.3s ease-in-out forwards;
         animation: background-color 0.3s ease-in-out forwards;
-        color: #ffffff; }
+        color: #10222a; }
         .project-container .project-content .content a:hover {
           color: #044d81; }
 

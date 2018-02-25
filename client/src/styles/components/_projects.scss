@@ -30,11 +30,11 @@
 		padding-top: 20px;
 		width: 800px;
 
-		.slick-list { max-height: 650px;}
+		.slick-list { max-height: 700px;}
 		.slick-dots { @extend %p-r; top: 10px; }
 
 		.content {
-			@media (min-width: 550px) { padding-top: 100px; }
+
 			max-width: 800px;
 			word-wrap: break-word;
 
@@ -49,7 +49,7 @@
 			}
 			a {
 				@include anim(background-color 0.3s ease-in-out forwards);
-				color:($white);
+				color:($seablue);
 
 				&:hover { color: $lightertrueblue; }
 				&:focus { @extend %no-link-focus; }

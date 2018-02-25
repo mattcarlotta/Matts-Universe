@@ -26,7 +26,6 @@ For the back-end, this personal project utilizes a NodeJS environment with some 
 -	body-parser v1.15.2
 -	concurrently v3.5.0
 -	express v4.14.0
--	jwt-decode v2.2.0
 -	jwt-simple v0.5.1
 -	moment v2.18.1
 -	mongoose v4.7.5
