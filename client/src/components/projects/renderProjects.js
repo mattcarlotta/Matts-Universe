@@ -6,6 +6,6 @@ export default ({ image, title, imgtitle, description, githubLink }) => (
 		<h2>{title}</h2>
 		<h3>{imgtitle}</h3>
 		<h4>{description}</h4>
-		{githubLink && <a href={githubLink} rel="noopener noreferrer" target="_blank"><i className="fa fa-github"/>View source code</a> }
+		{githubLink && <a href={githubLink} rel="noopener noreferrer" target="_blank"><i className="fa fa-github"/>view source code</a> }
 	</div>
 );

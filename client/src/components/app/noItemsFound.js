@@ -3,7 +3,7 @@ import React from 'react';
 import AdminPanel from '../../containers/app/AdminPanel';
 
 export default ({ message }) => (
-	<div className={message.indexOf('blog') >= 0 ? 'blog-container' : 'noproject-container'}>
+	<div className={message.indexOf('blog') >= 0 ? 'blog-container error-message' : 'noproject-container error-message'}>
 		<AdminPanel />
 		<div data-abide-error className="alert">
 			<p>

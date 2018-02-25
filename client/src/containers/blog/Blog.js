@@ -11,7 +11,8 @@ import Loading from '../app/Loading';
 class Blog extends Component {
 	state = {
 		currentPage: parseInt(this.props.location.query.pageId, 10),
-		isLoading: true
+		isLoading: true,
+		serverError: ''
 	};
 
 	componentDidMount = () =>	this.fetchBlogPosts(this.state.currentPage - 1);
@@ -28,7 +29,7 @@ class Blog extends Component {
 	fetchBlogPosts = requestedPage => {
 		this.props.fetchPosts(requestedPage ? requestedPage * 10 : 0)
 		.then(({data: { posts }}) => this.setState({ posts, isLoading: false }))
-		.catch(err => console.error(err))
+		.catch(err => this.setState({ serverError: err }))
 	};
 
 	render = () => {

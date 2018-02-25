@@ -16,6 +16,9 @@
 	.navigation-bar {
 		@extend %m-t-10;
 		margin-left: -30px;
+
+		.header-title { @media (max-width: 650px) { display: none; } }
+
 		li {
 			@extend %d-b, .f-l, %p-r;
 			height: 40px;

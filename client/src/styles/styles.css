@@ -77,34 +77,22 @@
   src: url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot"), url("~font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"), url("~font-awesome/fonts/fontawesome-webfont.woff") format("woff"), url("~font-awesome/fonts/fontawesome-webfont.ttf") format("truetype"), url("~font-awesome/fonts/fontawesome-webfont.svg") format("svg"); }
 
 @font-face {
-  font-family: "Jura";
+  font-family: "Jura Light";
   font-style: normal;
   font-weight: 300;
   src: url("assets/fonts/Jura-Light.ttf") format("truetype"); }
 
 @font-face {
-  font-family: "Jura";
+  font-family: "Jura Regular";
   font-style: normal;
   font-weight: 400;
   src: url("assets/fonts/Jura-Regular.ttf") format("truetype"); }
 
 @font-face {
-  font-family: "Jura";
+  font-family: "Jura Medium";
   font-style: normal;
   font-weight: 500;
   src: url("assets/fonts/Jura-Medium.ttf") format("truetype"); }
-
-@font-face {
-  font-family: "Jura";
-  font-style: normal;
-  font-weight: 700;
-  src: url("assets/fonts/Jura-SemiBold.ttf") format("truetype"); }
-
-@font-face {
-  font-family: "Jura";
-  font-style: normal;
-  font-weight: 700;
-  src: url("assets/fonts/Jura-Bold.ttf") format("truetype"); }
 
 @font-face {
   font-family: "Roboto";
@@ -135,7 +123,7 @@
 .project-container .project-content .content a:focus {
   box-shadow: none !important; }
 
-.about-container .about-content .about-body-mobile img, .about-container .about-content .about-body .about-image img, .entry-image img, .post-container, .footer-container .contact-nav li, .navigation-container .navigation-bar li, .project-container .project-content .content img, .scroll {
+.about-container .about-content .about-body-mobile, .about-container .about-content .about-body-mobile img, .about-container .about-content .about-body, .about-container .about-content .about-body .about-image img, .entry-image img, .post-container, .footer-container .contact-nav li, .navigation-container .navigation-bar li, .project-container .project-content .content img, .scroll {
   display: block; }
 
 .pagination-container li {
@@ -227,7 +215,7 @@
   height: 1px;
   background-image: linear-gradient(to right, transparent, #f8f9fa, transparent); }
 
-.about-container .about-content p, .admin-tools, .blog-container .title, .entry-date, .entry-title, .img-title, .pagination-container, .pagination-container li, .auth-container h1, .form-container h1, .upload-container, .placard, .notfound-container, .project-container, .scroll {
+.about-container .about-content p, .admin-tools, .blog-container .title, .entry-date, .entry-title, .img-title, .pagination-container, .pagination-container li, .error-message, .auth-container h1, .form-container h1, .upload-container, .placard, .notfound-container, .project-container, .scroll {
   text-align: center; }
 
 .project-container .project-content .content a:focus, .no-link-focus, .admin-tools button:hover, .admin-tools button:focus, .admin-tools .signout-button > li:hover,
@@ -250,16 +238,16 @@
   margin-top: -1px; }
 
 .about-bg {
-  -webkit-filter: blur(2px);
-  -moz-filter: blur(2px);
-  -o-filter: blur(2px);
-  -ms-filter: blur(2px);
-  filter: blur(2px);
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
   background: white url(../images/aboutViewBackground.png);
   background-size: cover;
   background-position: top;
   background-repeat: no-repeat;
-  opacity: 0.07; }
+  opacity: 0.08; }
 
 .about-container {
   position: absolute;
@@ -281,18 +269,19 @@
         font-size: 25px; } }
   .about-container .about-content {
     margin-top: -100px; }
+    @media (max-width: 750px) {
+      .about-container .about-content .break-title {
+        display: none; } }
     .about-container .about-content .underline {
       margin-top: -16px;
-      padding-right: 103px; }
-      @media (max-width: 749px) {
-        .about-container .about-content .underline {
-          display: none; } }
+      padding-right: 34px; }
       @media (max-width: 750px) {
         .about-container .about-content .underline {
+          display: none;
           padding-right: 70px; } }
       .about-container .about-content .underline hr {
         border: 1.2px solid #428fcc;
-        width: 300px; }
+        width: 215px; }
         @media (max-width: 750px) {
           .about-container .about-content .underline hr {
             width: 202px;
@@ -302,10 +291,13 @@
       padding: 0 20px; }
       @media (max-width: 750px) {
         .about-container .about-content p {
-          font-size: 10px;
+          font-size: 12px;
           margin-top: -15px; } }
     .about-container .about-content .about-body-mobile {
       margin-top: 100px; }
+      @media (min-width: 1101px) {
+        .about-container .about-content .about-body-mobile {
+          display: none; } }
       .about-container .about-content .about-body-mobile img {
         width: 325px; }
         @media (max-width: 350px) {
@@ -313,8 +305,9 @@
             width: 100%; } }
     .about-container .about-content .about-body {
       padding-top: 50px; }
-      @media (max-width: 750px) {
+      @media (max-width: 1100px) {
         .about-container .about-content .about-body {
+          display: none;
           padding-top: 50%; } }
       .about-container .about-content .about-body .about-image img {
         max-width: 1500px; }
@@ -442,7 +435,7 @@
         width: 100%; } }
 
 body {
-  font-family: "Jura", sans-serif;
+  font-family: "Jura Regular", sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: #1295f3;
@@ -450,6 +443,11 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   color: #ffffff; }
+
+.error-message {
+  font-size: 16px;
+  font-family: "Jura Medium", sans-serif;
+  color: #fa4946; }
 
 .scrollbar {
   background-color: #a5a1a1;
@@ -465,6 +463,9 @@ h1, h2, h3, h4, h5, h6 {
     @media (max-width: 650px) {
       .footer-container .contact-nav {
         margin-left: -20px; } }
+    @media (max-width: 650px) {
+      .footer-container .contact-nav .footer-title {
+        display: none; } }
     .footer-container .contact-nav li {
       height: 40px;
       margin-top: 15px; }
@@ -593,6 +594,9 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1; }
   .navigation-container .navigation-bar {
     margin-left: -30px; }
+    @media (max-width: 650px) {
+      .navigation-container .navigation-bar .header-title {
+        display: none; } }
     .navigation-container .navigation-bar li {
       height: 40px;
       margin-top: 15px; }
@@ -627,22 +631,24 @@ h1, h2, h3, h4, h5, h6 {
   height: 1000px;
   max-width: 2000px;
   color: #f8f9fa; }
-  .project-container .title h1 {
-    font-size: 30px; }
-    @media (max-width: 750px) {
-      .project-container .title h1 {
-        font-size: 25px;
-        padding-top: 20%; } }
+  .project-container .title {
+    font-family: "Jura Medium", sans-serif; }
+    .project-container .title h1 {
+      font-size: 30px; }
+      @media (max-width: 750px) {
+        .project-container .title h1 {
+          font-size: 25px;
+          padding-top: 20%; } }
   @media (max-width: 750px) {
     .project-container p {
-      font-size: 10px;
+      font-size: 12px;
       text-align: center; } }
   .project-container .project-content {
     padding-top: 20px;
     width: 800px; }
     @media (max-width: 550px) {
       .project-container .project-content {
-        padding-top: 30%; } }
+        padding-top: 100px; } }
     @media (max-width: 800px) {
       .project-container .project-content {
         width: 95%; } }
@@ -653,6 +659,9 @@ h1, h2, h3, h4, h5, h6 {
     .project-container .project-content .content {
       max-width: 800px;
       word-wrap: break-word; }
+      @media (min-width: 550px) {
+        .project-container .project-content .content {
+          padding-top: 100px; } }
       @media (max-width: 750px) {
         .project-container .project-content .content h2 {
           font-size: 20px; } }
@@ -667,7 +676,7 @@ h1, h2, h3, h4, h5, h6 {
         max-height: 450px; }
         @media (max-width: 800px) {
           .project-container .project-content .content img {
-            width: 80%; } }
+            max-width: 80%; } }
       .project-container .project-content .content a {
         -webkit-animation: background-color 0.3s ease-in-out forwards;
         animation: background-color 0.3s ease-in-out forwards;

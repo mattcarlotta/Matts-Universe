@@ -7,7 +7,7 @@ const createFormData = ({ file, image, title, imgtitle, description, githubLink 
 	fd.append('title', title);
 	fd.append('imgtitle', imgtitle);
 	fd.append('description', description);
-	fd.append('githubLink', githubLink);
+	if (githubLink !== undefined) fd.append('githubLink', githubLink);
 	return fd;
 };
 

@@ -3,10 +3,9 @@ import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
 import NAVLINKS from './links/headerLinks';
-import ResizeWindowOnChange from '../app/ResizeWindowOnChange'
 import SignOut from '../../containers/auth/signout';
 
-const Header = ({setScrollHeight}) => (
+export default ({setScrollHeight}) => (
 	<nav className="navigation-container">
 		<ul className="navigation-bar">
 			{map(NAVLINKS, ({ icon, pixel, pathname, query, title}) => (
@@ -19,20 +18,17 @@ const Header = ({setScrollHeight}) => (
 						}
 					>
 						<i className="material-icons">{icon}</i>
-						{window.innerWidth < 650 ? '' : title}
+						<span className="header-title">{title}</span>
 					</Link>
 				</li>
 			))}
 			<li>
 				<a href="http:///www.mattcarlotta.blogspot.com" rel="noopener noreferrer" target="_blank">
 					<i className="material-icons">work</i>
-					{window.innerWidth < 650 ? '' : 'Portfolio'}
+					<span className="header-title">Portfolio</span>
 				</a>
 			</li>
-			<SignOut window={window.innerWidth} />
+			<SignOut />
 		</ul>
 	</nav>
 )
-
-
-export default ResizeWindowOnChange(Header);
