@@ -119,6 +119,15 @@ class UploadForm extends Component {
 							/>
 						</div>
 					))}
+					<div className="m-b-20">
+						<Field
+							name="githubLink"
+							type="text"
+							component={RenderInputField}
+							label="GitHub Link"
+							validate={[allowedCharacters]}
+						/>
+					</div>
 					<RenderFormButtons
 						submitting={submitting}
 						pristine={pristine}

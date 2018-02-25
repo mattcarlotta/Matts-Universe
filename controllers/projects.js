@@ -62,9 +62,8 @@ exports.grabProject = async (req, res) => {
 //====================================================================================================================//
 exports.updateProject = async (req, res) => {
 	try {
-		if (req.fileValidationError) throw req.fileValidationError;
-
 		let unlinkError;
+
 		if (req.file) {
 			req.body.image = {
 				fileName: req.file.filename,

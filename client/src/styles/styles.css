@@ -132,6 +132,9 @@
 .blog-container hr, .placard hr, .entry-link > a, .pagination-container button, .post-container hr, .form-input, .form-details, .scroll {
   border: 0; }
 
+.project-container .project-content .content a:focus {
+  box-shadow: none !important; }
+
 .about-container .about-content .about-body-mobile img, .about-container .about-content .about-body .about-image img, .entry-image img, .post-container, .footer-container .contact-nav li, .navigation-container .navigation-bar li, .project-container .project-content .content img, .scroll {
   display: block; }
 
@@ -198,7 +201,7 @@
 .blog-container hr, .entry-content, .entry-link, .entry-image img, .post-container hr, .auth-container, .form-container {
   margin-top: 20px; }
 
-.no-link-focus, .admin-tools button:hover, .admin-tools button:focus, .admin-tools .signout-button > li:hover,
+.project-container .project-content .content a:focus, .no-link-focus, .admin-tools button:hover, .admin-tools button:focus, .admin-tools .signout-button > li:hover,
 .admin-tools .signout-button > li > a:hover,
 .admin-tools button > li > a, .admin-tools .signout-button:focus,
 .admin-tools .signout-button > li:focus,
@@ -227,7 +230,7 @@
 .about-container .about-content p, .admin-tools, .blog-container .title, .entry-date, .entry-title, .img-title, .pagination-container, .pagination-container li, .auth-container h1, .form-container h1, .upload-container, .placard, .notfound-container, .project-container, .scroll {
   text-align: center; }
 
-.no-link-focus, .admin-tools button:hover, .admin-tools button:focus, .admin-tools .signout-button > li:hover,
+.project-container .project-content .content a:focus, .no-link-focus, .admin-tools button:hover, .admin-tools button:focus, .admin-tools .signout-button > li:hover,
 .admin-tools .signout-button > li > a:hover,
 .admin-tools button > li > a, .admin-tools .signout-button:focus,
 .admin-tools .signout-button > li:focus,
@@ -665,6 +668,12 @@ h1, h2, h3, h4, h5, h6 {
         @media (max-width: 800px) {
           .project-container .project-content .content img {
             width: 80%; } }
+      .project-container .project-content .content a {
+        -webkit-animation: background-color 0.3s ease-in-out forwards;
+        animation: background-color 0.3s ease-in-out forwards;
+        color: #ffffff; }
+        .project-container .project-content .content a:hover {
+          color: #044d81; }
 
 .scroll {
   z-index: 2000;

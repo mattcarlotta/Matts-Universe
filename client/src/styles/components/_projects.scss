@@ -45,6 +45,13 @@
 				max-width: 710px;
 				max-height: 450px;
 			}
+			a {
+				@include anim(background-color 0.3s ease-in-out forwards);
+				color:($white);
+
+				&:hover { color: $lightertrueblue; }
+				&:focus { @extend %no-link-focus; }
+			}
 		}
 	}
 }

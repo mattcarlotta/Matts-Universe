@@ -10,7 +10,8 @@ module.exports = mongoose => {
 			size: String
 		},
 		imgtitle: String,
-		description: String
+		description: String,
+		githubLink: String
 	});
 
 	mongoose.model('projects', projectSchema);
