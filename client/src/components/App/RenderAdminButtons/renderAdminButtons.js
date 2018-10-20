@@ -2,9 +2,10 @@ import map from 'lodash/map';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, Button, Icon, Menu } from 'antd';
+
 const { Item: MenuItem } = Menu;
 
-const AdminButtons = ({ id, iconClassName, title, items, onClickAction }) => (
+const AdminButtons = ({ iconClassName, title, items, onClickAction }) => (
   <Dropdown
     overlay={
       <Menu onClick={({ item }) => onClickAction(item)}>
@@ -32,7 +33,6 @@ const AdminButtons = ({ id, iconClassName, title, items, onClickAction }) => (
 export default AdminButtons;
 
 AdminButtons.propTypes = {
-  id: PropTypes.string,
   iconClassName: PropTypes.string,
   title: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.object),

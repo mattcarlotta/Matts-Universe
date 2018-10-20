@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import createFormData from '../Forms/FormData/configFormData';
+import createFormData from '../../Forms/FormData/configFormData';
 import {
   addNewProject,
   editProject,
@@ -15,6 +15,7 @@ import UploadForm from '../../Forms/UploadForm/UploadForm';
 class ProjectForm extends Component {
   handleFormSubmit = formProps => {
     const formData = createFormData(formProps);
+    /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
     const id = formProps._id || null;
 
     if (this.props.location.query.titleId) {
@@ -33,7 +34,7 @@ class ProjectForm extends Component {
         fetchItem={this.props.fetchProject}
         formTitle={titleId ? 'Edit Project' : 'Add Project'}
         maxFieldLength={projectMaxLengthAllowed}
-        queryId={titleId ? titleId : ''}
+        queryId={titleId || ''}
       />
     );
   };

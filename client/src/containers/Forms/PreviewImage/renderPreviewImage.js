@@ -1,5 +1,5 @@
 import map from 'lodash/map';
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { uploadedImagesContainer } from './renderPreviewImage.scss';
 
@@ -11,23 +11,28 @@ const PreviewImage = ({
   useStoredImage,
 }) => (
   <ul className={uploadedImagesContainer}>
-    {useStoredImage
-      ? [
-          <li key="imagefromDB">
-            <img src={imageAPIURL} alt={imageOriginalName} />
-          </li>,
-          <li key="imagefromDBDetails">
-            {imageOriginalName} - {imageSize} bytes
-          </li>,
-        ]
-      : map(newImageFiles, ({ name, preview, size }) => [
-          <li key="previewImage">
+    {useStoredImage ? (
+      <Fragment>
+        <li>
+          <img src={imageAPIURL} alt={imageOriginalName} />
+        </li>
+        <li>
+          {imageOriginalName} - {imageSize} bytes
+        </li>
+      </Fragment>
+    ) : (
+      map(newImageFiles, ({ name, preview, size }) => (
+        <Fragment key={name}>
+          <li>
             <img src={preview} alt={name} />
-          </li>,
-          <li key="previewImageDetails">
+          </li>
+          ,
+          <li>
             {name} - {size} bytes
-          </li>,
-        ])}
+          </li>
+        </Fragment>
+      ))
+    )}
   </ul>
 );
 

@@ -24,6 +24,12 @@ const DashWrapper = WrappedComponent => {
       );
   }
 
+  DashboardWrapper.propTypes = {
+    authenticateUser: PropTypes.func.isRequired,
+    fetchingUser: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+  };
+
   return connect(
     state => ({ isLoading: state.auth.fetchingUser }),
     {
@@ -31,14 +37,10 @@ const DashWrapper = WrappedComponent => {
       fetchingUser,
     },
   )(withRouter(DashboardWrapper));
-
-  DashboardWrapper.propTypes = {
-    authenticateUser: PropTypes.func.isRequired,
-    fetchingUser: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-  };
 };
 
-RequireAuth.propTypes = {
+export default DashWrapper;
+
+DashWrapper.propTypes = {
   WrappedComponent: PropTypes.node,
 };

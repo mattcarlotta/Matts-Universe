@@ -16,7 +16,7 @@ const RequireAuth = ComposedComponent => {
       }
     };
 
-    componentWillUpdate = (nextProps, nextState) => {
+    componentWillUpdate = nextProps => {
       if (
         !this.props.isLoading &&
         (!nextProps.username || !nextProps.userIsGod)
@@ -39,18 +39,11 @@ const RequireAuth = ComposedComponent => {
     };
   }
 
-  const mapStateToProps = state => {
-    return {
-      isLoading: state.auth.fetchingUser,
-      username: state.auth.username,
-      userIsGod: state.auth.isGod,
-    };
-  };
-
-  return connect(
-    mapStateToProps,
-    { authError, signoutUser },
-  )(Authentication);
+  const mapStateToProps = state => ({
+    isLoading: state.auth.fetchingUser,
+    username: state.auth.username,
+    userIsGod: state.auth.isGod,
+  });
 
   Authentication.propTypes = {
     isLoading: PropTypes.bool.isRequired,
@@ -59,6 +52,11 @@ const RequireAuth = ComposedComponent => {
     authError: PropTypes.func.isRequired,
     signoutUser: PropTypes.func.isRequired,
   };
+
+  return connect(
+    mapStateToProps,
+    { authError, signoutUser },
+  )(Authentication);
 };
 
 export default RequireAuth;

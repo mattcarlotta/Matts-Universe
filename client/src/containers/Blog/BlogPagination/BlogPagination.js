@@ -23,8 +23,8 @@ class BlogPagination extends Component {
       .fetchPostCount()
       .then(({ data: { pageCount, postCount } }) => {
         this.setState({
-          pageCount: pageCount,
-          postCount: postCount,
+          pageCount,
+          postCount,
           isLoading: false,
         });
       })
@@ -48,7 +48,7 @@ class BlogPagination extends Component {
       return (
         <Loading
           items={[postCount, pageCount]}
-          message={'No blog posts were found!'}
+          message="No blog posts were found!"
           serverError={serverError}
         />
       );

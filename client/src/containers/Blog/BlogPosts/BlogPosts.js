@@ -1,5 +1,6 @@
 import { isEmpty } from 'lodash';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPost } from '../../../actions/postActionCreators';
 import BlogHeader from '../../../components/Blog/BlogHeader/blogHeader';
@@ -34,7 +35,7 @@ class BlogPosts extends Component {
     return (
       <div className={blogContainer}>
         <BlogHeader />
-        <RenderPosts {...foundItem} singlePageIsLoaded={true} />
+        <RenderPosts {...foundItem} singlePageIsLoaded />
       </div>
     );
   };

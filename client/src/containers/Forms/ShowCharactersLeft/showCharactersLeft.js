@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CharactersLeft = (propValue, limitValue) => {
+function CharactersLeft(propValue, limitValue) {
   if (propValue) {
-    let postCharactersLeft =
+    const postCharactersLeft =
       propValue.length <= limitValue
         ? limitValue - propValue.length
         : 'Too many characters!';
@@ -12,7 +12,7 @@ const CharactersLeft = (propValue, limitValue) => {
       <p style={{ fontSize: 10 }}>Characters left: {postCharactersLeft}</p>
     );
   }
-};
+}
 
 export default CharactersLeft;
 

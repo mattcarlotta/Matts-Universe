@@ -13,13 +13,12 @@ const HEADERLINKS = [
   {
     icon: 'home',
     pathname: '/',
-    pixel: -1060,
     title: 'Home',
   },
   {
     icon: 'help_outline',
     pathname: '/',
-    pixel: 925,
+    pixel: 1100,
     title: 'About',
   },
   {
@@ -31,21 +30,25 @@ const HEADERLINKS = [
   {
     icon: 'description',
     pathname: '/',
-    pixel: 2600,
+    pixel: 2120,
     title: 'Projects',
   },
 ];
 
 class Header extends PureComponent {
-  handlePushToLocation = (pathname, query) =>
+  handlePushToLocation = (pathname, query, pixel) => {
     browserHistory.push({ pathname, query });
+    window.scrollTo(0, pixel || 0);
+  };
 
   render = () => (
     <nav className={navigationContainer}>
       <ul className={navigationBar}>
         {map(HEADERLINKS, ({ icon, pixel, pathname, query, title }) => (
           <li key={icon}>
-            <Link onClick={() => this.handlePushToLocation(pathname, query)}>
+            <Link
+              onClick={() => this.handlePushToLocation(pathname, query, pixel)}
+            >
               <i className={materialIcons}>{icon}</i>
               <span className={headerTitle}>{title}</span>
             </Link>
@@ -66,3 +69,5 @@ class Header extends PureComponent {
     </nav>
   );
 }
+
+export default Header;

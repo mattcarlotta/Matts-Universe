@@ -1,16 +1,7 @@
+$material-icons-font-path: '~material-icons/iconfont/';
 @import '~antd/dist/antd.min.css';
 @import '~font-awesome/css/font-awesome.css';
-
-font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: url('assets/fonts/MaterialIcons-Regular.eot') format('eot'),
-    url('assets/fonts/MaterialIcons-Regular.woff2') format('woff2'),
-    url('assets/fonts/MaterialIcons-Regular.woff') format('woff'),
-    url('assets/fonts/MaterialIcons-Regular.ttf') format('truetype'),
-    url('assets/fonts/MaterialIcons-Regular.svg') format('svg');
-}
+@import '~material-icons/iconfont/material-icons.scss';
 
 @font-face {
   font-family: 'FontAwesome';
@@ -27,42 +18,42 @@ font-face {
   font-family: 'Jura Light';
   font-style: normal;
   font-weight: 300;
-  src: url('assets/fonts/Jura-Light.ttf') format('truetype');
+  src: url('../assets/fonts/Jura-Light.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Jura Regular';
   font-style: normal;
   font-weight: 400;
-  src: url('assets/fonts/Jura-Regular.ttf') format('truetype');
+  src: url('../assets/fonts/Jura-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Jura Medium';
   font-style: normal;
   font-weight: 500;
-  src: url('assets/fonts/Jura-Medium.ttf') format('truetype');
+  src: url('../assets/fonts/Jura-Medium.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  src: url('assets/fonts/Roboto-Regular.ttf') format('truetype');
+  src: url('../assets/fonts/Roboto-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
-  src: url('assets/fonts/Roboto-Medium.ttf') format('truetype');
+  src: url('../assets/fonts/Roboto-Medium.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 900;
-  src: url('assets/fonts/Roboto-Bold.ttf') format('truetype');
+  src: url('../assets/fonts/Roboto-Bold.ttf') format('truetype');
 }
 
 .fa {

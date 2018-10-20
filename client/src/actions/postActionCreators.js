@@ -1,6 +1,6 @@
-import { app } from './axiosConfig';
 import { browserHistory } from 'react-router';
-import * as types from '../types';
+import { app } from './axiosConfig';
+import * as types from './types';
 
 export const redirectToBlog = () => {
   browserHistory.push({
@@ -9,14 +9,14 @@ export const redirectToBlog = () => {
   });
 };
 
-//==========================================================================
+//= =========================================================================
 // Blog Post C.R.U.D.
-//==========================================================================
+//= =========================================================================
 
 // Adds a single blog post to DB
-export const addNewPost = (formData, config) => dispatch =>
+export const addNewPost = formData => dispatch =>
   app
-    .post('/api/create/post', formData, config)
+    .post('/api/create/post', formData)
     .then(({ data: { message } }) => {
       dispatch({ type: types.AUTH_SUCCESS, payload: message });
       redirectToBlog();
@@ -26,7 +26,7 @@ export const addNewPost = (formData, config) => dispatch =>
 // Deletes a single blog post from DB
 export const deletePost = id => dispatch =>
   app
-    .delete(`/api/delete/post/${id}`, configAuth())
+    .delete(`/api/delete/post/${id}`)
     .then(({ data: { message } }) => {
       dispatch({ type: types.AUTH_SUCCESS, payload: message });
       redirectToBlog();
@@ -34,9 +34,9 @@ export const deletePost = id => dispatch =>
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
 
 // Edits a single blog post in DB
-export const editPost = (id, formData, config) => dispatch =>
+export const editPost = (id, formData) => dispatch =>
   app
-    .put(`/api/edit/post/${id}`, formData, config)
+    .put(`/api/edit/post/${id}`, formData)
     .then(({ data: { message } }) => {
       dispatch({ type: types.AUTH_SUCCESS, payload: message });
       redirectToBlog();
@@ -59,6 +59,6 @@ export const fetchPostCount = () => dispatch =>
 export const fetchPosts = requestedRecords => dispatch =>
   app
     .get(`/api/blogcollection`, {
-      params: { skipByValue: requestedRecords ? requestedRecords : 0 },
+      params: { skipByValue: requestedRecords || 0 },
     })
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));

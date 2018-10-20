@@ -1,22 +1,27 @@
-@import '../../../stlyes/index';
+@import '../../../styles/index';
 
 .headerTitle {
   @media (max-width: 650px) {
     display: none;
+    margin-left: 0;
   }
+  margin-left: 5px;
+  font-family: $juramedium;
 }
 
 .navigationContainer {
-  @extend %flex-wrap-center;
-  position: absolute;
+  text-align: center;
+  position: fixed;
+  top: 0;
   width: 100%;
-  background: transparent;
+  background: $trueblue;
   max-width: 2000px;
   height: 70px;
-  z-index: 1;
+  z-index: 9999;
 }
 
 .navigationBar {
+  display: inline-block;
   margin-top: 10px;
   margin-left: -30px;
 
@@ -37,13 +42,14 @@
     transition: all 0.5s;
 
     &:hover {
-      @extend .fix-cursor;
+      cursor: pointer;
       text-decoration: none;
       color: $owhite;
     }
 
     &:focus {
-      @extend .no-link-focus;
+      outline: none !important;
+      text-decoration: none;
     }
   }
 }

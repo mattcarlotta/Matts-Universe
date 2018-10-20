@@ -8,7 +8,7 @@ const RenderDropZone = ({
   input,
   touched,
   error,
-  handleOnDrop,
+  onHandleOnDrop,
   imageOriginalName,
   imageSize,
   imageAPIURL,
@@ -20,7 +20,7 @@ const RenderDropZone = ({
     <DropZone
       accept="image/jpeg, image/png, image/gif, image/bmp"
       className="upload-container"
-      onDrop={handleOnDrop}
+      onDrop={onHandleOnDrop}
       onChange={filesToUpload => {
         input.onChange(filesToUpload);
       }}
@@ -50,7 +50,7 @@ RenderDropZone.propTypes = {
   input: PropTypes.objectOf(PropTypes.func),
   touched: PropTypes.bool,
   error: PropTypes.string,
-  handleOnDrop: PropTypes.func.isRequired,
+  onHandleOnDrop: PropTypes.func.isRequired,
   imageOriginalName: PropTypes.string,
   imageSize: PropTypes.number,
   imageAPIURL: PropTypes.string,

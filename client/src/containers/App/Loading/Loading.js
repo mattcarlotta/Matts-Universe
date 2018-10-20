@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import NoItemsFound from '../../../components/App/NoItemsFounds/noItemsFound';
+import NoItemsFound from '../../../components/App/NoItemsFound/noItemsFound';
 import Spinner from '../../../components/Loaders/spinner';
 
 class Loader extends Component {
@@ -37,7 +37,7 @@ class Loader extends Component {
   };
 }
 
-export default Loading;
+export default Loader;
 
 Loader.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),

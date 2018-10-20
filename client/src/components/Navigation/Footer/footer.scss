@@ -1,4 +1,4 @@
-@import '../../../stlyes/index';
+@import '../../../styles/index';
 
 .contactNav {
   @media (max-width: 650px) {
@@ -8,6 +8,8 @@
   list-style-type: none;
   margin: 0 auto;
   padding-top: 5px;
+  color: $lightblue;
+  font-family: $juramedium;
 
   li {
     display: block;

@@ -33,8 +33,8 @@ const RenderPosts = ({
       <em>{imgtitle}</em>
     </p>
     <div className={entryContent}>
-      {split(description, '\n').map((postDescription, key) => (
-        <p key={key}>
+      {split(description, '\n').map(postDescription => (
+        <p key={title}>
           {postDescription}
           <br />
         </p>

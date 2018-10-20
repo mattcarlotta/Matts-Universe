@@ -7,9 +7,9 @@ import { adminTools } from './renderAdminPanel.scss';
 
 const AdminPanel = ({
   BUTTONS,
-  onAddClick,
-  onDeleteClick,
-  onEditClick,
+  handleOnAddClick,
+  handleOnDeleteClick,
+  handleOnEditClick,
   pageId,
   posts,
   projects,
@@ -20,7 +20,7 @@ const AdminPanel = ({
     {username && userIsGod ? (
       <div className={adminTools}>
         <h1>Admin Control Panel</h1>
-        <Button onClick={onAddClick}>
+        <Button onClick={handleOnAddClick}>
           <i className="fa fa-plus" aria-hidden="true" />
           Add New {pageId ? 'Post' : 'Project'}
         </Button>
@@ -29,7 +29,9 @@ const AdminPanel = ({
             key={key}
             iconClassName={`fa-${icon}`}
             items={pageId ? posts : projects}
-            onClickAction={icon === 'trash-o' ? onDeleteClick : onEditClick}
+            onClickAction={
+              icon === 'trash-o' ? handleOnDeleteClick : handleOnEditClick
+            }
             title={icon === 'trash-o' ? 'Delete' : 'Edit'}
           />
         ))}
@@ -41,10 +43,10 @@ const AdminPanel = ({
 export default AdminPanel;
 
 AdminPanel.propTypes = {
-  BUTTONS: PropTypes.arrayOf(PropTypes.object),
-  onAddClick: PropTypes.func,
-  onDeleteClick: PropTypes.func,
-  onEditClick: PropTypes.func,
+  BUTTONS: PropTypes.arrayOf(PropTypes.string),
+  handleOnAddClick: PropTypes.func,
+  handleOnDeleteClick: PropTypes.func,
+  handleOnEditClick: PropTypes.func,
   pageId: PropTypes.string,
   posts: PropTypes.arrayOf(PropTypes.object),
   projects: PropTypes.arrayOf(PropTypes.object),

@@ -8,8 +8,8 @@ import RenderDropZone from '../DropZone/renderDropZone';
 import RenderFormButtons from '../FormButtons/renderFormButtons';
 import RenderInputField from '../InputField/renderInputField';
 import RenderTextAreaField from '../TextAreaField/renderTextAreaField';
-import showCharactersLeft from '../showCharactersLeft/showCharactersLeft';
-import Loading from '../../app/Loading/Loading';
+import showCharactersLeft from '../ShowCharactersLeft/showCharactersLeft';
+import Loading from '../../App/Loading/Loading';
 import { formContainer } from './UploadForm.scss';
 
 const FIELDS = [
@@ -50,7 +50,9 @@ class UploadForm extends Component {
           useStoredImage: true,
         });
       })
+      /* eslint-disable no-console */
       .catch(err => console.err(err));
+    /* eslint-enable no-console */
   };
 
   initializeForm = foundItem => this.props.initialize(foundItem);
@@ -61,7 +63,7 @@ class UploadForm extends Component {
   resetForm = reset => {
     this.setState({
       newImageFiles: [],
-      useStoredImage: this.props.queryId ? true : false,
+      useStoredImage: !!this.props.queryId,
     });
     reset();
   };
@@ -99,7 +101,7 @@ class UploadForm extends Component {
       return (
         <Loading
           items={origImageFile}
-          message={'Unable to locate the project or post!'}
+          message="Unable to locate the project or post!"
           serverError={serverError}
         />
       );
@@ -116,7 +118,7 @@ class UploadForm extends Component {
                 input={input}
                 touched={touched}
                 error={error}
-                handleOnDrop={this.handleOnDrop}
+                onHandleOnDrop={this.handleOnDrop}
                 imageOriginalName={imageOriginalName}
                 imageSize={imageSize}
                 imageAPIURL={imageAPIURL}
@@ -169,14 +171,12 @@ class UploadForm extends Component {
 
 const selector = formValueSelector('uploadForm');
 
-const mapStateToProps = state => {
-  return {
-    descriptionValue: selector(state, 'description'),
-    imgTitleValue: selector(state, 'imgtitle'),
-    titleValue: selector(state, 'title'),
-    serverError: state.auth.error,
-  };
-};
+const mapStateToProps = state => ({
+  descriptionValue: selector(state, 'description'),
+  imgTitleValue: selector(state, 'imgtitle'),
+  titleValue: selector(state, 'title'),
+  serverError: state.auth.error,
+});
 
 export default reduxForm({
   form: 'uploadForm',
@@ -185,9 +185,11 @@ export default reduxForm({
 UploadForm.propTypes = {
   allowedLength: PropTypes.number,
   descriptionValue: PropTypes.string,
+  fetchItem: PropTypes.func,
   formTitle: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   imgTitleValue: PropTypes.number,
+  initialize: PropTypes.func.isRequired,
   maxFieldLength: PropTypes.func,
   pristine: PropTypes.bool.isRequired,
   queryId: PropTypes.string,

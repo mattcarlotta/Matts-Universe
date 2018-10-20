@@ -18,7 +18,7 @@ class Blog extends Component {
 
   componentDidMount = () => this.fetchBlogPosts(this.state.currentPage - 1);
 
-  componentDidUpdate = (nextProps, nextState) => {
+  componentDidUpdate = () => {
     const currentLoadedPage = parseInt(this.props.location.query.pageId, 10);
     if (this.state.currentPage !== currentLoadedPage) {
       this.setState({ currentPage: currentLoadedPage, isLoading: true }, () => {

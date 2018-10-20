@@ -1,10 +1,10 @@
-import { app } from './axiosConfig';
 import { browserHistory } from 'react-router';
-import * as types from '../actions/types';
+import { app } from './axiosConfig';
+import * as types from './types';
 
-//==========================================================================
+//= =========================================================================
 // Authorization
-//==========================================================================
+//= =========================================================================
 
 // Displays error messages
 export const authError = error => ({
@@ -18,28 +18,34 @@ export const authSuccess = message => ({
   payload: message,
 });
 
-// Attempts to auth a previously signed in user
-export const authenticateUser = id => dispatch => {
-  dispatch(fetchingUser(false));
-  return app
-    .get(`/api/signedin`)
-    .then(({ data }) => {
-      dispatch({ type: types.SET_SIGNEDIN_USER, payload: data });
-      dispatch({ type: types.FETCHING_USER, payload: false });
-    })
-    .catch(err => {
-      console.log('err', err);
-      dispatch({ type: types.FETCHING_USER, payload: false });
-      dispatch(signoutUser());
-      dispatch({ type: types.AUTH_ERROR, payload: err });
-    });
-};
-
 // Allows AJAX time to fetch a user on refresh before loading app
 export const fetchingUser = bool => ({
   type: types.FETCHING_USER,
   payload: bool,
 });
+
+// Signs user out
+export const signoutUser = () => ({
+  type: types.UNAUTH_USER,
+});
+
+// Attempts to auth a previously signed in user
+export const authenticateUser = () => dispatch => {
+  dispatch(fetchingUser(false));
+  return app
+    .get(`/api/signedin`)
+    .then(res => {
+      if (res) {
+        dispatch({ type: types.SET_SIGNEDIN_USER, payload: res.data });
+        dispatch({ type: types.FETCHING_USER, payload: false });
+      }
+    })
+    .catch(err => {
+      dispatch({ type: types.FETCHING_USER, payload: false });
+      dispatch(signoutUser());
+      dispatch({ type: types.AUTH_ERROR, payload: err });
+    });
+};
 
 // Resets auth notifications
 export const resetNotifications = () => ({
@@ -65,15 +71,6 @@ export const signupUser = ({ email, username, password }) => dispatch =>
       browserHistory.push('/');
     })
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
-
-// Signs user out
-export const signoutUser = () => {
-  localStorage.removeItem('token');
-
-  return {
-    type: UNAUTH_USER,
-  };
-};
 
 /*
 // removes current user from redux props and clears cookie

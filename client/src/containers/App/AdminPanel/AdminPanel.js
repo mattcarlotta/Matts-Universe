@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { deletePost } from '../../actions/postActionCreators';
-import { deleteProject } from '../../actions/projectActionCreators';
-import { signoutUser } from '../../actions/authActionCreators';
-import RenderAdminPanel from '../../components/App/RenderAdminPanel/renderAdminPanel';
+import { deletePost } from '../../../actions/postActionCreators';
+import { deleteProject } from '../../../actions/projectActionCreators';
+import { authError, signoutUser } from '../../../actions/authActionCreators';
+import RenderAdminPanel from '../../../components/App/RenderAdminPanel/renderAdminPanel';
 
 class AdminPanel extends PureComponent {
   onAddClick = () =>
@@ -18,9 +18,9 @@ class AdminPanel extends PureComponent {
       this.props
         .deletePost(id)
         .then(() => this.props.updateBlogPostCount())
-        .catch(err => console.error(err));
+        .catch(err => this.props.authError(err));
     } else {
-      this.props.deleteProject(id).catch(err => console.error(err));
+      this.props.deleteProject(id).catch(err => this.props.authError(err));
     }
   };
 
@@ -39,9 +39,9 @@ class AdminPanel extends PureComponent {
     <RenderAdminPanel
       {...this.props}
       BUTTONS={['pencil-square-o', 'trash-o']}
-      onAddClick={this.onAddClick}
-      onDeleteClick={this.onDeleteClick}
-      onEditClick={this.onEditClick}
+      handleOnAddClick={this.onAddClick}
+      handleOnDeleteClick={this.onDeleteClick}
+      handleOnEditClick={this.onEditClick}
       pageId={this.props.location.query.pageId}
     />
   );
@@ -49,7 +49,7 @@ class AdminPanel extends PureComponent {
 
 export default connect(
   state => ({ username: state.auth.username, userIsGod: state.auth.isGod }),
-  { deletePost, deleteProject, signoutUser },
+  { authError, deletePost, deleteProject, signoutUser },
 )(withRouter(AdminPanel));
 
 AdminPanel.propTypes = {
@@ -58,6 +58,7 @@ AdminPanel.propTypes = {
       pageId: PropTypes.string,
     }),
   }),
+  authError: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,
   signoutUser: PropTypes.func.isRequired,

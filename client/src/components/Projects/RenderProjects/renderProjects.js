@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { content } from './RenderProjects.scss';
+import { content } from './renderProjects.scss';
 
 const RenderProjects = ({
   image,

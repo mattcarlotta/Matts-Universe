@@ -5,7 +5,9 @@ import { errorHandlers, formLabel } from './renderFormErrors.scss';
 const FormErrors = ({ error, label, touched }) => (
   <Fragment>
     {touched && error && <div className={errorHandlers}>{error}</div>}
-    <label className={formLabel}>{label}</label>
+    <label id={label} htmlFor={label} className={formLabel}>
+      {label}
+    </label>
   </Fragment>
 );
 

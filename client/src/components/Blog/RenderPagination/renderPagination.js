@@ -16,7 +16,10 @@ class Pagination extends PureComponent {
     return (
       <ul className={paginationContainer}>
         <li className={currentPage === 1 ? `${disableChevron}` : null}>
-          <button onClick={() => this.handlePaginationClick(currentPage - 1)}>
+          <button
+            type="button"
+            onClick={() => this.handlePaginationClick(currentPage - 1)}
+          >
             <span className="small-font">&#60;</span>
           </button>
         </li>
@@ -25,7 +28,10 @@ class Pagination extends PureComponent {
             key={page}
             className={currentPage === page + 1 ? `${activePage}` : null}
           >
-            <button onClick={() => this.handlePaginationClick(page + 1)}>
+            <button
+              type="button"
+              onClick={() => this.handlePaginationClick(page + 1)}
+            >
               {page + 1}
             </button>
           </li>
@@ -35,7 +41,10 @@ class Pagination extends PureComponent {
             (currentPage + 1) * 10 <= postCount ? null : `${disableChevron}`
           }
         >
-          <button onClick={() => this.handlePaginationClick(currentPage + 1)}>
+          <button
+            type="button"
+            onClick={() => this.handlePaginationClick(currentPage + 1)}
+          >
             <span style={{ fontSize: 10 }}>&#62;</span>
           </button>
         </li>

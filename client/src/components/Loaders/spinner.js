@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   innerCircle,
   middleCircle,
@@ -8,8 +9,8 @@ import {
   spinnerCounterclockwise,
 } from './spinner.scss';
 
-export default ({ container }) => (
-  <div className={container ? container : ''}>
+const Spinner = ({ container }) => (
+  <div className={container || ''}>
     <div className={spinnerContainer}>
       <div className={`${spinnerCounterclockwise} ${outerCircle}`} />
       <div className={`${spinnerClockwise} ${middleCircle}`} />
@@ -17,3 +18,9 @@ export default ({ container }) => (
     </div>
   </div>
 );
+
+export default Spinner;
+
+Spinner.propTypes = {
+  container: PropTypes.objectOf(PropTypes.string),
+};

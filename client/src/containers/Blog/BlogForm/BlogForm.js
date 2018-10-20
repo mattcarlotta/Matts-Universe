@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import createFormData from '../../Forms/FromData/configFormData';
+import createFormData from '../../Forms/FormData/configFormData';
 import {
   addNewPost,
   editPost,
@@ -15,6 +15,7 @@ import UploadForm from '../../Forms/UploadForm/UploadForm';
 class ShowBlogForm extends Component {
   handleFormSubmit = formProps => {
     const formData = createFormData(formProps);
+    /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
     const id = formProps._id || null;
 
     if (this.props.location.query.titleId) {
@@ -34,7 +35,7 @@ class ShowBlogForm extends Component {
         fetchItem={this.props.fetchPost}
         formTitle={titleId ? 'Edit Post' : 'Add Post'}
         maxFieldLength={postMaxLengthAllowed}
-        queryId={titleId ? titleId : ''}
+        queryId={titleId || ''}
       />
     );
   };

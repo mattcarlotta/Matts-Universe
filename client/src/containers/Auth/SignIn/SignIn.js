@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import RenderInputField from '../../Forms/InputField/renderInputField';
 import RenderFormButtons from '../../Forms/FormButtons/renderFormButtons';
-import { authError, signinUser } from '../../../actions/authActionCreators';
+import { signinUser } from '../../../actions/authActionCreators';
 import { isRequired } from '../../Forms/Validate/validateFormFields';
 import { authContainer } from '../../../styles/index.scss';
 
@@ -32,7 +32,7 @@ class Signin extends Component {
       <div className={`${authContainer} col-xs-12`}>
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
           <h1>Sign In</h1>
-          {map(FIELDS, ({ name, type, component, label }, key) => (
+          {map(FIELDS, ({ name, type, label }, key) => (
             <Field
               key={key}
               name={name}
@@ -58,12 +58,11 @@ export default reduxForm({
 })(
   connect(
     null,
-    { authError, signinUser },
+    { signinUser },
   )(Signin),
 );
 
 Signin.propTypes = {
-  authError: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,
