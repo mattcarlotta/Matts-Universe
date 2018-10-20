@@ -1,4 +1,4 @@
-@import '../../styles/index.scss';
+@import '../../styles/index';
 
 .spinner {
   @include anim(rotate 0.8s 0s ease-in-out infinite);
