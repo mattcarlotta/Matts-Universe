@@ -1,0 +1,60 @@
+.scroll {
+	@media (max-width: 800px) {
+		width: 55px;
+		height: 30px;
+		padding: 0;
+		bottom: 62px;
+		right: 10px;
+	}
+
+	@extend %b-0, %d-b, .fix-cursor, %t-a-c;
+	z-index: 2000;
+	background-color: $darkblue;
+	width: 75px;
+	height: 45px;
+	position: fixed;
+	border-radius: 5px;
+	bottom: 10px;
+	right: 10px;
+	padding: 3px;
+
+	.text {
+		@media (max-width: 800px) { display: none;}
+		@extend %t-t-u, %w-100;
+		font-size: 13px;
+		margin-left: 3px;
+	}
+
+	.icon {
+		i {
+			@media (max-width: 800px) {
+				margin-top: 6px;
+				font-size: 18px;
+			}
+			width: 100%;
+		}
+	}
+
+	&:hover {
+		background-color: $darkblue;
+		color: $lightblue;
+	}
+
+	&:focus {
+		@extend .no-link-focus;
+	}
+}
+
+.scrolltransition-enter {
+	-webkit-animation-name: flipIn;
+	-webkit-animation-duration: 0.3s;
+	animation-name: flipIn;
+	animation-duration: 0.3s;
+}
+
+.scrolltransition-leave {
+	-webkit-animation-name: flipOut;
+	-webkit-animation-duration: 0.2s;
+	animation-name: flipOut;
+	animation-duration: 0.2s;
+}

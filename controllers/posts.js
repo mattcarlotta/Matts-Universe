@@ -1,0 +1,120 @@
+module.exports = app => {
+  const env = require('../config/env');
+  const mongoose = require('mongoose');
+  const Post = mongoose.model('posts');
+  const moment = require('moment');
+  const covertToArray = require('../middleware/navHelper').covertToArray;
+  const manipNavTitle = require('../middleware/navHelper').manipNavTitle;
+  const stripDescription = require('../middleware/navHelper').stripDescription;
+  const throwError = require('../middleware/throwError');
+  const fs = require('fs');
+
+
+  return {
+    createPost = async (req, res) => {
+    	try {
+    		if (!req.file) throw Error('Unable to locate requested image to be save!');
+
+    		req.body.image = {
+    			fileName: req.file.filename,
+    			originalName: req.file.originalname,
+    			path: req.file.path,
+    			apiURL: env.APIURL + req.file.path,
+    			size: req.file.size
+    		};
+
+    		req.body.navTitle = manipNavTitle(req.body.title);
+    		req.body.timestamp = moment().format('dddd, MM.DD.YY');
+    		req.body.createdAt = moment().unix();
+    		const newPost = req.body;
+    		await Post.create(newPost);
+    		res.status(201).json({ message: 'Succesfully added a new post!' });
+    	} catch (err) {
+    		throwError(res, err);
+    	}
+    },
+    findPosts = async (req, res) => {
+    	try {
+    		const skipByValue = parseInt(req.query.skipByValue);
+
+    		const allPosts = await Post.find({})
+    			.skip(skipByValue)
+    			.limit(10)
+    			.sort({ _id: -1 });
+
+    		res.status(201).json({ posts: stripDescription(allPosts) });
+    	} catch (err) {
+    		throwError(res, err);
+    	}
+    },
+    getPostCollectionCount = async (req, res) => {
+    	try {
+    		const postCount = await Post.count({});
+
+    		res.status(201).json({
+    			pageCount: covertToArray(Math.ceil(postCount / 10)),
+    			postCount: 10 * Math.ceil(postCount / 10)
+    		});
+    	} catch (err) {
+    		throwError(res, err);
+    	}
+    },
+    showPost = async (req, res) => {
+    	try {
+    		const foundItem = await Post.findOne({ navTitle: req.params.id });
+
+    		if (!foundItem) throw Error('Unable to locate the requested post!')
+
+    		res.status(201).json({ foundItem });
+    	} catch (err) {
+    		throwError(res, err);
+    	}
+    },
+    updatePost = async (req, res) => {
+    	try {
+    		let unlinkError;
+
+    		if (req.file) {
+    			req.body.image = {
+    				fileName: req.file.filename,
+    				originalName: req.file.originalname,
+    				path: req.file.path,
+            apiURL: env.APIURL + req.file.path,
+    				size: req.file.size
+    			};
+
+    			await fs.unlink(`./${req.body.oldImage}`, function(err) {
+    				if (err) unlinkError = 'There was a problem updating the old post image!';
+    			});
+    		}
+
+    		if (unlinkError) throw unlinkError;
+
+    		req.body.navTitle = manipNavTitle(req.body.title);
+    		const updatePost = req.body;
+
+    		await Post.findByIdAndUpdate(req.params.id, updatePost);
+    		res.status(201).json({ message: 'Succesfully edited the post!' });
+    	} catch (err) {
+    		throwError(res, err);
+    	}
+    },
+    deletePost = async (req, res) => {
+    	let imagePath;
+    	try {
+    		const { image: { path } } = await Post.findOne({ _id: req.params.id }, { 'image.path': 1, _id: 0 });
+
+    		if (!path) throw Error('Unable to locate image file path to be deleted!')
+
+    		fs.unlink(`./${path}`, async err => {
+    			if (err) throw err;
+
+    			await Post.findByIdAndRemove(req.params.id);
+    			res.status(201).json({ message: 'Succesfully deleted the post!' });
+    		});
+    	} catch (err) {
+    		throwError(res, err);
+    	}
+    }
+  }
+}

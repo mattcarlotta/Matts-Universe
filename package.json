@@ -1,0 +1,56 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=production node app.js",
+    "server": "NODE_ENV=development nodemon app.js",
+    "client": "npm run start --prefix client",
+    "lint-front": "npm run pre-commit --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "seeds": "NODE_ENV=development node seeds.js",
+    "lint": "npm run lint-front --silent && npm run lint-back --silent",
+    "lint-back": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write --single-quote",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.15.2",
+    "concurrently": "^3.5.0",
+    "consign": "^0.1.6",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
+    "cors": "^2.8.4",
+    "express": "^4.14.0",
+    "moment": "^2.22.2",
+    "mongoose": "^5.3.1",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "husky": "^1.1.2",
+    "lint-staged": "^7.3.0",
+    "nodemon": "^1.17.4",
+    "prettier": "^1.14.3"
+  },
+  "description": "",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-front --silent && npm run lint-back --silent"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.footer-container {
+	background-color: $trueblue;
+
+	.contact-nav {
+		@media (max-width: 650px) { margin-left: -20px; }
+		@extend %flex-wrap-center, %l-s-t-n, %m-0-a;
+		padding-top: 5px;
+
+		.footer-title { @media (max-width: 650px) { display: none; } }
+
+		li {
+			@extend %d-b, .f-l, %p-r;
+			height: 40px;
+			margin-top: 15px;
+		}
+
+		li > a {
+			padding: 10px 15px;
+			color: $lightblue;
+			transition: all 0.5s;
+
+			&:hover {
+				@extend .fix-cursor, %t-d-n;
+				color: $owhite;
+			}
+
+			&:focus { @extend .no-link-focus; }
+		}
+
+		p { margin-right: 20px; }
+	}
+}
