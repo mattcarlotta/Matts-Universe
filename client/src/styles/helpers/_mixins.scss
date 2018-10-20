@@ -1,29 +1,30 @@
-@mixin anim($anim) {
-  webkit-animation: $anim;
-  animation: $anim;
+@mixin anim($action...) {
+  -webkit-animation: $action;
+  animation: $action;
 }
-@mixin b-s($shadows...) {
-  -moz-box-shadow: $shadows;
-  -webkit-box-shadow: $shadows;
-  box-shadow: $shadows;
+@mixin blur($amount) {
+  -webkit-filter: blur($amount);
+  -moz-filter: blur($amount);
+  -o-filter: blur($amount);
+  -ms-filter: blur($amount);
+  filter: blur($amount);
 }
-@mixin s($select) {
-  -webkit-user-select: $select;
-  -moz-user-select: $select;
-  -ms-user-select: $select;
-  user-select: $select;
+@mixin trans($dir...) {
+  -webkit-transform: translate3d($dir);
+  -moz-transform: translate3d($dir);
+  -ms-transform: translate3d($dir);
+  -o-transform: translate3d($dir);
+  transform: translate3d($dir);
 }
-@mixin trans($anim...) {
-  -o-transition: $anim;
-  -ms-transition: $anim;
-  -moz-transition: $anim;
-  -webkit-transition: $anim;
-  transition: $anim;
+@mixin t-a($action) {
+  -ms-touch-action: $action;
+  touch-action: $action;
 }
-@mixin transY($scale) {
-  -o-transform: scaleY($scale);
-  -ms-transform: scaleY($scale);
-  -moz-transform: scaleY($scale);
-  -webkit-transform: scaleY($scale);
-  transform: scaleY($scale);
+@mixin u-s($selection) {
+  -webkit-user-select: $selection;
+  -webkit-touch-callout: $selection;
+  -moz-user-select: $selection;
+  -ms-user-select: $selection;
+  -khtml-user-select: $selection;
+  user-select: $selection;
 }

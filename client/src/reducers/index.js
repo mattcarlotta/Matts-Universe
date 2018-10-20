@@ -3,7 +3,15 @@ import { reducer as formReducer } from 'redux-form';
 import { combineReducers } from 'redux';
 import * as types from '../actions/types';
 
-const authReducer = (state = {}, { type, payload }) => {
+const initialAuthState = {
+  error: '',
+  success: '',
+  fetchingUser: false,
+  username: '',
+  userIsGod: false,
+};
+
+const authReducer = (state = initialAuthState, { type, payload }) => {
   switch (type) {
     case types.AUTH_ERROR:
       return { ...state, error: payload };
@@ -20,13 +28,17 @@ const authReducer = (state = {}, { type, payload }) => {
         isGod: payload.isGod,
       };
     case types.UNAUTH_USER:
-      return { ...state, username: null, isGod: null };
+      return { ...state, username: '', isGod: false };
     default:
       return state;
   }
 };
 
-const projectReducer = (state = {}, { type, payload }) => {
+const initialProjectState = {
+  projects: [],
+};
+
+const projectReducer = (state = initialProjectState, { type, payload }) => {
   switch (type) {
     case types.SET_PROJECTS:
       return { ...state, projects: payload };

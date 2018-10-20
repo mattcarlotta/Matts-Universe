@@ -1,0 +1,72 @@
+@import '../../../styles/index';
+
+.entryContent {
+  margin-top: 20px;
+  width: 100%;
+  color: $owhite;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.entryDate {
+  margin-bottom: 10px;
+  text-align: center;
+  width: 100%;
+  margin-top: -10px;
+  font-size: 12px;
+}
+
+.entryImage {
+  img {
+    @media (max-width: 750px) {
+      max-width: 325px;
+    }
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    max-width: 700px;
+    max-height: 500px;
+    margin-bottom: 5px;
+    padding: 10px;
+  }
+}
+
+.entryLink {
+  margin-top: 20px;
+  width: 100%;
+
+  a {
+    border: 0;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 20px;
+    color: $white;
+    background-color: transparent;
+    transition: all 0.5s;
+
+    &:hover {
+      @include anim(background-color 0.3s ease-in-out forwards);
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 20px;
+      color: $lightblue;
+    }
+  }
+}
+
+.entryTitle {
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  color: $owhite;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.imgTitle {
+  text-align: center;
+  width: 100%;
+  font-size: 10px;
+  font-weight: 400;
+  color: grey;
+}

@@ -1,6 +1,78 @@
+@import '~antd/dist/antd.min.css';
+@import '~font-awesome/css/font-awesome.css';
+
+font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('assets/fonts/MaterialIcons-Regular.eot') format('eot'),
+    url('assets/fonts/MaterialIcons-Regular.woff2') format('woff2'),
+    url('assets/fonts/MaterialIcons-Regular.woff') format('woff'),
+    url('assets/fonts/MaterialIcons-Regular.ttf') format('truetype'),
+    url('assets/fonts/MaterialIcons-Regular.svg') format('svg');
+}
+
 @font-face {
-  font-family: 'Rubik';
+  font-family: 'FontAwesome';
+  font-weight: normal;
+  font-style: normal;
+  src: url('~font-awesome/fonts/fontawesome-webfont.eot') format('eot'),
+    url('~font-awesome/fonts/fontawesome-webfont.woff2') format('woff2'),
+    url('~font-awesome/fonts/fontawesome-webfont.woff') format('woff'),
+    url('~font-awesome/fonts/fontawesome-webfont.ttf') format('truetype'),
+    url('~font-awesome/fonts/fontawesome-webfont.svg') format('svg');
+}
+
+@font-face {
+  font-family: 'Jura Light';
   font-style: normal;
   font-weight: 300;
-  src: url("../assets/fonts/Rubik.ttf") format('truetype');
+  src: url('assets/fonts/Jura-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Jura Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: url('assets/fonts/Jura-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Jura Medium';
+  font-style: normal;
+  font-weight: 500;
+  src: url('assets/fonts/Jura-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url('assets/fonts/Roboto-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 900;
+  src: url('assets/fonts/Roboto-Bold.ttf') format('truetype');
+}
+
+.fa {
+  margin-right: 5px;
+}
+
+.slick-list {
+  max-height: 700px;
+}
+.slick-dots {
+  position: relative;
+  top: 10px;
 }

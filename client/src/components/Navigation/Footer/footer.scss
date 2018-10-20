@@ -1,0 +1,49 @@
+@import '../../../stlyes/index';
+
+.contactNav {
+  @media (max-width: 650px) {
+    margin-left: -20px;
+  }
+  @extend %flex-wrap-center;
+  list-style-type: none;
+  margin: 0 auto;
+  padding-top: 5px;
+
+  li {
+    display: block;
+    float: left;
+    position: relative;
+    height: 40px;
+    margin-top: 15px;
+  }
+
+  li > a {
+    padding: 10px 15px;
+    color: $lightblue;
+    transition: all 0.5s;
+
+    &:hover {
+      @extend .fix-cursor;
+      text-decoration: none;
+      color: $owhite;
+    }
+
+    &:focus {
+      @extend .no-link-focus;
+    }
+  }
+
+  p {
+    margin-right: 20px;
+  }
+}
+
+.footerContainer {
+  background-color: $trueblue;
+}
+
+.footerTitle {
+  @media (max-width: 650px) {
+    display: none;
+  }
+}

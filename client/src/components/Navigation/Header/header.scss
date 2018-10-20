@@ -1,0 +1,49 @@
+@import '../../../stlyes/index';
+
+.headerTitle {
+  @media (max-width: 650px) {
+    display: none;
+  }
+}
+
+.navigationContainer {
+  @extend %flex-wrap-center;
+  position: absolute;
+  width: 100%;
+  background: transparent;
+  max-width: 2000px;
+  height: 70px;
+  z-index: 1;
+}
+
+.navigationBar {
+  margin-top: 10px;
+  margin-left: -30px;
+
+  li {
+    display: block;
+    float: left;
+    position: relative;
+    height: 40px;
+    margin-top: 15px;
+  }
+
+  li > a {
+    @media (max-width: 750px) {
+      padding: 10px;
+    }
+    padding: 10px 20px;
+    color: $lightblue;
+    transition: all 0.5s;
+
+    &:hover {
+      @extend .fix-cursor;
+      text-decoration: none;
+      color: $owhite;
+    }
+
+    &:focus {
+      @extend .no-link-focus;
+    }
+  }
+}

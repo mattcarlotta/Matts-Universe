@@ -23,17 +23,3 @@ app.interceptors.response.use(
     Promise.reject(rejectErr);
   },
 );
-
-export const avatarAPI = axios.create({
-  baseURL: 'http://localhost:4000/api/',
-  withCredentials: true,
-});
-avatarAPI.interceptors.response.use(
-  response => response,
-  error => {
-    const rejectErr = objHasKeys(error, 'response', 'data', 'err')
-      ? error.response.data.err
-      : error.toString();
-    Promise.reject(rejectErr);
-  },
-);

@@ -1,0 +1,17 @@
+.authContainer {
+  @extend %flex-wrap-center;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  min-height: 600px;
+  background-color: transparent;
+  padding: 10px 20px 30px 20px;
+
+  form {
+    width: 300px;
+  }
+  h1 {
+    text-align: center;
+    width: 100%;
+  }
+}

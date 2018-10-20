@@ -1,0 +1,22 @@
+@import '../../../styles/index';
+
+.clearValues {
+  float: right;
+  width: 45%;
+
+  &:focus {
+    outline: none !important;
+    text-decoration: none;
+  }
+}
+
+.submit {
+  width: 45%;
+
+  &:focus {
+    outline: none !important;
+    text-decoration: none;
+    background-color: $buttonblue;
+    border-color: $transparent;
+  }
+}

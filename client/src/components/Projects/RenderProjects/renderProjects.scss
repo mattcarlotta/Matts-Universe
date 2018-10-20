@@ -1,0 +1,47 @@
+@import '../../styles/index';
+
+.content {
+  max-width: 800px;
+  word-wrap: break-word;
+
+  h2 {
+    @media (max-width: 750px) {
+      font-size: 20px;
+    }
+  }
+
+  h3 {
+    @media (max-width: 750px) {
+      font-size: 18px;
+    }
+  }
+
+  h4 {
+    @media (max-width: 750px) {
+      font-size: 14px;
+    }
+  }
+
+  img {
+    @media (max-width: 800px) {
+      max-width: 80%;
+    }
+    display: block;
+    margin: auto;
+    max-width: 710px;
+    max-height: 450px;
+  }
+
+  a {
+    @include anim(background-color 0.3s ease-in-out forwards);
+    color: $seablue;
+
+    &:hover {
+      color: $lightertrueblue;
+    }
+    &:focus {
+      outline: none !important;
+      text-decoration: none;
+    }
+  }
+}

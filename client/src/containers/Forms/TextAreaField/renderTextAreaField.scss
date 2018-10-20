@@ -1,0 +1,21 @@
+@import '../../../styles/index';
+
+.formDetails {
+  border: 0;
+  outline: none !important;
+  text-decoration: none;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  color: $owhite;
+  background-color: transparent;
+  border-bottom: 1px solid $lightblue;
+
+  &:focus {
+    border-bottom: 2px solid $orange;
+  }
+}
+
+.input-error {
+  border-bottom: 2px solid $orange;
+}

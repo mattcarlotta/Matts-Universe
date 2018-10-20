@@ -1,0 +1,17 @@
+@import '../../../styles/index';
+
+.title {
+  margin-bottom: 20px;
+  text-align: center;
+  padding-top: 1px;
+  margin-top: 45px;
+
+  h1 {
+    font-size: 32px;
+  }
+
+  p {
+    font-size: 10px;
+    color: $owhite;
+  }
+}

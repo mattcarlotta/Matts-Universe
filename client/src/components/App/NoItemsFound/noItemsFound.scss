@@ -1,0 +1,37 @@
+.blogContainer {
+  min-height: 850px;
+  margin-bottom: 30px;
+  transition: all 0.3s;
+
+  hr {
+    @media (max-width: 750px) {
+      width: 90%;
+    }
+    border: 0;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    height: 1px;
+    background-image: linear-gradient(
+      to right,
+      $transparent,
+      $owhite,
+      $transparent
+    );
+    width: 50%;
+  }
+
+  p {
+    @extend margin: 0;
+  }
+}
+
+.errorMessage {
+  text-align: center;
+  font-size: 16px;
+  font-family: $juramedium;
+  color: $red;
+}
+
+.noprojectContainer {
+  height: 100%;
+}
