@@ -7,7 +7,6 @@
     opacity: 1;
   }
 }
-
 @keyframes flipIn {
   from {
     transform: perspective(400px) rotate3d(0, 1, 0, -180deg);
@@ -27,7 +26,6 @@
     opacity: 1;
   }
 }
-
 @keyframes flipOut {
   from {
     transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
@@ -47,7 +45,6 @@
     opacity: 0;
   }
 }
-
 @keyframes rotate {
   0% {
     -webkit-transform: rotate(0deg);

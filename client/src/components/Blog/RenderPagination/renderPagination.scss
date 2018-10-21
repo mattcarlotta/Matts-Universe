@@ -1,22 +1,15 @@
 @import '../../../styles/index';
 
-.activePage,
-.activePage:hover {
+.activePage {
   background-color: $lightblue;
   border-radius: 4px;
-
-  button {
-    color: $owhite;
-  }
+  color: $owhite;
 }
 
-.disableChevron,
-.disableChevron:hover {
-  button {
-    color: grey;
-    background: transparent;
-    cursor: not-allowed;
-  }
+.disableChevron {
+  color: grey;
+  background: transparent;
+  cursor: not-allowed;
 }
 
 .paginationContainer {
