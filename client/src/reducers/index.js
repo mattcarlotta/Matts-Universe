@@ -1,7 +1,7 @@
 import { routerReducer as routing } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
 import { combineReducers } from 'redux';
-import * as types from '../actions/types';
+import * as types from '../types';
 
 const initialAuthState = {
   error: '',
@@ -24,7 +24,7 @@ const authReducer = (state = initialAuthState, { type, payload }) => {
     case types.SET_SIGNEDIN_USER:
       return {
         ...state,
-        username: payload.user,
+        username: payload.username,
         isGod: payload.isGod,
       };
     case types.UNAUTH_USER:

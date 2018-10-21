@@ -1,9 +1,9 @@
 module.exports = app => {
-  // const { db, query: { findUserByEmail, getUserDetails } } = app.database;
   const { alreadyLoggedIn, badCredentials } = app.shared.authErrors;
-  const bcrypt = app.get("bcrypt");
+  const mongoose = app.get("mongoose");
   const LocalStrategy = app.get("LocalStrategy");
   const passport = app.get("passport");
+  const User = app.models.user;
 
   passport.use(
     "local-login",
@@ -15,7 +15,10 @@ module.exports = app => {
         passReqToCallback: true
       },
       async (req, username, password, done) => {
-        if (!email || !password) return done(badCredentials, false);
+        console.log("triggered");
+        console.log("username", username);
+        console.log("password", password);
+        if (!username || !password) return done(badCredentials, false);
 
         try {
           // check to see if user is logged in from another session
@@ -24,11 +27,14 @@ module.exports = app => {
 
           // check to see if the user already exists
           const existingUser = await User.findOne({ username: username });
+          console.log("existingUser", existingUser);
           if (!existingUser) return done(badCredentials, false);
 
           // compare password to existingUser password
-          const isMatch = await user.comparePassword(password);
-          if (!isMatch) return done(badCredentials, false);
+          const { err, isMatch } = await existingUser.comparePassword(password);
+          console.log("err", err);
+          console.log("isMatch", isMatch);
+          if (err || !isMatch) return done(err || badCredentials, false);
 
           // set session
           req.session = { ...existingUser };

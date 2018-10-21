@@ -1,56 +1,72 @@
 module.exports = app => {
-  const passport = require("passport");
-  const { Projects } = app.controllers;
-  // const { uploadImage }
+  const {
+    createProject,
+    deleteProject,
+    grabProject,
+    findProjects,
+    updateProject
+  } = app.controllers.projects;
+  const { requireAuth } = app.services.strategies;
+  const saveImage = app.services.sharp;
 
-  app.get("/api/projectscollection", Projects.findProjects);
+  app.get("/api/projects/collection", findProjects);
 
-  app.post("/api/create/project", (req, res, next) => {
-    passport.authenticate("jwt", (err, user, errorMessage) => {
-      if (err || !user || errorMessage) {
-        res.status(401).json({ err: err ? err : errorMessage });
-        return next();
-      }
+  app.post("/api/project/create", requireAuth, saveImage, createProject);
 
-      uploadImage(req, res, (err, success, errorMessage) => {
-        if (err || errorMessage) {
-          res.status(401).json({ err: err ? err : errorMessage });
-          return next();
-        }
+  app.get("/api/project/edit/:id", requireAuth, grabProject);
 
-        Projects.createProject(req, res, next);
-      });
-    })(req, res, next);
-  });
+  app.put("/api/project/update/:id", requireAuth, saveImage, updateProject);
 
-  app.get("/api/project/:id", Projects.grabProject);
+  app.delete("/api/project/delete/:id", requireAuth, deleteProject);
 
-  app.put("/api/edit/project/:id", (req, res, next) => {
-    passport.authenticate("jwt", (err, user, errorMessage) => {
-      if (err || !user || errorMessage) {
-        res.status(401).json({ err: err ? err : errorMessage });
-        return next();
-      }
+  // app.get("/api/projectscollection", Projects.findProjects);
 
-      uploadImage(req, res, (err, success, errorMessage) => {
-        if (err || errorMessage) {
-          res.status(401).json({ err: err ? err : errorMessage });
-          return next();
-        }
+  // app.post("/api/create/project", (req, res, next) => {
+  //   passport.authenticate("jwt", (err, user, errorMessage) => {
+  //     if (err || !user || errorMessage) {
+  //       res.status(401).json({ err: err ? err : errorMessage });
+  //       return next();
+  //     }
+  //
+  //     uploadImage(req, res, (err, success, errorMessage) => {
+  //       if (err || errorMessage) {
+  //         res.status(401).json({ err: err ? err : errorMessage });
+  //         return next();
+  //       }
+  //
+  //       Projects.createProject(req, res, next);
+  //     });
+  //   })(req, res, next);
+  // });
 
-        Projects.updateProject(req, res, next);
-      });
-    })(req, res, next);
-  });
+  // app.get("/api/project/:id", Projects.grabProject);
 
-  app.delete("/api/delete/project/:id", (req, res, next) => {
-    passport.authenticate("jwt", (err, user, errorMessage) => {
-      if (err || !user || errorMessage) {
-        res.status(401).json({ err: err ? err : errorMessage });
-        return next();
-      }
+  // app.put("/api/edit/project/:id", (req, res, next) => {
+  //   passport.authenticate("jwt", (err, user, errorMessage) => {
+  //     if (err || !user || errorMessage) {
+  //       res.status(401).json({ err: err ? err : errorMessage });
+  //       return next();
+  //     }
+  //
+  //     uploadImage(req, res, (err, success, errorMessage) => {
+  //       if (err || errorMessage) {
+  //         res.status(401).json({ err: err ? err : errorMessage });
+  //         return next();
+  //       }
+  //
+  //       Projects.updateProject(req, res, next);
+  //     });
+  //   })(req, res, next);
+  // });
 
-      Projects.deleteProject(req, res, next);
-    })(req, res, next);
-  });
+  // app.delete("/api/delete/project/:id", (req, res, next) => {
+  //   passport.authenticate("jwt", (err, user, errorMessage) => {
+  //     if (err || !user || errorMessage) {
+  //       res.status(401).json({ err: err ? err : errorMessage });
+  //       return next();
+  //     }
+  //
+  //     Projects.deleteProject(req, res, next);
+  //   })(req, res, next);
+  // });
 };

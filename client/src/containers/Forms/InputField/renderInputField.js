@@ -21,7 +21,15 @@ export default InputField;
 
 InputField.propTypes = {
   error: PropTypes.string,
-  input: PropTypes.objectOf(PropTypes.func),
+  input: PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.string,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onDragStart: PropTypes.func,
+    onDrop: PropTypes.func,
+    onFocus: PropTypes.func,
+  }),
   label: PropTypes.string,
   touched: PropTypes.bool,
   type: PropTypes.string,

@@ -1,18 +1,11 @@
 module.exports = app => {
-  const {
-    mailer,
-    emailTemplates: { newUser }
-  } = app.services;
-  const {
-    companyAlreadyExists,
-    emailAlreadyTaken,
-    missingCredentials
-  } = app.shared.authErrors;
-  const { createRandomToken, currentDate } = app.shared.helpers;
-  const portal = app.get("portal");
+  const { userAlreadyExists, missingCredentials } = app.shared.authErrors;
+  const isEmpty = app.get("isEmpty");
   const bcrypt = app.get("bcrypt");
+  const mongoose = app.get("mongoose");
   const LocalStrategy = app.get("LocalStrategy");
   const passport = app.get("passport");
+  const User = mongoose.model("users");
 
   passport.use(
     "local-signup",
@@ -24,51 +17,47 @@ module.exports = app => {
         passReqToCallback: true // allows us to send request to the callback
       },
       async (req, email, password, done) => {
-        const { firstName, lastName, company } = req.body;
+        const { username } = req.body;
 
-        // check to see if both an email and password were supplied
-        if (!email || !password || !firstName || !lastName || !company)
+        // check to see if both an email, username, and password were supplied
+        if (!email || !username || !password)
           return done(missingCredentials, false);
 
-        // check to see if the email is already in use
         try {
-          await db.task("local-signup", async dbtask => {
-            const existingUser = await dbtask.oneOrNone(findUserByEmail, [
-              email
-            ]);
-            if (existingUser) return done(emailAlreadyTaken, false);
-
-            const existingCompany = await dbtask.oneOrNone(findCompany, [
-              company
-            ]);
-            if (existingCompany) return done(companyAlreadyExists, false);
-
-            // hash password before attempting to create the user
-            const newPassword = await bcrypt.hash(password, 12);
-            // create new user
-            await dbtask.none(createNewUser, [
-              email,
-              newPassword,
-              firstName,
-              lastName,
-              company,
-              token,
-              currentDate
-            ]);
-
-            // creates an email template for a new user signup
-            const msg = {
-              to: `${email}`,
-              from: `helpdesk@subskribble.com`,
-              subject: `Please verify your email address`,
-              html: newUser(portal, firstName, lastName, token)
-            };
-
-            // attempts to send a verification email to newly created user
-            await mailer.send(msg);
-
-            return done(null, true);
+          // check to see if the email or username is already in use
+          const existingUser = await User.find({
+            $or: [{ email: email }, { username: username }]
           });
+
+          // throw error if any matches
+          if (!isEmpty(existingUser)) return done(userAlreadyExists, false);
+
+          // create a hash + salted password\
+          const salt = await bcrypt.genSalt(12);
+          if (!salt) return next("Unable to generate password salt", false);
+
+          const newPassword = await bcrypt.hash(password, salt, null);
+          if (!newPassword)
+            return next("Unable to generate secure password", false);
+
+          //if new user, create and save user record
+          const createdUser = new User({
+            email: email,
+            username: username,
+            password: newPassword
+          });
+
+          // save user
+          await createdUser.save();
+
+          const getUserDetails = await User.find({ username })
+            .lean()
+            .select("-password");
+
+          // set session
+          req.session = { ...getUserDetails[0] };
+
+          return done(null, true);
         } catch (err) {
           return done(err, false);
         }

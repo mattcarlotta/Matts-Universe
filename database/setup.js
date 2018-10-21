@@ -5,14 +5,14 @@ module.exports = app => {
   const bluebird = app.get("bluebird");
   const mongoose = app.get("mongoose");
   const db = app.get("database");
-  // require('../models/user')(mongoose); // Mongo User Model
-  // require('../models/post')(mongoose); // Mongo Post Model
-  // require('../models/project')(mongoose); // Mongo Project Model
+  // require("../models/user")(app); // Mongo User Model
+  // require("../models/post")(app); // Mongo Post Model
+  // require("../models/project")(app); // Mongo Project Model
   // // require('../models/comment')(mongoose); // Mongo Comment Model
 
   mongoose.connect(
     db,
-    { useNewUrlParser: true }
+    { useCreateIndex: true, useNewUrlParser: true }
   ); // connect to our mongoDB database
 
   mongoose.Promise = bluebird; // bluebird for mongoose promises

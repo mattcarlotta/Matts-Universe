@@ -1,6 +1,6 @@
 import { app } from 'axios';
 import { browserHistory } from 'react-router';
-import * as types from './types';
+import * as types from '../types';
 
 export const redirectToProject = () => browserHistory.push('/');
 
@@ -11,7 +11,7 @@ export const redirectToProject = () => browserHistory.push('/');
 // Fetches all projects from DB
 export const fetchProjects = () => dispatch =>
   app
-    .get('/api/projectscollection')
+    .get('projects/collection')
     .then(({ data: { projects } }) => {
       dispatch({ type: types.SET_PROJECTS, payload: projects });
     })
@@ -20,13 +20,13 @@ export const fetchProjects = () => dispatch =>
 // Fetches a single project by navTitle for editing from DB
 export const fetchProject = id => dispatch =>
   app
-    .get(`/api/project/${id}`)
+    .get(`project/edit/${id}`)
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
 
 // Adds new post to blog DB
 export const addNewProject = formData => dispatch =>
   app
-    .post('/api/create/project', formData)
+    .post('project/create', formData)
     .then(({ data: { message } }) => {
       dispatch({ type: types.AUTH_SUCCESS, payload: message });
       dispatch(fetchProjects());
@@ -37,7 +37,7 @@ export const addNewProject = formData => dispatch =>
 // Deletes project from DB
 export const deleteProject = id => dispatch =>
   app
-    .delete(`/api/delete/project/${id}`)
+    .delete(`project/delete/${id}`)
     .then(({ data: { message } }) => {
       dispatch({ type: types.AUTH_SUCCESS, payload: message });
       dispatch(fetchProjects());
@@ -47,7 +47,7 @@ export const deleteProject = id => dispatch =>
 // Edits a project in DB
 export const editProject = (id, formProps) => dispatch =>
   app
-    .put(`/api/edit/project/${id}`, formProps)
+    .put(`project/update/${id}`, formProps)
     .then(({ data: { message } }) => {
       dispatch({ type: types.AUTH_SUCCESS, payload: message });
       dispatch(fetchProjects());

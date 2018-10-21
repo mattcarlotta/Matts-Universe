@@ -47,7 +47,15 @@ const RenderDropZone = ({
 export default RenderDropZone;
 
 RenderDropZone.propTypes = {
-  input: PropTypes.objectOf(PropTypes.func),
+  input: PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.string,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onDragStart: PropTypes.func,
+    onDrop: PropTypes.func,
+    onFocus: PropTypes.func,
+  }),
   touched: PropTypes.bool,
   error: PropTypes.string,
   onHandleOnDrop: PropTypes.func.isRequired,

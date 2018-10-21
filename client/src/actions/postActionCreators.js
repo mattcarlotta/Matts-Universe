@@ -1,6 +1,6 @@
 import { browserHistory } from 'react-router';
 import { app } from './axiosConfig';
-import * as types from './types';
+import * as types from '../types';
 
 export const redirectToBlog = () => {
   browserHistory.push({
@@ -16,7 +16,7 @@ export const redirectToBlog = () => {
 // Adds a single blog post to DB
 export const addNewPost = formData => dispatch =>
   app
-    .post('/api/create/post', formData)
+    .post('post/create', formData)
     .then(({ data: { message } }) => {
       dispatch({ type: types.AUTH_SUCCESS, payload: message });
       redirectToBlog();
@@ -26,7 +26,7 @@ export const addNewPost = formData => dispatch =>
 // Deletes a single blog post from DB
 export const deletePost = id => dispatch =>
   app
-    .delete(`/api/delete/post/${id}`)
+    .delete(`post/delete/${id}`)
     .then(({ data: { message } }) => {
       dispatch({ type: types.AUTH_SUCCESS, payload: message });
       redirectToBlog();
@@ -36,7 +36,7 @@ export const deletePost = id => dispatch =>
 // Edits a single blog post in DB
 export const editPost = (id, formData) => dispatch =>
   app
-    .put(`/api/edit/post/${id}`, formData)
+    .put(`post/update/${id}`, formData)
     .then(({ data: { message } }) => {
       dispatch({ type: types.AUTH_SUCCESS, payload: message });
       redirectToBlog();
@@ -46,19 +46,19 @@ export const editPost = (id, formData) => dispatch =>
 // Fetches a single post by navTitle from DB
 export const fetchPost = id => dispatch =>
   app
-    .get(`/api/post/${id}`)
+    .get(`post/fetchpost/${id}`)
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
 
 // Fetches the amount of posts located in DB
 export const fetchPostCount = () => dispatch =>
   app
-    .get(`/api/blogcount`)
+    .get(`post/count`)
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
 
 // Fetches the initial first and/or next 10 posts in the DB
 export const fetchPosts = requestedRecords => dispatch =>
   app
-    .get(`/api/blogcollection`, {
+    .get(`post/collection`, {
       params: { skipByValue: requestedRecords || 0 },
     })
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));

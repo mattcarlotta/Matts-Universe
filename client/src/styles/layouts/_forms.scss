@@ -1,10 +1,10 @@
 .authContainer {
   @extend %flex-wrap-center;
+  background-color: $trueblue;
   margin: 0 auto;
   margin-bottom: 20px;
   margin-top: 20px;
   min-height: 600px;
-  background-color: transparent;
   padding: 10px 20px 30px 20px;
 
   form {
@@ -13,6 +13,7 @@
 
   h1 {
     text-align: center;
+    color: $owhite;
     width: 100%;
   }
 }

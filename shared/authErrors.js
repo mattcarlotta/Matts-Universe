@@ -17,9 +17,9 @@ module.exports = app => ({
     "That email is not associated with an active account. Please make sure the email address is spelled correctly.",
   missingPasswords:
     "You must supply both your current password and a new password.",
-  missingSidebarState: "There was a problem updating the sidebar state.",
   missingToken: "There was a problem authenticating your request.",
   notAdmin: "You DO NOT have permission to do that.",
   notUniquePassword:
-    "Your new password must not match your current password. Please try again."
+    "Your new password must not match your current password. Please try again.",
+  userAlreadyExists: "That email and/or username has already been registered."
 });

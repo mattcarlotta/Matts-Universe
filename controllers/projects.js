@@ -1,98 +1,122 @@
 module.exports = app => {
-  const env = require('../config/env');
-  const mongoose = require('mongoose');
-  const Project = mongoose.model('projects');
-  const manipNavTitle = require('../middleware/navHelper').manipNavTitle;
-  const throwError = require('../middleware/throwError');
-  const fs = require('fs');
+  const { manipNavTitle, sendError } = app.shared.helpers;
+  const fs = app.get("fs");
+  const mongoose = require("mongoose");
+  const Project = mongoose.model("projects");
+  const APIURL = app.get("APIURL");
 
   return {
-    createProject = async (req, res) => {
-    	try {
-    		if (!req.file) throw Error('Unable to locate requested image to be save!');
+    createProject: async (req, res, done) => {
+      try {
+        if (!req.file)
+          return sendError(
+            "Unable to locate requested image to be save!",
+            res,
+            done
+          );
 
-    		req.body.image = {
-    			fileName: req.file.filename,
-    			originalName: req.file.originalname,
-    			path: req.file.path,
-    			apiURL: env.APIURL + req.file.path,
-    			size: req.file.size
-    		};
+        req.body.image = {
+          fileName: req.file.filename,
+          originalName: req.file.originalname,
+          path: req.file.path,
+          apiURL: APIURL + req.file.path,
+          size: req.file.size
+        };
 
-    		req.body.navTitle = await manipNavTitle(req.body.title);
-    		const newProject = req.body;
+        req.body.navTitle = await manipNavTitle(req.body.title);
 
-    		await Project.create(newProject);
-    		res.status(201).json({ message: 'Succesfully added a new project!' });
-    	} catch (err) {
-    		throwError(res, err);
-    	}
+        await Project.create(req.body);
+        res.status(201).json({ message: "Succesfully added a new project!" });
+      } catch (err) {
+        return sendError(err, res, done);
+      }
     },
-    findProjects = async (req, res) => {
-    	try {
-    		const projects = await Project.find({}).sort({ _id: -1 });
-    		const projectCount = await Project.count({});
+    findProjects: async (req, res, done) => {
+      try {
+        const projects = await Project.find({}).sort({ _id: -1 });
+        const projectCount = await Project.countDocuments({});
 
-    		res.status(201).json({ projects, projectCount });
-    	} catch (err) {
-    		throwError(res, err);
-    	}
+        res.status(201).json({ projects, projectCount });
+      } catch (err) {
+        return sendError(err, res, done);
+      }
     },
-    grabProject = async (req, res) => {
-    	try {
-    		const foundItem = await Project.findOne({ navTitle: req.params.id });
+    grabProject: async (req, res, done) => {
+      const { id } = req.params;
+      if (!id) return sendError("Missing edit project query params", res, done);
 
-    		if (!foundItem) throw Error('Unable to locate requested project!')
+      try {
+        const foundItem = await Project.findOne({ navTitle: id });
+        if (!foundItem)
+          return sendError("Unable to locate requested project!", res, done);
 
-    		res.status(201).json({ foundItem });
-    	} catch (err) {
-    		throwError(res, err);
-    	}
+        res.status(201).json({ foundItem });
+      } catch (err) {
+        return sendError(err, res, done);
+      }
     },
-    updateProject = async (req, res) => {
-    	try {
-    		let unlinkError;
+    updateProject: async (req, res, done) => {
+      try {
+        if (req.file) {
+          req.body.image = {
+            fileName: req.file.filename,
+            originalName: req.file.originalname,
+            path: req.file.path,
+            apiURL: APIURL + req.file.path,
+            size: req.file.size
+          };
 
-    		if (req.file) {
-    			req.body.image = {
-    				fileName: req.file.filename,
-    				originalName: req.file.originalname,
-    				path: req.file.path,
-    				apiURL: env.APIURL + req.file.path,
-    				size: req.file.size
-    			};
+          const unlinkError = await fs.unlink(
+            `./${req.body.oldImage}`,
+            err =>
+              err
+                ? "There was a problem updating the old project image!"
+                : false
+          );
 
-    			await fs.unlink(`./${req.body.oldImage}`, function(err) {
-    				if (err) unlinkError = 'There was a problem updating the old project image!';
-    			});
-    		}
+          if (unlinkError) return sendError(unlinkError, res, done);
+        }
 
-    		if (unlinkError) throw unlinkError;
+        req.body.navTitle = await manipNavTitle(req.body.title);
+        const updateProject = req.body;
 
-    		req.body.navTitle = await manipNavTitle(req.body.title);
-    		const updateProject = req.body;
-
-    		await Project.findByIdAndUpdate(req.params.id, updateProject);
-    		res.status(201).json({ message: 'Succesfully edited the project!' });
-    	} catch (err) {
-    		throwError(res, err);
-    	}
+        await Project.findByIdAndUpdate(req.params.id, updateProject);
+        res.status(201).json({ message: "Succesfully edited the project!" });
+      } catch (err) {
+        return sendError(err, res, done);
+      }
     },
-    deleteProject = async (req, res) => {
-    	try {
-    		const { image: { path } } = await Project.findOne({ _id: req.params.id }, { 'image.path': 1, _id: 0 });
+    deleteProject: async (req, res, done) => {
+      try {
+        const {
+          image: { path }
+        } = await Project.findOne(
+          { _id: req.params.id },
+          { "image.path": 1, _id: 0 }
+        );
 
-    		if (!path) throw Error('Unable to locate image file path to be deleted!')
+        if (!path)
+          return sendError(
+            "Unable to locate image file path to be deleted!",
+            res,
+            done
+          );
 
-    		fs.unlink(`./${path}`, async err => {
-    			if (err) throw err;
+        const unlinkError = await fs.unlink(
+          `./${path}`,
+          err =>
+            err
+              ? "Unable to remove the project image from the uploads folder!"
+              : false
+        );
 
-    			await Project.findByIdAndRemove(req.params.id);
-    			res.status(201).json({ message: 'Succesfully deleted the Project!' });
-    		});
-    	} catch (err) {
-    		throwError(res, err);
-    	}
+        if (unlinkError) return sendError(unlinkError, res, done);
+
+        await Project.findByIdAndRemove(req.params.id);
+        res.status(201).json({ message: "Succesfully deleted the Project!" });
+      } catch (err) {
+        return sendError(err, res, done);
+      }
     }
-  }
-}
+  };
+};

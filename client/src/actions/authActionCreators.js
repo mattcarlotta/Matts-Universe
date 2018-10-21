@@ -1,6 +1,6 @@
 import { browserHistory } from 'react-router';
 import { app } from './axiosConfig';
-import * as types from './types';
+import * as types from '../types';
 
 //= =========================================================================
 // Authorization
@@ -33,7 +33,7 @@ export const signoutUser = () => ({
 export const authenticateUser = () => dispatch => {
   dispatch(fetchingUser(false));
   return app
-    .get(`/api/signedin`)
+    .get(`signedin`)
     .then(res => {
       if (res) {
         dispatch({ type: types.SET_SIGNEDIN_USER, payload: res.data });
@@ -55,9 +55,10 @@ export const resetNotifications = () => ({
 // Attempts to sign in user
 export const signinUser = ({ username, password }) => dispatch =>
   app
-    .post('api/signin', { username, password })
-    .then(({ data }) => {
-      dispatch({ type: types.SET_SIGNEDIN_USER, payload: data });
+    .post('signin', { username, password })
+    .then(res => {
+      console.log('res', res);
+      dispatch({ type: types.SET_SIGNEDIN_USER, payload: res.data });
       browserHistory.push('/');
     })
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
@@ -65,22 +66,21 @@ export const signinUser = ({ username, password }) => dispatch =>
 // Atempts to sign up user
 export const signupUser = ({ email, username, password }) => dispatch =>
   app
-    .post('api/signup', { email, username, password })
-    .then(({ data }) => {
-      dispatch({ type: types.SET_SIGNEDIN_USER, payload: data.user });
+    .post('signup', { email, username, password })
+    .then(res => {
+      console.log('res', res);
+      dispatch({ type: types.SET_SIGNEDIN_USER, payload: res.data });
       browserHistory.push('/');
     })
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
 
-/*
 // removes current user from redux props and clears cookie
-const logoutUser = () => dispatch => {
-  app
-    .post(`logout`)
-    .then(() => {
-      dispatch({ type: types.UNAUTH_USER });
-      browserHistory.push('/');
-    })
-    .catch(err => dispatch({ type: types.SERVER_ERROR, payload: err }));
-};
-*/
+// const logoutUser = () => dispatch => {
+//   app
+//     .post(`signout`)
+//     .then(() => {
+//       dispatch({ type: types.UNAUTH_USER });
+//       browserHistory.push('/');
+//     })
+//     .catch(err => dispatch({ type: types.SERVER_ERROR, payload: err }));
+// };
