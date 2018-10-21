@@ -1,6 +1,6 @@
 @import '../../styles/index';
 
-.spinner {
+%spinner {
   @include anim(rotate 0.8s 0s ease-in-out infinite);
   margin: auto;
   position: absolute;
@@ -12,11 +12,11 @@
 }
 
 .spinnerClockwise {
-  @extend .spinner;
+  @extend %spinner;
 }
 
 .spinnerCounterclockwise {
-  @extend .spinner;
+  @extend %spinner;
   -webkit-animation-direction: reverse;
   animation-direction: reverse;
   animation-direction: alternate;

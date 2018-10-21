@@ -35,9 +35,9 @@
   }
 }
 
+button > li > a,
 .signoutButton > li:hover,
-.signoutButton > li > a:hover,
-button > li > a {
+.signoutButton > li > a:hover {
   outline: none !important;
   text-decoration: none;
   color: $lightblue;

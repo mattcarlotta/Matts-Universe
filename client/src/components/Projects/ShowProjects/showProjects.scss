@@ -30,10 +30,12 @@
   @media (max-width: 550px) {
     padding-top: 100px;
   }
+
   @media (max-width: 800px) {
     width: 95%;
   }
-  @extend %m-a;
+
+  margin: auto;
   padding-top: 20px;
   width: 800px;
 }
@@ -41,6 +43,7 @@
 .title {
   margin-bottom: 20px;
   font-family: $juramedium;
+
   h1 {
     @media (max-width: 750px) {
       font-size: 25px;

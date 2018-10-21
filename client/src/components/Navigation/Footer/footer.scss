@@ -25,13 +25,14 @@
     transition: all 0.5s;
 
     &:hover {
-      @extend .fix-cursor;
+      cursor: pointer;
       text-decoration: none;
       color: $owhite;
     }
 
     &:focus {
-      @extend .no-link-focus;
+      outline: none !important;
+      text-decoration: none;
     }
   }
 
