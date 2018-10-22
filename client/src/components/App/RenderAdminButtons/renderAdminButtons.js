@@ -23,7 +23,7 @@ const AdminButtons = ({ iconClassName, title, items, onClickAction }) => (
     }
     trigger={['click']}
   >
-    <Button>
+    <Button type="normal">
       <i className={`fa ${iconClassName}`} aria-hidden="true" />
       {title} <Icon type="down" />
     </Button>

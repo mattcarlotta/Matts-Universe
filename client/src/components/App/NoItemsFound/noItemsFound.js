@@ -7,9 +7,9 @@ import {
   noprojectContainer,
 } from './noItemsFound.scss';
 
-const NoItemsFound = ({ message }) => {
+const NoItemsFound = ({ type }) => {
   const className =
-    message.indexOf('blog') >= 0
+    type.indexOf('blog') >= 0
       ? `${blogContainer} ${errorMessage}`
       : `${noprojectContainer} ${errorMessage}`;
 
@@ -22,7 +22,7 @@ const NoItemsFound = ({ message }) => {
             className="fa fa-exclamation-triangle small-icon"
             aria-hidden="true"
           />
-          {message}
+          {`No ${type} were found!`}
         </p>
       </div>
     </div>
@@ -32,5 +32,5 @@ const NoItemsFound = ({ message }) => {
 export default NoItemsFound;
 
 NoItemsFound.propTypes = {
-  message: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };

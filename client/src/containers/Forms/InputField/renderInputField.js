@@ -11,7 +11,6 @@ const InputField = ({ input, label, type, meta: { touched, error } }) => (
       }
       {...input}
       type={type}
-      placeholder={label}
     />
     <RenderFormErrors error={error} label={label} touched={touched} />
   </Fragment>

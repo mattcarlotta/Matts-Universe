@@ -20,7 +20,10 @@ class AdminPanel extends PureComponent {
         .then(() => this.props.updateBlogPostCount())
         .catch(err => this.props.authError(err));
     } else {
-      this.props.deleteProject(id).catch(err => this.props.authError(err));
+      this.props
+        .deleteProject(id)
+        .then(() => this.props.updateProjects())
+        .catch(err => this.props.authError(err));
     }
   };
 
@@ -63,5 +66,6 @@ AdminPanel.propTypes = {
   deleteProject: PropTypes.func.isRequired,
   signoutUser: PropTypes.func.isRequired,
   username: PropTypes.string,
+  updateProjects: PropTypes.func,
   userIsGod: PropTypes.bool,
 };

@@ -6,14 +6,14 @@ const FormButtons = ({ submitting, pristine, reset }) => (
   <div>
     <button
       type="submit"
-      className={`${submit} btn btn-primary`}
+      className={`${submit} ant-btn ant-btn-primary`}
       disabled={submitting}
     >
       Submit
     </button>
     <button
       type="button"
-      className={`${clearValues} btn btn-danger`}
+      className={`${clearValues} ant-btn atn-btn-danger`}
       disabled={pristine || submitting}
       onClick={reset}
     >

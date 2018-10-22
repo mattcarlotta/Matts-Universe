@@ -5,27 +5,40 @@ import { Carousel } from 'antd';
 import { connect } from 'react-redux';
 import AdminPanel from '../../App/AdminPanel/AdminPanel';
 import RenderProjects from '../../../components/Projects/RenderProjects/renderProjects';
-import Loading from '../../App/Loading/Loading';
+import Spinner from '../../../components/Loaders/spinner';
+import NoItemsFound from '../../../components/App/NoItemsFound/noItemsFound';
 import { fetchProjects } from '../../../actions/projectActionCreators';
 
 class GetProjects extends Component {
-  componentDidMount = () => !this.props.projects && this.grabProjects();
+  state = {
+    isLoading: true,
+    projects: [],
+  };
 
-  grabProjects = () => this.props.fetchProjects();
+  componentDidMount = () => this.grabProjects();
+
+  grabProjects = () => {
+    this.props
+      .fetchProjects()
+      .then(({ data }) => {
+        this.setState({ ...data, isLoading: false });
+      })
+      .catch(() => this.setState({ isLoading: false }));
+  };
 
   render = () => {
-    const { projects } = this.props;
+    if (this.state.isLoading) return <Spinner />;
 
-    return isEmpty(projects) ? (
-      <Loading items={projects} message="No projects were found!" />
+    return isEmpty(this.state.projects) ? (
+      <NoItemsFound type="projects" />
     ) : (
       <Fragment>
         <AdminPanel
-          updateProjectItems={this.grabProjects}
-          projects={projects}
+          updateProjects={this.grabProjects}
+          projects={this.state.projects}
         />
         <Carousel>
-          {map(projects, (project, key) => (
+          {map(this.state.projects, (project, key) => (
             <div key={key}>
               <RenderProjects {...project} />
             </div>

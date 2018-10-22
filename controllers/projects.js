@@ -27,9 +27,7 @@ module.exports = (app) => {
         req.body.navTitle = await manipNavTitle(req.body.title);
 
         await Project.create(req.body);
-        return res
-          .status(201)
-          .json({ message: 'Succesfully added a new project!' });
+        res.status(201).json({ message: 'Succesfully added a new project!' });
       } catch (err) {
         return sendError(err, res, done);
       }
@@ -39,7 +37,7 @@ module.exports = (app) => {
         const projects = await Project.find({}).sort({ _id: -1 });
         const projectCount = await Project.countDocuments({});
 
-        return res.status(201).json({ projects, projectCount });
+        res.status(201).json({ projects, projectCount });
       } catch (err) {
         return sendError(err, res, done);
       }
@@ -52,7 +50,7 @@ module.exports = (app) => {
         const foundItem = await Project.findOne({ navTitle: id });
         if (!foundItem) return sendError('Unable to locate requested project!', res, done);
 
-        return res.status(201).json({ foundItem });
+        res.status(201).json({ foundItem });
       } catch (err) {
         return sendError(err, res, done);
       }
@@ -82,9 +80,7 @@ module.exports = (app) => {
         const updateProject = req.body;
 
         await Project.findByIdAndUpdate(req.params.id, updateProject);
-        return res
-          .status(201)
-          .json({ message: 'Succesfully edited the project!' });
+        res.status(201).json({ message: 'Succesfully edited the project!' });
       } catch (err) {
         return sendError(err, res, done);
       }
@@ -116,9 +112,7 @@ module.exports = (app) => {
         if (unlinkError) return sendError(unlinkError, res, done);
 
         await Project.findByIdAndRemove(req.params.id);
-        return res
-          .status(201)
-          .json({ message: 'Succesfully deleted the Project!' });
+        res.status(201).json({ message: 'Succesfully deleted the Project!' });
       } catch (err) {
         return sendError(err, res, done);
       }

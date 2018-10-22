@@ -8,7 +8,7 @@ module.exports = (app) => {
 
   mongoose.connect(
     db,
-    { useCreateIndex: true, useNewUrlParser: true },
+    { useCreateIndex: true, useNewUrlParser: true, useFindAndModify: false },
   ); // connect to our mongoDB database
 
   mongoose.Promise = bluebird; // bluebird for mongoose promises

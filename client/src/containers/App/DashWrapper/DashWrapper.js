@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -8,6 +8,7 @@ import {
 } from '../../../actions/authActionCreators';
 import Header from '../../../components/Navigation/Header/header';
 import Spinner from '../../../components/Loaders/spinner';
+import { wrapper } from './DashWrapper.scss';
 
 const DashWrapper = WrappedComponent => {
   class DashboardWrapper extends PureComponent {
@@ -17,10 +18,10 @@ const DashWrapper = WrappedComponent => {
       this.props.isLoading ? (
         <Spinner />
       ) : (
-        <Fragment>
+        <div className={wrapper}>
           <Header />
           <WrappedComponent {...this.props} />
-        </Fragment>
+        </div>
       );
   }
 

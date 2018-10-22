@@ -1,5 +1,6 @@
 .authContainer {
   @extend %flex-wrap-center;
+  height: 100vh;
   background-color: $trueblue;
   margin: 0 auto;
   margin-bottom: 20px;

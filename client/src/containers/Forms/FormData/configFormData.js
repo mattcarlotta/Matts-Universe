@@ -8,7 +8,7 @@ const createFormData = ({
 }) => {
   const fd = new FormData();
   if (file) {
-    fd.append('file', file[0]);
+    fd.append('file', file.fileList[0].originFileObj);
     if (image) fd.append('oldImage', image.path);
   }
   fd.append('title', title);

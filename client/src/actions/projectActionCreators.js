@@ -1,5 +1,5 @@
-import { app } from 'axios';
 import { browserHistory } from 'react-router';
+import { app } from './axiosConfig';
 import * as types from '../types';
 
 export const redirectToProject = () => browserHistory.push('/');
@@ -12,10 +12,14 @@ export const redirectToProject = () => browserHistory.push('/');
 export const fetchProjects = () => dispatch =>
   app
     .get('projects/collection')
-    .then(({ data: { projects } }) => {
-      dispatch({ type: types.SET_PROJECTS, payload: projects });
-    })
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
+// export const fetchProjects = () => dispatch =>
+//   app
+//     .get('projects/collection')
+//     .then(({ data: { projects } }) => {
+//       dispatch({ type: types.SET_PROJECTS, payload: projects });
+//     })
+//     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
 
 // Fetches a single project by navTitle for editing from DB
 export const fetchProject = id => dispatch =>
@@ -40,7 +44,7 @@ export const deleteProject = id => dispatch =>
     .delete(`project/delete/${id}`)
     .then(({ data: { message } }) => {
       dispatch({ type: types.AUTH_SUCCESS, payload: message });
-      dispatch(fetchProjects());
+      // dispatch(fetchProjects());
     })
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
 

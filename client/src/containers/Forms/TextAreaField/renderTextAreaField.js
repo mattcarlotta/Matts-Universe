@@ -10,7 +10,6 @@ const TextArea = ({ input, label, type, meta: { touched, error } }) => (
       className={
         touched && error ? `${formDetails} ${inputError}` : `${formDetails}`
       }
-      placeholder={label}
       type={type}
     />
     <RenderFormErrors error={error} label={label} touched={touched} />

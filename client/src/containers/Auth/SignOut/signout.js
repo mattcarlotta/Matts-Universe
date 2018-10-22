@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { signoutUser } from '../../../actions/authActionCreators';
+import { headerTitle } from './signout.scss';
 
 const SignOut = ({ username, signoutUser }) => (
   <li>
     {username ? (
       <Link onClick={() => signoutUser()}>
         <i className="material-icons">exit_to_app</i>
-        <span className="header-title">SignOut</span>
+        <span className={headerTitle}>SignOut</span>
       </Link>
     ) : null}
   </li>

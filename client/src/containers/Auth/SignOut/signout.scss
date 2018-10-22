@@ -1,0 +1,9 @@
+@import '../../../styles/index';
+
+.headerTitle {
+  @media (max-width: 650px) {
+    display: none;
+  }
+  font-family: $juramedium;
+  margin-left: 5px;
+}

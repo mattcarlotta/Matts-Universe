@@ -19,8 +19,7 @@ const AdminPanel = ({
   <Fragment>
     {username && userIsGod ? (
       <div className={adminTools}>
-        <h1>Admin Control Panel</h1>
-        <Button onClick={handleOnAddClick}>
+        <Button type="normal" onClick={handleOnAddClick}>
           <i className="fa fa-plus" aria-hidden="true" />
           Add New {pageId ? 'Post' : 'Project'}
         </Button>

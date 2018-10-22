@@ -29,8 +29,9 @@ module.exports = app => async (req, res, next) => {
     })
     : sharp(req.file.buffer)
       .resize(800, 600)
-      .max()
-      .withoutEnlargement()
+    // .max()
+    // .withoutEnlargement()
+      .resize({ fit: 'inside', withoutEnlargement: true })
       .toFile(filepath)
       .then(() => setFile());
 };
