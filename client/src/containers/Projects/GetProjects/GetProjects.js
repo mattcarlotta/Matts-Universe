@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Carousel } from 'antd';
 import { connect } from 'react-redux';
 import AdminPanel from '../../App/AdminPanel/AdminPanel';
-import RenderProjects from '../../../components/Projects/RenderProjects/renderProjects';
+import RenderProject from '../../../components/Projects/RenderProject/renderProject';
 import Spinner from '../../../components/Loaders/spinner';
 import NoItemsFound from '../../../components/App/NoItemsFound/noItemsFound';
 import { fetchProjects } from '../../../actions/projectActionCreators';
@@ -40,7 +40,7 @@ class GetProjects extends Component {
         <Carousel>
           {map(this.state.projects, (project, key) => (
             <div key={key}>
-              <RenderProjects {...project} />
+              <RenderProject {...project} />
             </div>
           ))}
         </Carousel>

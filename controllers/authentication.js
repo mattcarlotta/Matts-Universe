@@ -21,7 +21,7 @@ module.exports = (app) => {
     )(req, res, done),
     signout: (req, res) => {
       req.session = null;
-      return res
+      res
         .clearCookie('Authorization', { path: '/' })
         .status(200)
         .send('Cookie deleted.');

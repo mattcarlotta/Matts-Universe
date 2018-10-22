@@ -39,24 +39,24 @@ class UploadForm extends Component {
 
   componentDidMount = () => this.props.queryId && this.fetchItemToEdit();
 
-  // fetchItemToEdit = () => {
-  //   this.props
-  //     .fetchItem(this.props.queryId)
-  //     .then(({ data: { foundItem } }) => {
-  //       this.initializeForm(foundItem);
-  //       this.setState({
-  //         isLoaded: true,
-  //         imageOriginalName: foundItem.image.originalName,
-  //         imageSize: foundItem.image.size,
-  //         imageAPIURL: foundItem.image.apiURL,
-  //         origImageFile: foundItem.image.path,
-  //         useStoredImage: true,
-  //       });
-  //     })
-  //     /* eslint-disable no-console */
-  //     .catch(err => console.err(err));
-  //   /* eslint-enable no-console */
-  // };
+  fetchItemToEdit = () => {
+    this.props
+      .fetchItem(this.props.queryId)
+      .then(({ data: { foundItem } }) => {
+        this.initializeForm(foundItem);
+        this.setState({
+          isLoaded: true,
+          // imageOriginalName: foundItem.image.originalName,
+          // imageSize: foundItem.image.size,
+          // imageUrl: foundItem.image.apiURL,
+          // origImageFile: foundItem.image.path,
+          // useStoredImage: true,
+        });
+      })
+      /* eslint-disable no-console */
+      .catch(err => console.log(err.toString()));
+    /* eslint-enable no-console */
+  };
 
   initializeForm = foundItem => this.props.initialize(foundItem);
 
@@ -222,7 +222,7 @@ UploadForm.propTypes = {
   allowedLength: PropTypes.arrayOf(PropTypes.number), // eslint-disable-line no-use-before-define
   authError: PropTypes.func.isRequired,
   descriptionValue: PropTypes.string,
-  // fetchItem: PropTypes.func,
+  fetchItem: PropTypes.func,
   formTitle: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   imgTitleValue: PropTypes.string,

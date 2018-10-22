@@ -36,9 +36,7 @@ module.exports = (app) => {
 
         await Post.create(req.body);
 
-        return res
-          .status(201)
-          .json({ message: 'Succesfully added a new post!' });
+        res.status(201).json({ message: 'Succesfully added a new post!' });
       } catch (err) {
         return sendError(err, res, done);
       }
@@ -52,7 +50,7 @@ module.exports = (app) => {
           .limit(10)
           .sort({ _id: -1 });
 
-        return res.status(201).json({ posts: stripDescription(allPosts) });
+        res.status(201).json({ posts: stripDescription(allPosts) });
       } catch (err) {
         return sendError(err, res, done);
       }
@@ -61,7 +59,7 @@ module.exports = (app) => {
       try {
         const postCount = await Post.countDocuments({});
 
-        return res.status(201).json({
+        res.status(201).json({
           pageCount: covertToArray(Math.ceil(postCount / 10)),
           postCount: 10 * Math.ceil(postCount / 10),
         });
@@ -77,7 +75,7 @@ module.exports = (app) => {
         const foundItem = await Post.findOne({ navTitle: id });
         if (!foundItem) sendError('Unable to locate the requested post!', res, done);
 
-        return res.status(201).json({ foundItem });
+        res.status(201).json({ foundItem });
       } catch (err) {
         return sendError(err, res, done);
       }
@@ -104,9 +102,7 @@ module.exports = (app) => {
         req.body.navTitle = manipNavTitle(req.body.title);
         await Post.findByIdAndUpdate(req.params.id, req.body);
 
-        return res
-          .status(201)
-          .json({ message: 'Succesfully edited the post!' });
+        res.status(201).json({ message: 'Succesfully edited the post!' });
       } catch (err) {
         return sendError(err, res, done);
       }
@@ -137,9 +133,7 @@ module.exports = (app) => {
 
         await Post.findByIdAndRemove(req.params.id);
 
-        return res
-          .status(201)
-          .json({ message: 'Succesfully deleted the post!' });
+        res.status(201).json({ message: 'Succesfully deleted the post!' });
       } catch (err) {
         return sendError(err, res, done);
       }

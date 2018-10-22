@@ -27,14 +27,14 @@ class AdminPanel extends PureComponent {
     }
   };
 
-  onEditClick = ({ props: { navTitle } }) => {
+  onEditClick = ({ props: { navtitle } }) => {
     const path = this.props.location.query.pageId
       ? ['blog', 'post']
       : ['projects', 'project'];
 
     browserHistory.push({
       pathname: `/${path[0]}/edit/${path[1]}`,
-      query: { titleId: `${navTitle}` },
+      query: { titleId: `${navtitle}` },
     });
   };
 

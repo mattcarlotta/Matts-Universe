@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { showCharLeft } from './showCharactersLeft.scss';
 
 function CharactersLeft(propValue, limitValue) {
   if (propValue) {
@@ -9,7 +10,7 @@ function CharactersLeft(propValue, limitValue) {
         : 'Too many characters!';
 
     return (
-      <p style={{ fontSize: 10 }}>Characters left: {postCharactersLeft}</p>
+      <p className={showCharLeft}>Characters left: {postCharactersLeft}</p>
     );
   }
 }

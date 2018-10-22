@@ -4,16 +4,27 @@
   max-width: 800px;
   word-wrap: break-word;
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: $owhite;
+    font-family: $juramedium;
+  }
+
   h2 {
     @media (max-width: 750px) {
       font-size: 20px;
     }
+    margin-top: 10px;
+    font-weight: bold;
   }
 
   h3 {
     @media (max-width: 750px) {
       font-size: 18px;
     }
+    font-style: italic;
   }
 
   h4 {
@@ -26,9 +37,10 @@
     @media (max-width: 800px) {
       max-width: 80%;
     }
+    cursor: pointer;
     display: block;
     margin: auto;
-    max-width: 710px;
+    max-width: 800px;
     max-height: 450px;
   }
 
@@ -44,5 +56,17 @@
       outline: none !important;
       text-decoration: none;
     }
+  }
+}
+
+.modalContent {
+  color: $trueblue !important;
+  text-align: center;
+  min-height: 650px;
+  margin-top: 40px;
+
+  img {
+    margin: 0 auto;
+    max-width: 100%;
   }
 }

@@ -13,7 +13,7 @@ const AdminButtons = ({ iconClassName, title, items, onClickAction }) => (
           <MenuItem disabled>No content was found!</MenuItem>
         ) : (
           map(items, ({ _id, navTitle }) => (
-            <MenuItem key={_id} id={_id} navTitle={navTitle}>
+            <MenuItem key={_id} id={_id} navtitle={navTitle}>
               <i className={`fa ${iconClassName}`} aria-hidden="true" />
               {navTitle}
             </MenuItem>

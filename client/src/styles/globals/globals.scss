@@ -80,11 +80,29 @@ $material-icons-font-path: '~material-icons/iconfont/';
 }
 
 .ant-carousel .slick-slide {
-  height: 700px;
+  height: 650px;
 }
 
 .ant-carousel .slick-slide h3 {
   color: #fff;
+}
+
+.ant-carousel .slick-dots li button {
+  height: 5px;
+  width: 22px;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+  width: 30px;
+}
+
+.ant-modal-wrap {
+  z-index: 1200;
+}
+
+.ant-modal {
+  width: 100%;
+  margin: 10px;
 }
 
 .has-error .ant-form-explain,
