@@ -1,4 +1,4 @@
 module.exports = app => (req, res, next) => {
-  if (!req.session.id) return res.status(201).send(null);
-  next();
+  const isEmpty = app.get('isEmpty');
+  return isEmpty(req.session) ? res.status(201).send(null) : next();
 };

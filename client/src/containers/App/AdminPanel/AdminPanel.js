@@ -63,5 +63,5 @@ AdminPanel.propTypes = {
   deleteProject: PropTypes.func.isRequired,
   signoutUser: PropTypes.func.isRequired,
   username: PropTypes.string,
-  userIsGod: PropTypes.string,
+  userIsGod: PropTypes.bool,
 };

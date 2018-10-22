@@ -24,21 +24,30 @@ export const fetchingUser = bool => ({
   payload: bool,
 });
 
+// removes current user from redux props and clears cookie
+export const signoutUser = () => dispatch => {
+  app
+    .post('signout')
+    .then(() => {
+      dispatch({ type: types.UNAUTH_USER });
+      browserHistory.push('/');
+    })
+    .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
+};
+
 // Signs user out
-export const signoutUser = () => ({
-  type: types.UNAUTH_USER,
-});
+// export const signoutUser = () => ({
+//   type: types.UNAUTH_USER,
+// });
 
 // Attempts to auth a previously signed in user
 export const authenticateUser = () => dispatch => {
   dispatch(fetchingUser(false));
   return app
     .get(`signedin`)
-    .then(res => {
-      if (res) {
-        dispatch({ type: types.SET_SIGNEDIN_USER, payload: res.data });
-        dispatch({ type: types.FETCHING_USER, payload: false });
-      }
+    .then(({ data }) => {
+      dispatch({ type: types.SET_SIGNEDIN_USER, payload: data });
+      dispatch({ type: types.FETCHING_USER, payload: false });
     })
     .catch(err => {
       dispatch({ type: types.FETCHING_USER, payload: false });
@@ -56,9 +65,8 @@ export const resetNotifications = () => ({
 export const signinUser = ({ username, password }) => dispatch =>
   app
     .post('signin', { username, password })
-    .then(res => {
-      console.log('res', res);
-      dispatch({ type: types.SET_SIGNEDIN_USER, payload: res.data });
+    .then(({ data }) => {
+      dispatch({ type: types.SET_SIGNEDIN_USER, payload: data });
       browserHistory.push('/');
     })
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
@@ -67,20 +75,8 @@ export const signinUser = ({ username, password }) => dispatch =>
 export const signupUser = ({ email, username, password }) => dispatch =>
   app
     .post('signup', { email, username, password })
-    .then(res => {
-      console.log('res', res);
-      dispatch({ type: types.SET_SIGNEDIN_USER, payload: res.data });
+    .then(({ data }) => {
+      dispatch({ type: types.SET_SIGNEDIN_USER, payload: data });
       browserHistory.push('/');
     })
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
-
-// removes current user from redux props and clears cookie
-// const logoutUser = () => dispatch => {
-//   app
-//     .post(`signout`)
-//     .then(() => {
-//       dispatch({ type: types.UNAUTH_USER });
-//       browserHistory.push('/');
-//     })
-//     .catch(err => dispatch({ type: types.SERVER_ERROR, payload: err }));
-// };

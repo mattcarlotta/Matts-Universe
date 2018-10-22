@@ -71,7 +71,7 @@ class UploadForm extends Component {
   imageIsRequired = value =>
     !this.props.queryId && !value ? 'Required' : undefined;
 
-  render() {
+  render = () => {
     const {
       allowedLength,
       descriptionValue,
@@ -166,7 +166,7 @@ class UploadForm extends Component {
         </Form>
       </div>
     );
-  }
+  };
 }
 
 const selector = formValueSelector('uploadForm');
@@ -183,14 +183,14 @@ export default reduxForm({
 })(connect(mapStateToProps)(UploadForm));
 
 UploadForm.propTypes = {
-  allowedLength: PropTypes.number,
+  allowedLength: PropTypes.arrayOf(PropTypes.number), // eslint-disable-line no-use-before-define
   descriptionValue: PropTypes.string,
   fetchItem: PropTypes.func,
   formTitle: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   imgTitleValue: PropTypes.number,
   initialize: PropTypes.func.isRequired,
-  maxFieldLength: PropTypes.func,
+  maxFieldLength: PropTypes.arrayOf(PropTypes.func),
   pristine: PropTypes.bool.isRequired,
   queryId: PropTypes.string,
   reset: PropTypes.func.isRequired,

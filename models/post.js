@@ -1,5 +1,5 @@
-module.exports = app => {
-  const mongoose = app.get("mongoose");
+module.exports = (app) => {
+  const mongoose = app.get('mongoose');
 
   const postSchema = new mongoose.Schema({
     navTitle: String,
@@ -9,13 +9,13 @@ module.exports = app => {
       fileName: String,
       path: String,
       apiURL: String,
-      size: String
+      size: String,
     },
     imgtitle: String,
     description: String,
     timestamp: String,
-    createdAt: String
+    createdAt: String,
   });
 
-  mongoose.model("posts", postSchema);
+  mongoose.model('posts', postSchema);
 };

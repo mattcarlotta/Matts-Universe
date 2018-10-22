@@ -1,14 +1,16 @@
-module.exports = app => {
-  const { signup, signin, signedin, signout } = app.controllers.authentication;
-  const { requireRelogin, requireAuth } = app.services.strategies;
+module.exports = (app) => {
+  const {
+    signup, signin, signedin, signout,
+  } = app.controllers.authentication;
+  const { requireRelogin } = app.services.strategies;
 
-  app.post("/api/signup", signup);
+  app.post('/api/signup', signup);
 
-  app.post("/api/signin", signin);
+  app.post('/api/signin', signin);
 
-  app.get("/api/signedin", requireRelogin, signedin);
+  app.get('/api/signedin', requireRelogin, signedin);
 
-  app.post("/api/signout", signout);
+  app.post('/api/signout', signout);
 
   // app.post("/api/signin", (req, res, next) => {
   //   passport.authenticate("local", (err, user, errorMessage) => {

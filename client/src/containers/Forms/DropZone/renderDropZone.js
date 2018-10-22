@@ -64,5 +64,5 @@ RenderDropZone.propTypes = {
   imageAPIURL: PropTypes.string,
   label: PropTypes.string,
   newImageFiles: PropTypes.arrayOf(PropTypes.object),
-  useStoredImage: PropTypes.string,
+  useStoredImage: PropTypes.bool,
 };

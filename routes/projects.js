@@ -1,23 +1,23 @@
-module.exports = app => {
+module.exports = (app) => {
   const {
     createProject,
     deleteProject,
     grabProject,
     findProjects,
-    updateProject
+    updateProject,
   } = app.controllers.projects;
   const { requireAuth } = app.services.strategies;
   const saveImage = app.services.sharp;
 
-  app.get("/api/projects/collection", findProjects);
+  app.get('/api/projects/collection', findProjects);
 
-  app.post("/api/project/create", requireAuth, saveImage, createProject);
+  app.post('/api/project/create', requireAuth, saveImage, createProject);
 
-  app.get("/api/project/edit/:id", requireAuth, grabProject);
+  app.get('/api/project/edit/:id', requireAuth, grabProject);
 
-  app.put("/api/project/update/:id", requireAuth, saveImage, updateProject);
+  app.put('/api/project/update/:id', requireAuth, saveImage, updateProject);
 
-  app.delete("/api/project/delete/:id", requireAuth, deleteProject);
+  app.delete('/api/project/delete/:id', requireAuth, deleteProject);
 
   // app.get("/api/projectscollection", Projects.findProjects);
 

@@ -47,8 +47,8 @@ const RequireAuth = ComposedComponent => {
 
   Authentication.propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    username: PropTypes.string.isRequired,
-    userIsGod: PropTypes.bool.isRequired,
+    username: PropTypes.string,
+    userIsGod: PropTypes.bool,
     authError: PropTypes.func.isRequired,
     signoutUser: PropTypes.func.isRequired,
   };

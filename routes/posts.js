@@ -1,26 +1,26 @@
-module.exports = app => {
+module.exports = (app) => {
   const {
     createPost,
     deletePost,
     getPostCollectionCount,
     findPosts,
     showPost,
-    updatePost
+    updatePost,
   } = app.controllers.posts;
   const { requireAuth } = app.services.strategies;
   const saveImage = app.services.sharp;
 
-  app.get("/api/post/count", getPostCollectionCount);
+  app.get('/api/post/count', getPostCollectionCount);
 
-  app.get("/api/post/collection", findPosts);
+  app.get('/api/post/collection', findPosts);
 
-  app.post("/api/post/create", requireAuth, saveImage, createPost);
+  app.post('/api/post/create', requireAuth, saveImage, createPost);
 
-  app.get("/api/post/fetchpost/:id", showPost);
+  app.get('/api/post/fetchpost/:id', showPost);
 
-  app.put("/api/post/update/:id", requireAuth, saveImage, updatePost);
+  app.put('/api/post/update/:id', requireAuth, saveImage, updatePost);
 
-  app.delete("/api/post/delete/:id", requireAuth, deletePost);
+  app.delete('/api/post/delete/:id', requireAuth, deletePost);
 
   // app.get("/api/blogcount", Blog.getPostCollectionCount);
   // app.get("/api/blogcollection", Blog.findPosts);

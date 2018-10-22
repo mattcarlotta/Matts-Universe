@@ -25,7 +25,7 @@ const authReducer = (state = initialAuthState, { type, payload }) => {
       return {
         ...state,
         username: payload.username,
-        isGod: payload.isGod,
+        isGod: payload.god,
       };
     case types.UNAUTH_USER:
       return { ...state, username: '', isGod: false };
