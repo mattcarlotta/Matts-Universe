@@ -12,7 +12,7 @@ module.exports = (app) => {
     )(req, res, done),
     signedin: (req, res, done) => (!req.session
       ? sendError(badCredentials, res, done)
-      : res.status(201).json({ ...req.session })),
+      : res.status(202).json({ ...req.session })),
     signup: (req, res, done) => passport.authenticate(
       'local-signup',
       err => (err

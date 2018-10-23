@@ -40,7 +40,7 @@ class UploadForm extends Component {
 
   componentDidMount = () => {
     if (this.props.queryId) this.fetchItemToEdit();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0 });
   };
 
   fetchItemToEdit = () => {
