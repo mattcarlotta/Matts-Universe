@@ -10,8 +10,6 @@ const AdminPanel = ({
   handleOnAddClick,
   handleOnDeleteClick,
   handleOnEditClick,
-  pageId,
-  posts,
   projects,
   userIsGod,
   username,
@@ -21,13 +19,13 @@ const AdminPanel = ({
       <div className={adminTools}>
         <Button type="normal" onClick={handleOnAddClick}>
           <i className="fa fa-plus" aria-hidden="true" />
-          Add New {pageId ? 'Post' : 'Project'}
+          Add New Project
         </Button>
         {map(BUTTONS, (icon, key) => (
           <RenderAdminButtons
             key={key}
             iconClassName={`fa-${icon}`}
-            items={pageId ? posts : projects}
+            items={projects}
             onClickAction={
               icon === 'trash-o' ? handleOnDeleteClick : handleOnEditClick
             }
@@ -46,8 +44,6 @@ AdminPanel.propTypes = {
   handleOnAddClick: PropTypes.func,
   handleOnDeleteClick: PropTypes.func,
   handleOnEditClick: PropTypes.func,
-  pageId: PropTypes.string,
-  posts: PropTypes.arrayOf(PropTypes.object),
   projects: PropTypes.arrayOf(PropTypes.object),
   userIsGod: PropTypes.bool,
   username: PropTypes.string,

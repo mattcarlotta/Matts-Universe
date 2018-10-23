@@ -22,13 +22,12 @@ class Loader extends Component {
 
   render = () => {
     const { requestTimeout } = this.state;
-    const { container, items, message, serverError } = this.props;
+    const { items, style, serverError } = this.props;
 
     if (!items || isEmpty(items)) {
-      if (serverError || requestTimeout)
-        return <NoItemsFound message={message} />;
+      if (serverError || requestTimeout) return <NoItemsFound style={style} />;
 
-      return <Spinner container={container} />;
+      return <Spinner />;
     }
 
     this.clearTimer();
@@ -41,7 +40,6 @@ export default Loader;
 
 Loader.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
-  container: PropTypes.objectOf(PropTypes.string),
-  message: PropTypes.string,
+  style: PropTypes.objectOf(PropTypes.string),
   serverError: PropTypes.string,
 };

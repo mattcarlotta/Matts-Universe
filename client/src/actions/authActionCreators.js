@@ -18,12 +18,6 @@ export const authSuccess = message => ({
   payload: message,
 });
 
-// Allows AJAX time to fetch a user on refresh before loading app
-export const fetchingUser = bool => ({
-  type: types.FETCHING_USER,
-  payload: bool,
-});
-
 // removes current user from redux props and clears cookie
 export const signoutUser = () => dispatch => {
   app
@@ -35,26 +29,22 @@ export const signoutUser = () => dispatch => {
     .catch(err => dispatch({ type: types.AUTH_ERROR, payload: err }));
 };
 
-// Signs user out
-// export const signoutUser = () => ({
-//   type: types.UNAUTH_USER,
-// });
-
 // Attempts to auth a previously signed in user
-export const authenticateUser = () => dispatch => {
-  dispatch(fetchingUser(false));
-  return app
+export const authenticateUser = () => dispatch =>
+  app
     .get(`signedin`)
     .then(({ data }) => {
       dispatch({ type: types.SET_SIGNEDIN_USER, payload: data });
-      dispatch({ type: types.FETCHING_USER, payload: false });
+      // dispatch({ type: types.FETCHING_USER, payload: false });
     })
     .catch(err => {
-      dispatch({ type: types.FETCHING_USER, payload: false });
+      dispatch({
+        type: types.SET_SIGNEDIN_USER,
+        payload: { username: null, god: null },
+      });
       dispatch(signoutUser());
       dispatch({ type: types.AUTH_ERROR, payload: err });
     });
-};
 
 // Resets auth notifications
 export const resetNotifications = () => ({

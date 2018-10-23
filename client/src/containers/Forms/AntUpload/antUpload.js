@@ -35,7 +35,7 @@ const AntUpload = ({
           <div>
             <Icon type="cloud-upload-o" style={{ fontSize: 48 }} />
             <div style={{ fontSize: 11 }}>
-              File formats: JPEG, PNG, GIF (max size 2MB)
+              File formats: JPEG, PNG, GIF (max size 10MB)
             </div>
           </div>
         ) : null}

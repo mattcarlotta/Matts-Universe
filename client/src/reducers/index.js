@@ -6,7 +6,7 @@ import * as types from '../types';
 const initialAuthState = {
   error: '',
   success: '',
-  fetchingUser: false,
+  fetchingUser: true,
   username: '',
   userIsGod: false,
 };
@@ -17,8 +17,6 @@ const authReducer = (state = initialAuthState, { type, payload }) => {
       return { ...state, error: payload };
     case types.AUTH_SUCCESS:
       return { ...state, success: payload };
-    case types.FETCHING_USER:
-      return { ...state, fetchingUser: payload };
     case types.RESET_NOTIFICATIONS:
       return { ...state, error: '', success: '' };
     case types.SET_SIGNEDIN_USER:
@@ -26,6 +24,7 @@ const authReducer = (state = initialAuthState, { type, payload }) => {
         ...state,
         username: payload.username,
         isGod: payload.god,
+        fetchingUser: false,
       };
     case types.UNAUTH_USER:
       return { ...state, username: '', isGod: false };
@@ -34,23 +33,9 @@ const authReducer = (state = initialAuthState, { type, payload }) => {
   }
 };
 
-const initialProjectState = {
-  projects: [],
-};
-
-const projectReducer = (state = initialProjectState, { type, payload }) => {
-  switch (type) {
-    case types.SET_PROJECTS:
-      return { ...state, projects: payload };
-    default:
-      return state;
-  }
-};
-
 const rootReducer = combineReducers({
   auth: authReducer,
   form: formReducer,
-  works: projectReducer,
   routing,
 });
 

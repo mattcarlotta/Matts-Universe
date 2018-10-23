@@ -80,7 +80,10 @@ $material-icons-font-path: '~material-icons/iconfont/';
 }
 
 .ant-carousel .slick-slide {
-  height: 650px;
+  @media (max-width: 800px) {
+    height: 575px;
+  }
+  height: 700px;
 }
 
 .ant-carousel .slick-slide h3 {

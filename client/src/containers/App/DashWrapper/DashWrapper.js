@@ -2,10 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import {
-  authenticateUser,
-  fetchingUser,
-} from '../../../actions/authActionCreators';
+import { authenticateUser } from '../../../actions/authActionCreators';
 import Header from '../../../components/Navigation/Header/header';
 import Spinner from '../../../components/Loaders/spinner';
 import { wrapper } from './DashWrapper.scss';
@@ -27,7 +24,6 @@ const DashWrapper = WrappedComponent => {
 
   DashboardWrapper.propTypes = {
     authenticateUser: PropTypes.func.isRequired,
-    fetchingUser: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
   };
 
@@ -35,7 +31,6 @@ const DashWrapper = WrappedComponent => {
     state => ({ isLoading: state.auth.fetchingUser }),
     {
       authenticateUser,
-      fetchingUser,
     },
   )(withRouter(DashboardWrapper));
 };

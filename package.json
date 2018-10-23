@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production node app.js",
+    "staging": "NODE_ENV=staging node app.js",
     "server": "NODE_ENV=development nodemon app.js",
     "client": "npm run start --prefix client",
     "lint-front": "npm run pre-commit --prefix client",

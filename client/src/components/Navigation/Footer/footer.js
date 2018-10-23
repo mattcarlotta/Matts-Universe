@@ -23,7 +23,7 @@ export default () => (
   <div className={footerContainer}>
     <ul className={contactNav}>
       <li>
-        <p>©2017 Matt Carlotta</p>
+        <p>©2018 Matt Carlotta</p>
       </li>
       {map(FOOTERLINKS, ({ icon, link, title }) => (
         <li key={title}>

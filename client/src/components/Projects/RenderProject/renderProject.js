@@ -22,11 +22,7 @@ class RenderProjects extends Component {
         width="calc(75%)"
         style={{ margin: '0 auto', top: 30, padding: 10 }}
       >
-        <DisplayProject
-          {...this.props}
-          isModal
-          onHandleCancel={this.handleCancel}
-        />
+        <DisplayProject {...this.props} onHandleCancel={this.handleCancel} />
       </Modal>
     </Fragment>
   );

@@ -6,9 +6,7 @@ import Footer from './Navigation/Footer/footer';
 const App = ({ children }) => (
   <Fragment>
     <RenderNotifications />
-    <div style={{ padding: '0 !important' }} className="col-xs-12">
-      {children}
-    </div>
+    <div style={{ padding: '0 !important' }}>{children}</div>
     <Footer />
   </Fragment>
 );

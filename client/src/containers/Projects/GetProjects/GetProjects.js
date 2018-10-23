@@ -50,11 +50,10 @@ class GetProjects extends Component {
 }
 
 export default connect(
-  state => ({ projects: state.works.projects }),
+  null,
   { fetchProjects },
 )(GetProjects);
 
 GetProjects.propTypes = {
   fetchProjects: PropTypes.func.isRequired,
-  projects: PropTypes.arrayOf(PropTypes.object),
 };

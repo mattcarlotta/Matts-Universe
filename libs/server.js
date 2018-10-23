@@ -6,7 +6,7 @@ module.exports = (app) => {
   //= ===========================================================//
   /* PRODUCTION CONFIGS */
   //= ===========================================================//
-  if (env === 'production') {
+  if (env === 'production' || env === 'staging') {
     // Express will serve up production assets
     app.use(express.static('client/build'));
 
@@ -14,11 +14,11 @@ module.exports = (app) => {
     app.get('*', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
   }
 
-  //============================================================//
-	/* SHARE UPLOADED IMAGES */
-	//============================================================//
+  //= ===========================================================//
+  /* SHARE UPLOADED IMAGES */
+  //= ===========================================================//
   app.use('/uploads', express.static('uploads'));
-  
+
   //= ===========================================================//
   /* CREATE EXPRESS SERVER */
   //= ===========================================================//

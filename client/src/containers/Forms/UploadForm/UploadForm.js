@@ -1,4 +1,5 @@
 import map from 'lodash/map';
+import isEmpty from 'lodash/isEmpty';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Field, reduxForm, formValueSelector } from 'redux-form';
@@ -9,7 +10,8 @@ import RenderFormButtons from '../FormButtons/renderFormButtons';
 import RenderInputField from '../InputField/renderInputField';
 import RenderTextAreaField from '../TextAreaField/renderTextAreaField';
 import showCharactersLeft from '../ShowCharactersLeft/showCharactersLeft';
-import Loading from '../../App/Loading/Loading';
+import Spinner from '../../../components/Loaders/spinner';
+import NoItemsFound from '../../../components/App/NoItemsFound/noItemsFound';
 import { authError } from '../../../actions/authActionCreators';
 import { formContainer } from './UploadForm.scss';
 
@@ -30,32 +32,38 @@ const FIELDS = [
 
 class UploadForm extends Component {
   state = {
-    isLoaded: false,
-    // newImageFiles: [],
-    // useStoredImage: false,
+    foundItem: false,
+    isLoading: true,
     imageUrl: '',
     previewImage: false,
   };
 
-  componentDidMount = () => this.props.queryId && this.fetchItemToEdit();
+  componentDidMount = () => {
+    if (this.props.queryId) this.fetchItemToEdit();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   fetchItemToEdit = () => {
     this.props
       .fetchItem(this.props.queryId)
       .then(({ data: { foundItem } }) => {
-        this.initializeForm(foundItem);
-        this.setState({
-          isLoaded: true,
-          // imageOriginalName: foundItem.image.originalName,
-          // imageSize: foundItem.image.size,
-          // imageUrl: foundItem.image.apiURL,
-          // origImageFile: foundItem.image.path,
-          // useStoredImage: true,
-        });
+        this.setState(
+          {
+            isLoading: false,
+            foundItem: true,
+          },
+          () => this.initializeForm(foundItem),
+        );
       })
-      /* eslint-disable no-console */
-      .catch(err => console.log(err.toString()));
-    /* eslint-enable no-console */
+      .catch(err =>
+        this.setState(
+          {
+            isLoading: false,
+            foundItem: false,
+          },
+          () => this.props.authError(err.toString()),
+        ),
+      );
   };
 
   initializeForm = foundItem => this.props.initialize(foundItem);
@@ -64,7 +72,7 @@ class UploadForm extends Component {
     const isJPG = file.type === 'image/jpeg';
     const isPNG = file.type === 'image/png';
     const isGIF = file.type === 'image/gif';
-    const isLt2MB = file.size / 2048000 <= 1;
+    const isLt2MB = file.size / 10240000 <= 1;
 
     if ((isJPG || isPNG || isGIF) && isLt2MB) {
       this.getBase64(file, imageUrl => this.setState({ imageUrl }));
@@ -73,7 +81,7 @@ class UploadForm extends Component {
 
     return new Promise((resolve, reject) => {
       this.props.authError(
-        `Only 2MB jpg/png/gif files are accepted! Instead, received a ${(
+        `Only 10MB jpg/png/gif files are accepted! Instead, received a ${(
           file.size / 1024000
         ).toFixed(1)}MB (${file.type})!`,
         5,
@@ -96,21 +104,13 @@ class UploadForm extends Component {
 
   handleRemove = () => this.setState({ imageUrl: '' });
 
-  // handleOnDrop = newImage => {
-  //   console.log('triggered');
-  //   this.setState({ newImageFiles: newImage, useStoredImage: false });
-  // };
-
-  // resetForm = reset => {
-  //   this.setState({
-  //     newImageFiles: [],
-  //     useStoredImage: !!this.props.queryId,
-  //   });
-  //   reset();
-  // };
-
   imageIsRequired = value =>
     !this.props.queryId && !value ? 'Required' : undefined;
+
+  fileListIsRequired = value =>
+    !this.props.queryId && value && isEmpty(value.fileList)
+      ? 'Required'
+      : undefined;
 
   render = () => {
     const {
@@ -124,29 +124,14 @@ class UploadForm extends Component {
       queryId,
       reset,
       submitting,
-      serverError,
       titleValue,
     } = this.props;
-    const {
-      // imageOriginalName,
-      // imageSize,
-      // imageAPIURL,
-      isLoaded,
-      origImageFile,
-      // newImageFiles,
-      // useStoredImage,
-    } = this.state;
+    const { isLoading, foundItem } = this.state;
     const characterValue = [titleValue, imgTitleValue, descriptionValue];
 
-    if (queryId && !isLoaded && !origImageFile) {
-      return (
-        <Loading
-          items={origImageFile}
-          message="Unable to locate the project or post!"
-          serverError={serverError}
-        />
-      );
-    }
+    if (queryId && isLoading) return <Spinner />;
+    if (queryId && !isLoading && !foundItem)
+      return <NoItemsFound style={{ height: '100vh', marginTop: '65px' }} />;
 
     return (
       <div className={formContainer}>
@@ -162,7 +147,7 @@ class UploadForm extends Component {
             onPreview={this.handlePreview}
             onRemove={this.handleRemove}
             previewImage={this.state.previewImage}
-            validate={[this.imageIsRequired]}
+            validate={[this.imageIsRequired, this.fileListIsRequired]}
           />
           {map(FIELDS, ({ name, label }, key) => (
             <div style={{ marginBottom: 20 }} key={key}>
@@ -192,7 +177,7 @@ class UploadForm extends Component {
           <RenderFormButtons
             submitting={submitting}
             pristine={pristine}
-            reset={() => this.resetForm(reset)}
+            reset={reset}
           />
         </Form>
       </div>
@@ -206,7 +191,6 @@ const mapStateToProps = state => ({
   descriptionValue: selector(state, 'description'),
   imgTitleValue: selector(state, 'imgtitle'),
   titleValue: selector(state, 'title'),
-  serverError: state.auth.error,
 });
 
 export default reduxForm({
@@ -232,6 +216,5 @@ UploadForm.propTypes = {
   queryId: PropTypes.string,
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
-  serverError: PropTypes.string,
   titleValue: PropTypes.string,
 };
