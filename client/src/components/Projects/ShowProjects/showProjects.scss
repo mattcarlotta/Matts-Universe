@@ -26,6 +26,17 @@
       font-size: 12px;
       text-align: center;
     }
+    text-shadow: 1px 1px 5px $trueblue;
+    font-weight: bold;
+  }
+
+  a {
+    text-shadow: 1px 1px 5px $trueblue;
+    font-weight: bold;
+
+    &:hover {
+      text-shadow: none;
+    }
   }
 }
 
