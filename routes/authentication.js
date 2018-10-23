@@ -1,10 +1,8 @@
 module.exports = (app) => {
-  const {
-    signup, signin, signedin, signout,
-  } = app.controllers.authentication;
+  const { signin, signedin, signout } = app.controllers.authentication;
   const { requireRelogin } = app.services.strategies;
 
-  app.post('/api/signup', signup);
+  // app.post('/api/signup', signup);
 
   app.post('/api/signin', signin);
 
