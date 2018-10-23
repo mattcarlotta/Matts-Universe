@@ -11,13 +11,11 @@ const DisplayProject = ({
   onHandleClick,
   title,
 }) => (
-  <div
-    className={`${onHandleClick ? content : modalContent}`}
-    onClick={onHandleClick}
-    onKeyPress={onHandleCancel}
-    role="presentation"
-  >
+  <div className={`${onHandleClick ? content : modalContent}`}>
     <img
+      onClick={onHandleClick}
+      onKeyPress={onHandleCancel}
+      role="presentation"
       src={image.apiURL}
       style={{ cursor: `${!onHandleClick ? 'auto' : ''}` }}
       alt={image.name}
