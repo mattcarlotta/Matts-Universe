@@ -34,7 +34,10 @@ export const authenticateUser = () => dispatch =>
   app
     .get(`signedin`)
     .then(({ data }) => {
-      dispatch({ type: types.SET_SIGNEDIN_USER, payload: data });
+      dispatch({
+        type: types.SET_SIGNEDIN_USER,
+        payload: data || { username: null, god: null },
+      });
       // dispatch({ type: types.FETCHING_USER, payload: false });
     })
     .catch(err => {

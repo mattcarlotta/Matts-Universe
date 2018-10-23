@@ -8,7 +8,7 @@ import NotFound from '../components/Navigation/NotFound/notFound';
 import ProjectForm from '../containers/Projects/ProjectForm/ProjectForm';
 import RequireAuth from '../containers/Auth/RequireAuth/RequireAuth';
 import SignIn from '../containers/Auth/SignIn/SignIn';
-import SignUp from '../containers/Auth/SignUp/SignUp';
+// import SignUp from '../containers/Auth/SignUp/SignUp';
 
 const routes = (
   <Route path="/" component={DashWrapper(App)}>
@@ -16,7 +16,7 @@ const routes = (
     <Route path="/projects/new" component={RequireAuth(ProjectForm)} />
     <Route path="/projects/edit/:id" component={RequireAuth(ProjectForm)} />
     <Route path="/signin" component={SignIn} />
-    <Route path="/signup" component={SignUp} />
+    {/* <Route path="/signup" component={SignUp} /> */}
     <Route path="*" component={NotFound} />
   </Route>
 );

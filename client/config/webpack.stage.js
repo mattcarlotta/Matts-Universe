@@ -12,9 +12,11 @@ module.exports = {
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: false,
+        sourceMap: true,
       }),
-      new OptimizeCSSAssetsPlugin({}),
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: { map: { inline: false, annotation: true } },
+      }),
     ],
   },
   mode: 'production',
@@ -34,7 +36,7 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              sourceMap: false,
+              sourceMap: true,
               modules: true,
               camelCase: true,
               localIdentName: '[local]___[hash:base64:5]',
@@ -51,7 +53,7 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              sourceMap: false,
+              sourceMap: true,
               camelCase: true,
               localIdentName: '[local]___[hash:base64:5]',
             },
@@ -70,4 +72,5 @@ module.exports = {
       chunkFilename: `[id].${hashFilename}`,
     }),
   ],
+  devtool: 'source-map',
 };

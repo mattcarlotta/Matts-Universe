@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+const env = process.env.NODE_ENV;
+
 export const app = axios.create({
-  baseURL: 'http://localhost:5000/api/',
+  baseURL:
+    env === 'production'
+      ? 'https://mattcarlotta.io/api/'
+      : 'http://localhost:5000/api/',
   withCredentials: true,
 });
 app.interceptors.response.use(
