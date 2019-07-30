@@ -30,6 +30,10 @@ InputField.propTypes = {
     onFocus: PropTypes.func,
   }),
   label: PropTypes.string,
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.string,
+  }),
   touched: PropTypes.bool,
   type: PropTypes.string,
 };

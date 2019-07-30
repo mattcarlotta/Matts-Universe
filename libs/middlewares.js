@@ -14,7 +14,7 @@ const morgan = require('morgan');
 const multer = require('multer');
 const passport = require('passport');
 const sharp = require('sharp');
-const config = require('../env/config.js');
+const config = require('../env');
 
 const env = process.env.NODE_ENV;
 const currentENV = () => {

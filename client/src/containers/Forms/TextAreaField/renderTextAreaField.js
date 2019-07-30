@@ -29,6 +29,10 @@ TextArea.propTypes = {
     onDrop: PropTypes.func,
     onFocus: PropTypes.func,
   }),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.string,
+  }),
   label: PropTypes.string,
   touched: PropTypes.bool,
   type: PropTypes.string,

@@ -9,7 +9,7 @@ const {
 } = require('./paths');
 
 module.exports = {
-  entry: entryPath,
+  entry: [entryPath],
   module: {
     rules: [
       {

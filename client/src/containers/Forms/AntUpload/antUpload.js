@@ -61,6 +61,11 @@ AntUpload.propTypes = {
     onDrop: PropTypes.func,
     onFocus: PropTypes.func,
   }),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.string,
+    invalid: PropTypes.string,
+  }),
   invalid: PropTypes.bool,
   touched: PropTypes.bool,
   error: PropTypes.bool,
